@@ -238,14 +238,14 @@ const Header = () => {
                 {/* Cart Button */}
                 <button
                   onClick={handleCartClick}
-                  className="relative flex items-center gap-2 bg-[#E11D48] hover:bg-[#BE123C] text-white px-3.5 py-1.5 rounded-full font-medium text-xs sm:text-sm transition-all duration-200 shadow-sm"
+                  className="relative flex items-center gap-2 text-white hover:text-[#F8FAFC] px-2.5 sm:px-3.5 py-1.5 rounded-full hover:bg-white/10 transition-colors duration-200 text-sm font-medium"
                   aria-label={`Shopping cart ${cartCount > 0 ? `with ${cartCount} items` : '(empty)'}`}
                 >
                   <ShoppingCart className="h-4.5 w-4.5" />
                   <span className="hidden sm:inline font-medium">Cart</span>
                   <ClientOnly>
                     {cartCount > 0 && (
-                      <span className="bg-[#F8FAFC] text-[#0F172A] text-xs rounded-full h-5 min-w-[1.25rem] px-1.5 flex items-center justify-center font-bold">
+                      <span className="bg-[#E11D48] text-white text-[11px] sm:text-xs rounded-full h-5 min-w-[1.25rem] px-1.5 flex items-center justify-center font-bold absolute -top-1 -right-1 sm:static sm:ml-0.5 shadow-sm">
                         {cartCount}
                       </span>
                     )}
