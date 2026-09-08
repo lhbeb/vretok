@@ -24,6 +24,10 @@
     transform: none !important;
     will-change: auto !important;
   }
+  /* Move live chat widget up to prevent overlap with sticky cart bar */
+  #lc-container {
+    bottom: 110px !important;
+  }
 }
 
 /* Announcement bar animations */
