@@ -419,7 +419,7 @@ export function isPaypalCheckoutFlow(checkoutFlow?: string | null): boolean {
 }
 
 export function usesCountryFirstAddress(checkoutFlow?: string | null): boolean {
-  return checkoutFlow === 'kofi' || isPaypalCheckoutFlow(checkoutFlow);
+  return true;
 }
 
 export function getCountryName(countryCode: string): string {
