@@ -548,9 +548,9 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     onBlur={() => setIsConditionTooltipVisible(false)}
                     onClick={() => setIsConditionTooltipVisible((current) => !current)}
                   >
-                    <div className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-[#0F172A]/15 bg-white px-3 py-1 text-sm font-medium text-[#0F172A] transition-colors group-hover:border-[#E11D48] group-hover:bg-[#F8FAFC]/50 group-focus-within:border-[#E11D48]">
+                    <div className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-[#0F172A]/15 bg-white px-3 py-1 text-sm font-medium text-[#0F172A] transition-colors group-hover:border-[#3B82F6] group-hover:bg-[#F8FAFC]/50 group-focus-within:border-[#3B82F6]">
                       <span className="truncate">{getConditionDisplayLabel(condition)}</span>
-                      <Info className="h-4 w-4 flex-shrink-0 text-[#E11D48] transition-colors group-hover:text-[#0F172A] group-focus-within:text-[#0F172A]" />
+                      <Info className="h-4 w-4 flex-shrink-0 text-[#3B82F6] transition-colors group-hover:text-[#0F172A] group-focus-within:text-[#0F172A]" />
                     </div>
                     {getConditionTooltip(condition) && isConditionTooltipVisible && (
                       <div
@@ -580,7 +580,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     <span className="text-xl text-gray-400 line-through font-medium">
                       {formatMarketPrice(original_price, getMarket(product?.meta?.targetMarket))}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-[#E11D48]/20 px-2.5 py-0.5 text-xs font-bold text-[#0F172A] border border-[#E11D48]/40">
+                    <span className="inline-flex items-center rounded-full bg-[#10B981]/20 px-2.5 py-0.5 text-xs font-bold text-[#0F172A] border border-[#10B981]/40">
                       {Math.round((1 - price / original_price) * 100)}% OFF
                     </span>
                   </>
@@ -589,14 +589,14 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
 
               <ClientOnly>
                 {viewedCount !== null && viewedCount > 0 && (
-                  <div className="mt-6 bg-[#F8FAFC] border border-[#E11D48]/30 rounded-xl p-3 sm:p-4">
+                  <div className="mt-6 bg-[#F8FAFC] border border-[#3B82F6]/30 rounded-xl p-3 sm:p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center text-[#0F172A]">
-                        <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5 text-[#E11D48]" />
+                        <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5 text-[#3B82F6]" />
                         <span className="text-xs sm:text-sm font-medium">{viewedCount.toLocaleString()} viewed in the last 24 hours</span>
                       </div>
                       <div className="flex items-center">
-                        <div className="w-2 h-2 bg-[#E11D48] rounded-full animate-pulse mr-2"></div>
+                        <div className="w-2 h-2 bg-[#3B82F6] rounded-full animate-pulse mr-2"></div>
                         <span className="text-xs text-[#0F172A] font-medium hidden sm:inline">Live activity</span>
                       </div>
                     </div>
@@ -610,7 +610,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 <div ref={sizeSelectorRef} className="mt-6 border-t border-gray-100 pt-6">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-bold text-[#0F172A] uppercase tracking-wide flex items-center gap-1.5 font-heading">
-                      <Ruler className="h-4 w-4 text-[#E11D48]" /> Select Size <span className="text-red-500 font-bold">*</span>
+                      <Ruler className="h-4 w-4 text-[#3B82F6]" /> Select Size <span className="text-blue-500 font-bold">*</span>
                     </label>
                   </div>
 

@@ -57,9 +57,9 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
           {displaySeller.name}
         </span>
         {isVretok ? (
-          <ShieldCheck className="w-3 h-3 flex-shrink-0 text-[#E11D48]" />
+          <ShieldCheck className="w-3 h-3 flex-shrink-0 text-[#3B82F6]" />
         ) : (
-          <Star className="w-3 h-3 flex-shrink-0 text-[#E11D48] fill-[#E11D48]" />
+          <Star className="w-3 h-3 flex-shrink-0 text-[#3B82F6] fill-[#3B82F6]" />
         )}
       </Link>
     );
