@@ -448,12 +448,12 @@ export default function CheckoutShippingStep({
   const shippingCost = 29.99;
 
   const totalPrice = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
-  const finalPrice = isFreeOrder ? shippingCost : totalPrice + shippingCost;
+  const finalPrice = isFreeOrder ? 0 : totalPrice;
   const baseCurrency = cartItems[0]?.product.currency || 'GBP';
   const displayCurrency = isFreeOrder ? 'GBP' : baseCurrency;
   const priceString = formatPriceString(totalPrice, baseCurrency);
   const finalPriceString = formatPriceString(finalPrice, displayCurrency);
-  const shippingString = formatPriceString(shippingCost, 'GBP');
+  const shippingString = 'Calculated at checkout';
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">

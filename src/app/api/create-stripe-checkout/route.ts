@@ -123,6 +123,18 @@ export async function POST(request: NextRequest) {
                 },
                 quantity: 1,
             });
+        } else {
+            line_items.push({
+                price_data: {
+                    currency: 'gbp',
+                    product_data: {
+                        name: 'Shipping & Handling',
+                        description: 'Standard Delivery',
+                    },
+                    unit_amount: 2999, // 29.99
+                },
+                quantity: 1,
+            });
         }
 
         const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';

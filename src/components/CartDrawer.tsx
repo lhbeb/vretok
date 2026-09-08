@@ -68,7 +68,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 6;
   const shippingCost = 29.99;
   
-  const finalTotal = isFreeOrder ? shippingCost : rawSubtotal + shippingCost;
+  const finalTotal = isFreeOrder ? 0 : rawSubtotal;
   
   const currency = items[0]?.product.currency || 'GBP';
   const displayCurrency = isFreeOrder ? 'GBP' : currency;
@@ -216,8 +216,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               )}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600">Shipping</span>
-                <span className="font-semibold text-[#0F172A]">
-                  {fmt(shippingCost, 'GBP')}
+                <span className="text-gray-500">
+                  Calculated at checkout
                 </span>
               </div>
               <div className="border-t border-gray-100" />
