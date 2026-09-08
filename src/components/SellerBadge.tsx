@@ -41,7 +41,7 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
   };
 
   const isVretok = displaySeller.username === 'vretok';
-  const href = isVretok ? '/' : `/sellers/${displaySeller.username}`;
+  const href = `/sellers/${displaySeller.username}`;
   const hasAvatar = displaySeller.avatarUrl && displaySeller.avatarUrl !== fallbackAvatarUrl;
 
   /* ── sm (product cards) ─────────────────────────────────────────────────── */

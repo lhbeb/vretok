@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { FormEventHandler, MouseEvent, ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown, Mail, Store, Trash, User } from 'lucide-react';
+import { ArrowLeft, ChevronDown, CircleAlert, Mail, Store, Trash, User } from 'lucide-react';
 import CheckoutNotifier from '@/components/CheckoutNotifier';
 import CountrySelect from '@/components/CountrySelect';
 import type { CartItem } from '@/utils/cart';
@@ -445,6 +445,7 @@ export default function CheckoutShippingStep({
   
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 6;
+  const excessItemCount = Math.max(totalQuantity - 6, 0);
   const shippingCost = 29.99;
 
   const totalPrice = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
@@ -494,12 +495,21 @@ export default function CheckoutShippingStep({
                     <h3 className="font-semibold text-[#262626] text-base line-clamp-1 mb-1">
                       {cartItems.length === 1 ? cartItems[0].product.title : `${cartItems.length} items`}
                     </h3>
-                    <p className="text-[#0F172A] font-bold text-xl mb-1">{priceString}</p>
+                    <p className="text-[#0F172A] font-bold text-xl mb-1">{finalPriceString}</p>
                     <p className="text-gray-400 text-xs leading-tight">Tap To View/Hide Summary</p>
                   </div>
                 </div>
                 <ChevronDown className={`h-6 w-6 ml-3 flex-shrink-0 text-gray-600 transition-transform duration-200 ${showMobileOrderSummary ? 'rotate-180' : ''}`} />
               </button>
+
+              {totalQuantity > 6 && (
+                <div className="mx-4 mb-4 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs leading-relaxed text-amber-900">
+                  <CircleAlert className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                  <p>
+                    <span className="font-semibold">Discount reminder:</span> FREE100 works with 6 items or fewer. Remove {excessItemCount} {excessItemCount === 1 ? 'item' : 'items'} to use it.
+                  </p>
+                </div>
+              )}
 
               {showMobileOrderSummary && (
                 <div className="px-4 pb-4 border-t border-gray-100 mt-4 pt-4 space-y-4">
@@ -633,6 +643,14 @@ export default function CheckoutShippingStep({
                       </button>
                     </div>
                     {promoError && <p className="text-xs text-red-600">{promoError}</p>}
+                    {totalQuantity > 6 && (
+                      <div className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs leading-relaxed text-amber-900">
+                        <CircleAlert className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                        <p>
+                          <span className="font-semibold">Discount reminder:</span> FREE100 works with 6 items or fewer. Remove {excessItemCount} {excessItemCount === 1 ? 'item' : 'items'} to use it.
+                        </p>
+                      </div>
+                    )}
                     
                     <div className="flex justify-between text-sm pt-2">
                       <span className="text-gray-500">Subtotal</span>

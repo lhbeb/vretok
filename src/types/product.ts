@@ -62,4 +62,5 @@ export interface Product {
   collections?: string[]; // Array of collection tags (leggings, entertainment, hobbies-collectibles, featured, etc.)
   original_price?: number;
   originalPrice?: number;
+  selectedSize?: string;
 }

@@ -53,8 +53,8 @@ function buildCleanProduct(product: Product): Product {
     meta: product.meta || undefined,
     inStock: product.inStock !== undefined ? product.inStock : true,
     sellerId: product.sellerId || null,
-    selectedSize: (product as any).selectedSize || undefined,
-  } as any;
+    selectedSize: product.selectedSize || undefined,
+  };
 }
 
 // ─── public API ───────────────────────────────────────────────────────────────
@@ -118,6 +118,16 @@ export function updateCartQty(slug: string, qty: number): void {
   writeCart(items);
 }
 
+/** Update the selected clothing size for an item. */
+export function updateCartSize(slug: string, selectedSize: string): void {
+  const items = readCart().map(i =>
+    i.product.slug === slug
+      ? { ...i, product: { ...i.product, selectedSize } }
+      : i
+  );
+  writeCart(items);
+}
+
 /** Returns true if the product slug is already in the cart. */
 export function isInCart(slug: string): boolean {
   return readCart().some(i => i.product.slug === slug);
@@ -142,4 +152,4 @@ export function getCartItem(): CartItem | null {
   const items = readCart();
   return items.length > 0 ? items[0] : null;
 }
-
+
