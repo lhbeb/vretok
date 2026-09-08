@@ -502,14 +502,6 @@ export default function CheckoutShippingStep({
                 <ChevronDown className={`h-6 w-6 ml-3 flex-shrink-0 text-gray-600 transition-transform duration-200 ${showMobileOrderSummary ? 'rotate-180' : ''}`} />
               </button>
 
-              {totalQuantity > 6 && (
-                <div className="mx-4 mb-4 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs leading-relaxed text-amber-900">
-                  <CircleAlert className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
-                  <p>
-                    <span className="font-semibold">Discount reminder:</span> FREE100 works with 6 items or fewer. Remove {excessItemCount} {excessItemCount === 1 ? 'item' : 'items'} to use it.
-                  </p>
-                </div>
-              )}
 
               {showMobileOrderSummary && (
                 <div className="px-4 pb-4 border-t border-gray-100 mt-4 pt-4 space-y-4">
@@ -643,14 +635,7 @@ export default function CheckoutShippingStep({
                       </button>
                     </div>
                     {promoError && <p className="text-xs text-red-600">{promoError}</p>}
-                    {totalQuantity > 6 && (
-                      <div className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs leading-relaxed text-amber-900">
-                        <CircleAlert className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
-                        <p>
-                          <span className="font-semibold">Discount reminder:</span> FREE100 works with 6 items or fewer. Remove {excessItemCount} {excessItemCount === 1 ? 'item' : 'items'} to use it.
-                        </p>
-                      </div>
-                    )}
+
                     
                     <div className="flex justify-between text-sm pt-2">
                       <span className="text-gray-500">Subtotal</span>

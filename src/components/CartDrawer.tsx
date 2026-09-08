@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { X, ShoppingBag, Trash2, ArrowRight, ShoppingCart, ChevronDown, Check } from 'lucide-react';
+import { X, ShoppingBag, Trash2, ArrowRight, ShoppingCart, ChevronDown, Check, CircleAlert } from 'lucide-react';
 import { getCartItems, removeFromCart, clearCart, updateCartSize } from '@/utils/cart';
 import type { CartItem } from '@/utils/cart';
 
@@ -296,6 +296,14 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
             {/* Footer / Totals */}
             <div className="border-t border-gray-100 bg-white px-5 py-4 space-y-3">
+              {totalQuantity > 6 && (
+                <div className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs leading-relaxed text-amber-900">
+                  <CircleAlert className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                  <p>
+                    <span className="font-semibold">Discount reminder:</span> FREE100 works with 6 items or fewer. Remove {totalQuantity - 6} {totalQuantity - 6 === 1 ? 'item' : 'items'} to use it.
+                  </p>
+                </div>
+              )}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600">Subtotal ({totalQuantity} {totalQuantity === 1 ? 'item' : 'items'})</span>
                 <div className="flex items-center gap-2">

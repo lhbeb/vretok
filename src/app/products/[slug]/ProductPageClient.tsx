@@ -105,7 +105,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
       hash = ((hash << 5) - hash) + product.slug.charCodeAt(i);
       hash &= hash;
     }
-    const count = 27 + (Math.abs(hash) % 97);
+    const count = 400 + (Math.abs(hash) % 101); // Range: 400 - 500
     sessionStorage.setItem(sessionKey, count.toString());
     setViewedCount(count);
   }, [product]);
