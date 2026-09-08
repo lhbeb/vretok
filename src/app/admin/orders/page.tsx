@@ -297,7 +297,7 @@ export default function AdminOrdersPage() {
       `Are you sure you want to permanently delete this order?\n\n` +
       `Customer: ${order.customer_name}\n` +
       `Product: ${order.product_title}\n` +
-      `Price: $${order.product_price.toFixed(2)}\n\n` +
+      `Price: £${order.product_price.toFixed(2)}\n\n` +
       `This action cannot be undone.`
     );
 
@@ -453,7 +453,7 @@ export default function AdminOrdersPage() {
       const address = `${order.shipping_address}, ${order.shipping_city}, ${order.shipping_state} ${order.shipping_zip}`.replace(/, ,/g, ',');
       const productLink = `${window.location.origin}/products/${order.product_slug}`;
       
-      let orderDetails = `${order.product_title} : $${(order.product_price || 0).toFixed(2)}\n${order.customer_email}\n${smartName}\n${address}\n${productLink}`;
+      let orderDetails = `${order.product_title} : £${(order.product_price || 0).toFixed(2)}\n${order.customer_email}\n${smartName}\n${address}\n${productLink}`;
       if (order.order_number) {
         orderDetails += `\n#${order.order_number}`;
       }
@@ -520,7 +520,7 @@ export default function AdminOrdersPage() {
   return (
     <AdminLayout
       title="Orders"
-      subtitle={`${orders.length} total orders • $${totalRevenue.toFixed(2)} revenue`}
+      subtitle={`${orders.length} total orders • £${totalRevenue.toFixed(2)} revenue`}
     >
       {error && (
         <div className="mb-4 p-4 bg-red-50 text-red-800 rounded-lg">{error}</div>
@@ -630,7 +630,7 @@ export default function AdminOrdersPage() {
         <div className="bg-white rounded-lg shadow p-4 border-2 border-green-500">
           <div className="text-sm text-gray-600 mb-1">Converted Revenue</div>
           <div className="text-2xl font-bold text-green-600">
-            ${convertedRevenue.toFixed(2)}
+            £{convertedRevenue.toFixed(2)}
           </div>
         </div>
       </div>
@@ -924,7 +924,7 @@ export default function AdminOrdersPage() {
 
                   {/* Price & Date */}
                   <div className="text-right flex-shrink-0">
-                    <p className="font-bold text-[#262626]">${order.product_price.toFixed(2)}</p>
+                    <p className="font-bold text-[#262626]">£{order.product_price.toFixed(2)}</p>
                     <p className="text-xs text-gray-400 mt-0.5">{formatDate(order.created_at)}</p>
                   </div>
 
@@ -1081,7 +1081,7 @@ export default function AdminOrdersPage() {
                         </div>
                         <div className="flex items-center gap-2">
                           <DollarSign className="h-4 w-4 text-gray-400" />
-                          <span className="text-sm font-medium text-[#262626]">${order.product_price.toFixed(2)}</span>
+                          <span className="text-sm font-medium text-[#262626]">£{order.product_price.toFixed(2)}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <User className="h-4 w-4 text-gray-400" />
