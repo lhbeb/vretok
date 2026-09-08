@@ -16,12 +16,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { slug, title, price, images, inStock } = product;
   const isSoldOut = inStock === false;
-  const imageSource = images?.[0] || '/placeholder.svg';
-  const [currentSrc, setCurrentSrc] = React.useState(imageSource);
 
-  React.useEffect(() => {
-    setCurrentSrc(images?.[0] || '/placeholder.svg');
-  }, [images]);
+  const primarySrc  = images?.[0] || '/placeholder.svg';
+  const secondarySrc = images?.[1] || null;
+
+  const [primaryError,   setPrimaryError]   = React.useState(false);
+  const [secondaryError, setSecondaryError] = React.useState(false);
+
+  const hasHover = secondarySrc && !secondaryError;
 
   return (
     <article className={`${cardBackground} group flex flex-col`}>
@@ -31,20 +33,40 @@ const ProductCard: React.FC<ProductCardProps> = ({
         aria-label={`View ${title}`}
       >
         <div className="relative aspect-[3/4] w-full overflow-hidden">
+
+          {/* Primary image — fades out on hover when secondary exists */}
           <Image
-            src={currentSrc}
+            src={primaryError ? '/placeholder.svg' : primarySrc}
             alt={title}
             fill
-            className={`object-cover object-center transition-opacity duration-200 group-hover:opacity-[0.97] ${isSoldOut ? 'opacity-50' : ''}`}
+            className={`object-cover object-center transition-opacity duration-500 ease-in-out
+              ${isSoldOut ? 'opacity-50' : 'opacity-100'}
+              ${hasHover ? 'group-hover:opacity-0' : 'group-hover:opacity-[0.97]'}
+            `}
             sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             loading="lazy"
             unoptimized
-            onError={() => {
-              if (currentSrc !== '/placeholder.svg') {
-                setCurrentSrc('/placeholder.svg');
-              }
-            }}
+            onError={() => setPrimaryError(true)}
           />
+
+          {/* Secondary image — fades in on hover (always rendered but invisible) */}
+          {hasHover && (
+            <Image
+              src={secondarySrc}
+              alt={`${title} – alternate view`}
+              fill
+              className={`object-cover object-center transition-opacity duration-500 ease-in-out
+                opacity-0 group-hover:opacity-100
+                ${isSoldOut ? 'brightness-50' : ''}
+              `}
+              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              loading="lazy"
+              unoptimized
+              onError={() => setSecondaryError(true)}
+            />
+          )}
+
+          {/* Sold-out overlay */}
           {isSoldOut && (
             <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0F172A]/50">
               <span className="sold-out-badge rounded-full bg-white px-4 py-2 text-xs font-bold uppercase text-[#0F172A]">
