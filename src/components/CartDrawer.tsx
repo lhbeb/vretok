@@ -227,7 +227,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
               <button
                 onClick={handleCheckout}
-                className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-[#0F172A] py-4 text-base font-bold text-white transition-all hover:bg-[#020617] active:scale-[0.98] shadow-lg shadow-[#0F172A]/20"
+                className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-[#E11D48] py-4 text-base font-bold text-white transition-all hover:bg-[#BE123C] active:scale-[0.98] shadow-lg shadow-[#E11D48]/20"
               >
                 Proceed to Checkout
                 <ArrowRight className="h-5 w-5" />
