@@ -12,7 +12,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
-  cardBackground = 'bg-white',
+  cardBackground = 'bg-transparent',
 }) => {
   const { slug, title, price, images, inStock } = product;
   const isSoldOut = inStock === false;
