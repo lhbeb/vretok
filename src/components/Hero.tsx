@@ -7,7 +7,7 @@ const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/vretok-fashion-hero.webp"
+          src="/herosection.png"
           alt="Vretok blush-pink activewear collection"
           fill
           priority
