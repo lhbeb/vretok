@@ -1,7 +1,76 @@
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
+import React, { useEffect, useRef } from 'react';
 
 const Hero = () => {
+  const typingTextRef = useRef<HTMLSpanElement>(null);
+  const placeholder = '\u00a0';
+
+  useEffect(() => {
+    const element = typingTextRef.current;
+    if (!element) return;
+
+    const words = [
+      'Squat-Proof Leggings',
+      'High-Performance Activewear',
+      'Seamless Gym Sets',
+      'Premium Workout Fits'
+    ];
+    let isAnimating = true;
+    let currentIndex = 0;
+
+    const sleep = (duration: number) =>
+      new Promise<void>((resolve) => setTimeout(resolve, duration));
+
+    const typeWord = async (word: string) => {
+      element.textContent = '';
+      const letters = word.split('');
+      for (const letter of letters) {
+        if (!isAnimating) return;
+        element.textContent = `${element.textContent}${letter}`;
+        await sleep(80);
+      }
+    };
+
+    const deleteWord = async () => {
+      while (isAnimating && (element.textContent?.length ?? 0) > 0) {
+        element.textContent = element.textContent?.slice(0, -1) ?? '';
+        await sleep(35);
+      }
+      element.textContent = placeholder;
+    };
+
+    const animateLoop = async () => {
+      element.textContent = placeholder;
+
+      while (isAnimating) {
+        const word = words[currentIndex];
+
+        await typeWord(word);
+        if (!isAnimating) break;
+
+        await sleep(2200);
+        if (!isAnimating) break;
+
+        await deleteWord();
+        if (!isAnimating) break;
+
+        await sleep(300);
+        if (!isAnimating) break;
+
+        currentIndex = (currentIndex + 1) % words.length;
+      }
+    };
+
+    animateLoop();
+
+    return () => {
+      isAnimating = false;
+    };
+  }, []);
+
   return (
     <section className="relative overflow-hidden w-full min-h-[500px] flex items-center bg-[#0F172A]">
       {/* Background Image */}
@@ -23,6 +92,12 @@ const Hero = () => {
         <div className="max-w-2xl">
           {/* Brand introduction */}
           <h1 className="text-3xl font-bold leading-tight text-[#F8FAFC] md:text-4xl lg:text-5xl">
+            <span
+              ref={typingTextRef}
+              className="mb-1 block h-[1.2em] text-[#F43F5E]"
+            >
+              {placeholder}
+            </span>
             <span className="block leading-tight text-white mt-2">
               Engineered Leggings & Gym Fashion
             </span>
