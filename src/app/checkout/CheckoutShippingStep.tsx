@@ -64,7 +64,7 @@ function MobileCheckoutCTA({
         className={`w-full font-bold py-4 px-6 rounded-xl transition-all duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-[#0F172A] focus:ring-offset-2 text-lg sm:text-xl ${
           disabled
             ? 'bg-gray-400 cursor-not-allowed text-white'
-            : 'bg-[#0F172A] hover:bg-[#020617] text-white active:scale-[0.98]'
+            : 'bg-[#E11D48] hover:bg-[#BE123C] text-white active:scale-[0.98]'
         }`}
       >
         {isLoading ? (
@@ -373,8 +373,8 @@ function ContinueButton({
       type="submit"
       onClick={() => console.log('🔘 [Checkout] Submit button clicked (desktop)')}
       disabled={isBusy}
-      className={`w-full font-bold py-5 px-8 rounded-xl transition-colors duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-white focus:outline-none focus:ring-4 focus:ring-[#0F172A] focus:ring-offset-2 text-xl ${
-        isBusy ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#0F172A] hover:bg-[#020617]'
+      className={`w-full font-bold py-5 px-8 rounded-xl transition-colors duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-white focus:outline-none focus:ring-4 focus:ring-[#E11D48] focus:ring-offset-2 text-xl ${
+        isBusy ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E11D48] hover:bg-[#BE123C]'
       }`}
     >
       {isBusy ? (
