@@ -78,15 +78,39 @@ export function useCheckoutForm(product?: Product | null) {
   // Only show the featured countries across all checkout flows (no "All countries" group)
   const availableOtherCountries: typeof OTHER_COUNTRIES = [];
 
-  // When the product loads, set the default country based on its market/currency
+  // When the product loads, set the default country based on its market/currency, and refine with IP
   useEffect(() => {
     if (hasInitialized || !product) return;
+    
     const defaultCountry = inferDefaultCountry(product);
+    
+    // Set fallback immediately
     setShippingData(prev => ({
       ...prev,
       countryCode: defaultCountry.code,
       country: defaultCountry.name,
     }));
+    
+    // Async IP geo-location to overwrite the fallback if possible
+    fetch('https://get.geojs.io/v1/ip/country.json')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.country) {
+          const code = data.country;
+          const countryName = getCountryName(code);
+          if (countryName) {
+            setShippingData(prev => ({
+              ...prev,
+              countryCode: code,
+              country: countryName,
+            }));
+          }
+        }
+      })
+      .catch(() => {
+        // Ignore errors, fallback is already set
+      });
+
     setHasInitialized(true);
   }, [product, hasInitialized]);
 
