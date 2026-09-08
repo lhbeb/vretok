@@ -672,7 +672,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                   )}
 
                   {/* Sizing Grid */}
-                  <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {(selectedSizeRange === 'womens' ? parsedWomensSizes : parsedMensSizes).map((size) => (
                       <button
                         key={size}
@@ -680,12 +680,12 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                           setSelectedSize(size);
                           setSizeError(false);
                         }}
-                        className={`py-3 px-2 text-sm font-semibold rounded-xl border-2 transition-all duration-200 ${
+                        className={`py-1.5 px-3 min-w-[3.5rem] text-sm font-medium rounded-md border transition-all duration-200 ${
                           selectedSize === size
-                            ? 'bg-[#0F172A] border-[#0F172A] text-[#F8FAFC] shadow-md transform scale-[1.02]'
+                            ? 'bg-[#0F172A] border-[#0F172A] text-white shadow-sm'
                             : sizeError
                             ? 'bg-red-50 border-red-200 text-red-700 hover:border-red-300'
-                            : 'bg-white border-gray-200 text-gray-700 hover:border-[#E11D48] hover:bg-[#F8FAFC]/30'
+                            : 'bg-white border-gray-200 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
                         }`}
                       >
                         {size}
