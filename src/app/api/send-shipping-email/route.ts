@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     const totalPrice = cartItems.reduce((acc: number, item: any) => acc + (item.product.price * item.quantity), 0);
     const totalQuantity = cartItems.reduce((acc: number, item: any) => acc + item.quantity, 0);
     
-    const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 10;
+    const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 6;
     const finalPrice = isFreeOrder ? 29.99 : totalPrice;
 
     const title = cartItems.length === 1 ? cartItems[0].product.title : `${cartItems.length} Items (Multi-Cart)`;

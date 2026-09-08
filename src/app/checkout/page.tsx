@@ -30,7 +30,7 @@ const CheckoutPage: React.FC = () => {
   const [promoError, setPromoError] = useState('');
 
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 10;
+  const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 6;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -131,8 +131,8 @@ const CheckoutPage: React.FC = () => {
       return;
     }
     if (promoCodeInput.trim().toUpperCase() === 'FREE100') {
-      if (totalQuantity > 10) {
-        setPromoError('This promo code is only valid for orders with 10 items or less.');
+      if (totalQuantity > 6) {
+        setPromoError('This promo code is only valid for orders with 6 items or less.');
         setAppliedPromo('');
         localStorage.removeItem('vretok_promo_code');
       } else {

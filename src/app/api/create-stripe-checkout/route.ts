@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         shippingData.fullName = shippingData.fullName.trim();
 
         const totalQuantity = cartItems.reduce((acc: number, item: any) => acc + item.quantity, 0);
-        const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 10;
+        const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 6;
 
         // Verify the order exists
         const order = await getOrderById(orderId);

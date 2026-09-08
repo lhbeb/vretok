@@ -457,7 +457,7 @@ export default function CheckoutShippingStep({
   const [showMobileOrderSummary, setShowMobileOrderSummary] = useState(false);
   
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 10;
+  const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 6;
   const shippingCost = isFreeOrder ? 29.99 : 0;
 
   const totalPrice = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
