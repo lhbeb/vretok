@@ -16,7 +16,7 @@ export default function ShippingPolicyPage() {
     '@context': 'https://schema.org',
     '@type': 'OfferShippingDetails',
     shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'US' },
-    shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: 'USD' },
+    shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: 'GBP' },
     deliveryTime: {
       '@type': 'ShippingDeliveryTime',
       handlingTime: { '@type': 'QuantitativeValue', minValue: storePolicy.handlingDays.min, maxValue: storePolicy.handlingDays.max, unitCode: 'DAY' },

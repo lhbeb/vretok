@@ -1,6 +1,6 @@
 export const storePolicy = {
   sellingCountries: ['US'] as const,
-  currency: 'USD',
+  currency: 'GBP',
   shippingService: 'Free Standard Shipping',
   shippingPrice: 0,
   handlingDays: { min: 1, max: 2 },

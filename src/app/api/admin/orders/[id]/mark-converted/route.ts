@@ -211,7 +211,7 @@ export async function POST(
         await sendMetaServerPurchase({
           orderId: id,
           value: Number(order.product_price) || 0,
-          currency: fullOrderData?.product?.currency || 'USD',
+          currency: fullOrderData?.product?.currency || 'GBP',
           contentIds: [order.product_slug || ''],
           contentName: order.product_title || '',
           email: order.customer_email || undefined,

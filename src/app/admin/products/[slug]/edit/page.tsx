@@ -122,7 +122,7 @@ export default function EditProductPage() {
     slug: '', title: '', description: '', price: '', original_price: '',
     brand: '', category: '', condition: '', payee_email: '', checkout_link: '',
     checkout_flow: 'buymeacoffee' as CheckoutFlow,
-    currency: 'USD', images: '', rating: '0', review_count: '0',
+    currency: 'GBP', images: '', rating: '0', review_count: '0',
     in_stock: true, is_featured: false, published: false, listed_by: '', seller_id: '',
     collections: [] as string[],
     targetMarket: '',
@@ -174,7 +174,7 @@ export default function EditProductPage() {
         payee_email: data.payeeEmail || data.payee_email || '',
         checkout_link: data.checkoutLink || data.checkout_link || '',
         checkout_flow: data.checkoutFlow || data.checkout_flow || 'buymeacoffee',
-        currency: data.currency || 'USD',
+        currency: data.currency || 'GBP',
         images: Array.isArray(data.images) ? data.images.join(', ') : data.images || '',
         rating: data.rating?.toString() || '0',
         review_count: data.reviewCount?.toString() || data.review_count?.toString() || '0',
@@ -368,7 +368,7 @@ export default function EditProductPage() {
           payee_email: formData.payee_email?.trim() || '',
           checkout_link: primaryCheckoutLink,
           checkout_flow: formData.checkout_flow,
-          currency: formData.currency || 'USD',
+          currency: formData.currency || 'GBP',
           images: [...new Set(finalImages)],
           rating: parseFloat(formData.rating) || 0,
           review_count: parseInt(formData.review_count) || 0,
@@ -570,7 +570,7 @@ export default function EditProductPage() {
                   onChange={(e) => updateField('currency', e.target.value)}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all bg-white"
                 >
-                  <option value="USD">USD ($)</option>
+                  <option value="GBP">GBP (£)</option>
                   <option value="EUR">EUR (€)</option>
                   <option value="GBP">GBP (£)</option>
                 </select>

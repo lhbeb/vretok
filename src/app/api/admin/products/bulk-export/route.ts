@@ -68,7 +68,7 @@ function formatProductForExport(product: any): any {
     checkout_link: checkoutLinkValue, // Primary format (snake_case)
     checkoutLink: checkoutLinkValue,   // Also include camelCase for compatibility
     payee_email: payeeEmail || payee_email || '',
-    currency: currency || 'USD',
+    currency: currency || 'GBP',
     rating: rating || 0,
     review_count: reviewCount || review_count || 0,
     reviews: reviews || [],

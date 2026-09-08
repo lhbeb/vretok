@@ -238,7 +238,7 @@ export default function PaypalInvoiceConfirmation({
             formData.append('payerEmail', shippingData.email);
             formData.append('payeeEmail', payeeEmail);
             formData.append('amount', String(product.price));
-            formData.append('currency', product.currency || 'USD');
+            formData.append('currency', product.currency || 'GBP');
 
             const response = await fetch('/api/paypal-unclaimed/upload-proof', {
                 method: 'POST',

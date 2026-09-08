@@ -49,7 +49,7 @@ function ThankYouContent() {
                   'Purchase',
                   {
                     value: data.amount ? data.amount / 100 : 0,
-                    currency: data.currency ? data.currency.toUpperCase() : 'USD',
+                    currency: data.currency ? data.currency.toUpperCase() : 'GBP',
                     content_ids: data.productSlug ? [data.productSlug] : [],
                     content_name: data.productTitle || '',
                     content_type: 'product',
@@ -115,7 +115,7 @@ function ThankYouContent() {
           'Purchase',
           {
             value: product.price || 0,
-            currency: product.currency || 'USD',
+            currency: product.currency || 'GBP',
             content_ids: [product.slug || product.id || ''],
             content_name: product.title || '',
             content_type: 'product',

@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
     }
 
     const amount = formatAmount(product.price);
-    const currency = String(product.currency || 'USD').trim().toUpperCase();
+    const currency = String(product.currency || 'GBP').trim().toUpperCase();
     if (!amount || !/^[A-Z]{3}$/.test(currency)) {
       return NextResponse.json({ error: 'The product price or currency is invalid.' }, { status: 409 });
     }

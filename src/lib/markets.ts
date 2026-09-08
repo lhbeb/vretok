@@ -21,7 +21,7 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
   us: {
     label: 'United States',
     flag: '🇺🇸',
-    currencyCode: 'USD',
+    currencyCode: 'GBP',
     currencySymbol: '$',
     locale: 'en-US',
     shipsFrom: 'United States',
@@ -57,4 +57,4 @@ export const MARKET_OPTIONS = [
   { value: 'us', label: '🇺🇸 United States (USD)' },
 ] as const;
 
-export const MARKET_CURRENCY_MAP: Record<string, string> = { us: 'USD' };
+export const MARKET_CURRENCY_MAP: Record<string, string> = { us: 'GBP' };

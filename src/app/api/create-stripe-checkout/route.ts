@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
         });
         
         const body = await request.json();
-        const { orderId, cartItems, shippingData } = body;
+        const { orderId, cartItems, shippingData, promoCode } = body;
 
         if (!orderId || !cartItems || !Array.isArray(cartItems) || cartItems.length === 0 || !shippingData) {
             return NextResponse.json(
@@ -54,6 +54,9 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Please enter your full name.' }, { status: 400 });
         }
         shippingData.fullName = shippingData.fullName.trim();
+
+        const totalQuantity = cartItems.reduce((acc: number, item: any) => acc + item.quantity, 0);
+        const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 10;
 
         // Verify the order exists
         const order = await getOrderById(orderId);
@@ -92,17 +95,33 @@ export async function POST(request: NextRequest) {
                 );
             }
 
+            if (!isFreeOrder) {
+                line_items.push({
+                    price_data: {
+                        currency: dbProduct.currency?.toLowerCase() || 'GBP',
+                        product_data: {
+                            name: dbProduct.title,
+                            images: dbProduct.images && dbProduct.images.length > 0 ? [dbProduct.images[0]] : undefined,
+                            description: (item.product as any).selectedSize ? `Size: ${(item.product as any).selectedSize}` : undefined,
+                        },
+                        unit_amount: Math.round(dbProduct.price * 100), // cents
+                    },
+                    quantity: item.quantity,
+                });
+            }
+        }
+
+        if (isFreeOrder) {
             line_items.push({
                 price_data: {
-                    currency: dbProduct.currency?.toLowerCase() || 'usd',
+                    currency: cartItems[0]?.product.currency?.toLowerCase() || 'gbp',
                     product_data: {
-                        name: dbProduct.title,
-                        images: dbProduct.images && dbProduct.images.length > 0 ? [dbProduct.images[0]] : undefined,
-                        description: (item.product as any).selectedSize ? `Size: ${(item.product as any).selectedSize}` : undefined,
+                        name: 'Shipping & Handling',
+                        description: 'Promo Code FREE100 Applied (Products Free)',
                     },
-                    unit_amount: Math.round(dbProduct.price * 100), // cents
+                    unit_amount: 2999, // 29.99
                 },
-                quantity: item.quantity,
+                quantity: 1,
             });
         }
 

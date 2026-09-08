@@ -19,26 +19,29 @@ import { setPendingOrder } from '@/lib/pendingOrder';
 const CheckoutPage: React.FC = () => {
   const router = useRouter();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  // Use the first product for form rules (like requiresCountry, etc.)
   const form = useCheckoutForm(cartItems[0]?.product);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
-  const [assignedCheckoutLink, setAssignedCheckoutLink] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState('');
   const [isSendingEmail, setIsSendingEmail] = useState(false);
+
+  const [promoCodeInput, setPromoCodeInput] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState('');
+  const [promoError, setPromoError] = useState('');
+
+  const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 10;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     try {
       const items = getCartItems();
-      
       if (!items || items.length === 0) {
         router.push('/');
         return;
       }
 
-      // Check if any item is sold out
       const soldOutItem = items.find(item => item.product.inStock === false);
       if (soldOutItem) {
         alert(`The product "${soldOutItem.product.title}" is currently sold out. Please remove it to continue.`);
@@ -48,14 +51,13 @@ const CheckoutPage: React.FC = () => {
 
       setCartItems(items);
 
-      // Track pixel event for the first item (or could track all)
       items.forEach(item => {
         if (item.product) {
           trackPixelEvent('InitiateCheckout', {
             content_ids: [item.product.slug],
             content_name: item.product.title,
             value: item.product.price * item.quantity,
-            currency: item.product.currency || 'USD',
+            currency: item.product.currency || 'GBP',
           });
         }
       });
@@ -81,6 +83,7 @@ const CheckoutPage: React.FC = () => {
 
       const requestBody = {
         shippingData,
+        promoCode: isFreeOrder ? 'FREE100' : undefined,
         cartItems: items.map(item => ({
           ...item,
           product: {
@@ -113,6 +116,25 @@ const CheckoutPage: React.FC = () => {
     } catch (error) {
       console.error('Error saving order:', error);
       return null;
+    }
+  };
+
+  const handleApplyPromo = () => {
+    if (!promoCodeInput.trim()) {
+      setPromoError('Please enter a promo code.');
+      return;
+    }
+    if (promoCodeInput.trim().toUpperCase() === 'FREE100') {
+      if (totalQuantity > 10) {
+        setPromoError('This promo code is only valid for orders with 10 items or less.');
+        setAppliedPromo('');
+      } else {
+        setAppliedPromo('FREE100');
+        setPromoError('');
+      }
+    } else {
+      setPromoError('Invalid promo code.');
+      setAppliedPromo('');
     }
   };
 
@@ -176,7 +198,12 @@ const CheckoutPage: React.FC = () => {
         const response = await fetch('/api/create-stripe-checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ orderId, cartItems, shippingData: form.shippingData }),
+          body: JSON.stringify({ 
+            orderId, 
+            cartItems, 
+            shippingData: form.shippingData,
+            promoCode: isFreeOrder ? 'FREE100' : undefined
+          }),
         });
         const data = await response.json();
         if (data.clientSecret) {
@@ -254,6 +281,11 @@ const CheckoutPage: React.FC = () => {
       onSubmit={handleContinueToCheckout}
       onClearCart={handleClearCart}
       onDismissCheckoutError={() => setCheckoutError('')}
+      promoCodeInput={promoCodeInput}
+      setPromoCodeInput={setPromoCodeInput}
+      appliedPromo={appliedPromo}
+      promoError={promoError}
+      onApplyPromo={handleApplyPromo}
     />
   );
 };

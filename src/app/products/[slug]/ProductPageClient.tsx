@@ -170,7 +170,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
         content_ids: [product.slug],
         content_type: 'product',
         value: product.price,
-        currency: product.currency || 'USD'
+        currency: product.currency || 'GBP'
       });
     }
   }, [product]);
@@ -235,7 +235,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
         content_ids: [product.slug],
         content_type: 'product',
         value: product.price,
-        currency: product.currency || 'USD'
+        currency: product.currency || 'GBP'
       });
 
       // Send Telegram notification for "Add to Cart" action
@@ -356,7 +356,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
         content_ids: [product.slug],
         content_type: 'product',
         value: product.price,
-        currency: product.currency || 'USD'
+        currency: product.currency || 'GBP'
       });
 
       // Redirect to checkout after adding to cart

@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
 
     const capture = getCompletedCapture(capturedOrder);
     const expectedAmount = String(storedPaypalData.amount || Number(localOrder.product_price).toFixed(2));
-    const expectedCurrency = String(storedPaypalData.currency || 'USD').toUpperCase();
+    const expectedCurrency = String(storedPaypalData.currency || 'GBP').toUpperCase();
     const paidAmount = capture?.amount?.value || '';
     const paidCurrency = capture?.amount?.currency_code || '';
 

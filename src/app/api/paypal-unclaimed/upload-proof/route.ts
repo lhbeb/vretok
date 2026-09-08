@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     const payerEmail = String(formData.get('payerEmail') || '').trim();
     const payeeEmail = String(formData.get('payeeEmail') || '').trim();
     const amount = String(formData.get('amount') || '').trim();
-    const currency = String(formData.get('currency') || 'USD').trim();
+    const currency = String(formData.get('currency') || 'GBP').trim();
 
     if (!file) {
       return NextResponse.json({ error: 'No proof file provided.' }, { status: 400 });

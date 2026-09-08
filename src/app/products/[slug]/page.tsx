@@ -25,7 +25,7 @@ export async function generateMetadata(
     const title = `${product.title || 'Product'} - ${product.brand || ''} | ${product.category || ''} | Vretok`;
     const description = (product.description || '').substring(0, 155) + '...';
     const canonicalUrl = `${BASE_URL}/products/${product.slug}`;
-    const currencyCode = product.currency || 'USD';
+    const currencyCode = product.currency || 'GBP';
     const price = (product.price || 0).toFixed(2);
     const inStock = product.inStock !== false;
 
@@ -112,7 +112,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       "offers": {
         "@type": "Offer",
         "price": p.price || 0,
-        "priceCurrency": p.currency || "USD",
+        "priceCurrency": p.currency || "GBP",
         "validFrom": new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
         "priceValidUntil": priceValidUntil.toISOString().slice(0, 10),
         "availability": inStock
@@ -140,7 +140,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             "shippingRate": {
               "@type": "MonetaryAmount",
               "value": 0,
-              "currency": "USD"
+              "currency": "GBP"
             },
             "shippingDestination": {
               "@type": "DefinedRegion",

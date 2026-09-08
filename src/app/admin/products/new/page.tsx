@@ -134,7 +134,7 @@ export default function NewProductPage() {
     checkout_link: '',
     payee_email: '',
     checkout_flow: 'buymeacoffee' as CheckoutFlow, // Checkout flow type
-    currency: 'USD',
+    currency: 'GBP',
     images: '',
     rating: '0',
     review_count: '0',
@@ -568,7 +568,7 @@ export default function NewProductPage() {
                   onChange={(e) => updateField('currency', e.target.value)}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all bg-white"
                 >
-                  <option value="USD">USD ($)</option>
+                  <option value="GBP">GBP (£)</option>
                   <option value="EUR">EUR (€)</option>
                   <option value="GBP">GBP (£)</option>
                 </select>

@@ -44,7 +44,7 @@ function buildCleanProduct(product: Product): Product {
     category: product.category || '',
     brand: product.brand || '',
     payeeEmail: product.payeeEmail || '',
-    currency: product.currency || 'USD',
+    currency: product.currency || 'GBP',
     checkoutLink: product.checkoutLink || '',
     checkoutFlow: product.checkoutFlow || 'stripe',
     rating: typeof product.rating === 'number' ? product.rating : 0,

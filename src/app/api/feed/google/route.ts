@@ -7,7 +7,7 @@ import type { Product } from '@/types/product';
 
 const BASE_URL = 'https://vretok.com';
 const SUPPORTED_COUNTRIES = ['US'] as const;
-const SUPPORTED_CURRENCIES = ['USD'] as const;
+const SUPPORTED_CURRENCIES = ['GBP'] as const;
 
 type FeedCountry = (typeof SUPPORTED_COUNTRIES)[number];
 type FeedCurrency = (typeof SUPPORTED_CURRENCIES)[number];
@@ -16,7 +16,7 @@ const SHIPPING_BY_COUNTRY: Record<FeedCountry, {
   service: string;
   currency: FeedCurrency;
 }> = {
-  US: { service: 'Free Standard Shipping', currency: 'USD' },
+  US: { service: 'Free Standard Shipping', currency: 'GBP' },
 };
 
 function escapeXml(value: unknown): string {
@@ -45,7 +45,7 @@ function isFeedEligible(product: Product): boolean {
     Boolean(product.slug && product.title && product.images?.[0]) &&
     Number.isFinite(Number(product.price)) &&
     Number(product.price) > 0 &&
-    (product.currency || 'USD').toUpperCase() === storePolicy.currency &&
+    (product.currency || 'GBP').toUpperCase() === storePolicy.currency &&
     isPublicStoreProduct(product)
   );
 }
@@ -108,14 +108,14 @@ export async function GET(request: NextRequest) {
       .filter(isFeedEligible)
       .filter((product) => {
         if (!currency) return true;
-        return (product.currency || 'USD').toUpperCase() === currency;
+        return (product.currency || 'GBP').toUpperCase() === currency;
       })
       .map((product) => {
         const sku = escapeXml(formatValidSku(product));
         const title = escapeXml(product.title || 'Product');
         const description = escapeXml(product.description || product.title || '');
         const link = escapeXml(`${BASE_URL}/products/${encodeURIComponent(product.slug)}`);
-        const productCurrency = (product.currency || 'USD').toUpperCase();
+        const productCurrency = (product.currency || 'GBP').toUpperCase();
         const price = `${Number(product.price).toFixed(2)} ${productCurrency}`;
         const availability = product.inStock === false ? 'out_of_stock' : 'in_stock';
         const condition = mapConditionToGmc(product.condition);

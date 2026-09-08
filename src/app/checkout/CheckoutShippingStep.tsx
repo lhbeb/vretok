@@ -20,6 +20,11 @@ interface CheckoutShippingStepProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
   onClearCart: () => void;
   onDismissCheckoutError: () => void;
+  promoCodeInput?: string;
+  setPromoCodeInput?: (val: string) => void;
+  appliedPromo?: string;
+  promoError?: string;
+  onApplyPromo?: () => void;
 }
 
 interface MobileCheckoutCTAProps {
@@ -424,7 +429,7 @@ function SecureCheckoutInfo({ mobile = false }: { mobile?: boolean }) {
   );
 }
 
-function formatPriceString(amount: number, currency: string = 'USD') {
+function formatPriceString(amount: number, currency: string = 'GBP') {
   let symbol = '$';
   if (currency === 'GBP') symbol = '£';
   else if (currency === 'EUR') symbol = '€';
@@ -443,12 +448,24 @@ export default function CheckoutShippingStep({
   onSubmit,
   onClearCart,
   onDismissCheckoutError,
+  promoCodeInput = '',
+  setPromoCodeInput,
+  appliedPromo = '',
+  promoError = '',
+  onApplyPromo,
 }: CheckoutShippingStepProps) {
   const [showMobileOrderSummary, setShowMobileOrderSummary] = useState(false);
   
+  const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 10;
+  const shippingCost = isFreeOrder ? 29.99 : 0;
+
   const totalPrice = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
-  const currency = cartItems[0]?.product.currency || 'USD';
+  const finalPrice = isFreeOrder ? shippingCost : totalPrice + shippingCost;
+  const currency = cartItems[0]?.product.currency || 'GBP';
   const priceString = formatPriceString(totalPrice, currency);
+  const finalPriceString = formatPriceString(finalPrice, currency);
+  const shippingString = isFreeOrder ? formatPriceString(shippingCost, currency) : 'Free';
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">
@@ -516,11 +533,20 @@ export default function CheckoutShippingStep({
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600">Shipping</span>
-                    <span className="font-medium text-[#0F172A]">Free</span>
+                    <span className="font-medium text-[#0F172A]">{shippingString}</span>
                   </div>
+                  {isFreeOrder && (
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-emerald-600 font-semibold">Promo (FREE100)</span>
+                      <span className="font-semibold text-emerald-600">-{priceString}</span>
+                    </div>
+                  )}
                   <div className="border-t border-gray-200 pt-3 flex justify-between items-center">
                     <span className="text-base font-semibold text-[#262626]">Total</span>
-                    <span className="text-lg font-bold text-[#0F172A]">{priceString}</span>
+                    <div className="flex items-center gap-2">
+                      {isFreeOrder && <span className="text-gray-400 line-through text-sm">{priceString}</span>}
+                      <span className="text-lg font-bold text-[#0F172A]">{finalPriceString}</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -598,17 +624,47 @@ export default function CheckoutShippingStep({
 
                   {/* Totals */}
                   <div className="border-t border-gray-100 px-6 py-5 space-y-3 bg-gray-50">
-                    <div className="flex justify-between text-sm">
+                    {/* Promo Code Input */}
+                    <div className="flex gap-2 pb-2">
+                      <input
+                        type="text"
+                        value={promoCodeInput}
+                        onChange={(e) => setPromoCodeInput?.(e.target.value.toUpperCase())}
+                        placeholder="Gift card or discount code"
+                        className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] text-sm uppercase"
+                        disabled={appliedPromo === 'FREE100'}
+                      />
+                      <button
+                        type="button"
+                        onClick={onApplyPromo}
+                        disabled={!promoCodeInput || appliedPromo === 'FREE100'}
+                        className="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-300 disabled:opacity-50 transition-colors"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                    {promoError && <p className="text-xs text-red-600">{promoError}</p>}
+                    
+                    <div className="flex justify-between text-sm pt-2">
                       <span className="text-gray-500">Subtotal</span>
                       <span className="font-medium text-[#262626]">{priceString}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-500">Shipping</span>
-                      <span className="font-semibold text-emerald-600">Free</span>
+                      <span className={`font-semibold ${isFreeOrder ? 'text-[#0F172A]' : 'text-emerald-600'}`}>{shippingString}</span>
                     </div>
+                    {isFreeOrder && (
+                      <div className="flex justify-between text-sm">
+                        <span className="font-semibold text-emerald-600">Promo (FREE100)</span>
+                        <span className="font-semibold text-emerald-600">-{priceString}</span>
+                      </div>
+                    )}
                     <div className="border-t border-gray-200 pt-3 flex justify-between items-center">
                       <span className="text-sm font-semibold text-[#262626]">Total</span>
-                      <span className="text-lg font-bold text-[#0F172A]">{priceString}</span>
+                      <div className="flex items-center gap-2">
+                        {isFreeOrder && <span className="text-gray-400 line-through text-sm">{priceString}</span>}
+                        <span className="text-lg font-bold text-[#0F172A]">{finalPriceString}</span>
+                      </div>
                     </div>
                   </div>
 

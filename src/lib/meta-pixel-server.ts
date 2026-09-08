@@ -53,7 +53,7 @@ export async function sendMetaServerPurchase(
       user_data: userData,
       custom_data: {
         value: Number(input.value) || 0,
-        currency: input.currency || 'USD',
+        currency: input.currency || 'GBP',
         content_ids: input.contentIds.filter(Boolean),
         content_type: 'product',
         num_items: 1,

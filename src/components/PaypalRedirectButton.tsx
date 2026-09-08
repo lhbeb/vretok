@@ -54,7 +54,7 @@ const PaypalRedirectButton: React.FC<PaypalRedirectButtonProps> = ({
         business: result.payeeEmail.trim(),
         item_name: result.description.substring(0, 127).trim(),
         amount: Number(result.amount).toFixed(2),
-        currency_code: result.currency || 'USD',
+        currency_code: result.currency || 'GBP',
         no_note: '1',
         charset: 'UTF-8',
         return: `${window.location.origin}/thankyou`,

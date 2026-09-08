@@ -71,7 +71,7 @@ const PaypalDirectCheckout: React.FC<PaypalDirectCheckoutProps> = ({
       business: resolvedPayeeEmail.trim(),
       item_name: product.title.substring(0, 127).trim(),
       amount: product.price.toFixed(2),
-      currency_code: product.currency || 'USD',
+      currency_code: product.currency || 'GBP',
       no_note: '1',
       charset: 'UTF-8',
       return: `${window.location.origin}/thankyou`,

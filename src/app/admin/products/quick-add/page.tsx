@@ -75,7 +75,7 @@ export default function QuickAddProductPage() {
         condition: productData.condition,
         payee_email: productData.payeeEmail || productData.payee_email || '',
         checkout_link: productData.checkoutLink || productData.checkout_link || '',
-        currency: productData.currency || 'USD',
+        currency: productData.currency || 'GBP',
         images: Array.isArray(productData.images) ? productData.images : [],
         rating: productData.rating || 0,
         review_count: productData.reviewCount || productData.review_count || 0,
@@ -130,7 +130,7 @@ export default function QuickAddProductPage() {
       condition: "New",
       payeeEmail: "your-email@example.com",
       checkoutLink: "https://buymeacoffee.com/example",
-      currency: "USD",
+      currency: "GBP",
       images: [
         "/products/example-product/img1.webp"
       ],

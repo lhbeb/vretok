@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   
   try {
     const body = await request.json();
-    const { shippingData: rawShippingData, cartItems } = body;
+    const { shippingData: rawShippingData, cartItems, promoCode } = body;
 
     // Validate required data
     if (!rawShippingData || !cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
@@ -68,7 +68,12 @@ export async function POST(request: NextRequest) {
     ]);
 
     // Calculate totals for DB
-    const totalPrice = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
+    const totalPrice = cartItems.reduce((acc: number, item: any) => acc + (item.product.price * item.quantity), 0);
+    const totalQuantity = cartItems.reduce((acc: number, item: any) => acc + item.quantity, 0);
+    
+    const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 10;
+    const finalPrice = isFreeOrder ? 29.99 : totalPrice;
+
     const title = cartItems.length === 1 ? cartItems[0].product.title : `${cartItems.length} Items (Multi-Cart)`;
     const slug = cartItems.length === 1 ? cartItems[0].product.slug : 'multiple';
 
@@ -76,7 +81,7 @@ export async function POST(request: NextRequest) {
     const orderResult = await saveOrder({
       productSlug: slug,
       productTitle: title,
-      productPrice: totalPrice,
+      productPrice: finalPrice,
       customerName: shippingData.fullName || shippingData.email,
       customerEmail: shippingData.email,
       shippingAddress: shippingData.streetAddress,
@@ -93,6 +98,8 @@ export async function POST(request: NextRequest) {
         shippingData,
         cartItems,
         siteUrl,
+        promoCode: isFreeOrder ? 'FREE100' : undefined,
+        originalPrice: totalPrice,
       },
     });
 

@@ -150,7 +150,7 @@ export default function StripeEmbeddedCheckout({
   const formattedPrice = product.price !== undefined
     ? `$${product.price.toFixed(2)}`
     : null;
-  const currencyCode = product.currency || 'USD';
+  const currencyCode = product.currency || 'GBP';
 
   return (
     <div className="min-h-screen bg-gray-50/50 py-6 sm:py-10 px-4 sm:px-6">

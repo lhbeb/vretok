@@ -390,7 +390,7 @@ async function processProductFromZip(
     brand,
     payee_email: getString(productData.payeeEmail || productData.payee_email, ''),
     checkout_link: checkoutLink,
-    currency: getString(productData.currency, 'USD'),
+    currency: getString(productData.currency, 'GBP'),
     rating: productData.rating || 0,
     review_count: productData.review_count || productData.reviewCount || 0,
     reviews: productData.reviews || [],

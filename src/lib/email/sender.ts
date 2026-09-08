@@ -336,7 +336,7 @@ export async function sendPaypalUnclaimedProofEmail(
           <li><strong>Payee Email:</strong> ${proof.payeeEmail}</li>
           <li><strong>Payer Email:</strong> ${proof.payerEmail || order.customer_email || 'Not provided'}</li>
           <li><strong>Amount:</strong> ${proof.amount || order.product_price}</li>
-          <li><strong>Currency:</strong> ${proof.currency || 'USD'}</li>
+          <li><strong>Currency:</strong> ${proof.currency || 'GBP'}</li>
           <li><strong>Proof URL:</strong> <a href="${proof.proofUrl}" target="_blank" rel="noopener noreferrer">${proof.proofUrl}</a></li>
         </ul>
 
@@ -404,7 +404,7 @@ export async function sendStripePaymentSuccessEmail(
   const amountDisplay = payment.amount
     ? (payment.amount / 100).toFixed(2)
     : Number(order.product_price || 0).toFixed(2);
-  const currencyUpper = (payment.currency || 'USD').toUpperCase();
+  const currencyUpper = (payment.currency || 'GBP').toUpperCase();
   const paymentIntentId = payment.paymentIntentId || order.stripe_payment_intent_id || 'N/A';
   const processedAt = new Date().toLocaleString('en-US', {
     timeZone: 'Europe/London',
