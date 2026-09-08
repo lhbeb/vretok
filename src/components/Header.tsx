@@ -188,7 +188,7 @@ const Header = () => {
               {/* Logo */}
               <Link href="/" className="flex items-center space-x-2 flex-shrink-0 text-white hover:opacity-90 transition-opacity py-1">
                 <Image
-                  src="/mainlogo.svg"
+                  src="/logosvg.svg"
                   alt="Vretok Logo"
                   width={180}
                   height={54}

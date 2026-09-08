@@ -88,7 +88,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
-        <link rel="preload" href="/mainlogo.svg" as="image" type="image/svg+xml" />
+        <link rel="preload" href="/logosvg.svg" as="image" type="image/svg+xml" />
 
 
 
@@ -115,7 +115,7 @@ export default function RootLayout({
                 "@type": "Organization",
                 "name": "Vretok",
                 "url": "https://vretok.com",
-                "logo": "https://vretok.com/mainlogo.svg",
+                "logo": "https://vretok.com/logosvg.svg",
                 "description": "Vretok performance leggings and gym fashion for confident movement."
               })
             }}

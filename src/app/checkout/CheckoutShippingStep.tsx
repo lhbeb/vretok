@@ -473,7 +473,7 @@ export default function CheckoutShippingStep({
       <header className="bg-[#0F172A] w-full py-4 border-b border-[#0F172A]/10 shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 flex justify-center">
           <Link href="/">
-            <Image src="/mainlogo.svg" alt="Vretok Logo" width={180} height={54} priority className="h-10 w-auto" />
+            <Image src="/logosvg.svg" alt="Vretok Logo" width={180} height={54} priority className="h-10 w-auto" />
           </Link>
         </div>
       </header>
