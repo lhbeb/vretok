@@ -33,18 +33,16 @@ function getSizeOptions(item: CartItem): SizeOption[] {
   const womensSizes = parseSizes(meta.sizes_womens);
 
   if (hasMensSizes && hasWomensSizes) {
-    return [
-      ...mensSizes.map(size => ({ label: `Men's ${size}`, value: `${size} (Men's)` })),
-      ...womensSizes.map(size => ({ label: `Women's ${size}`, value: `${size} (Women's)` })),
-    ];
+    const allSizes = new Set([...mensSizes, ...womensSizes]);
+    return Array.from(allSizes).map(size => ({ label: size, value: size }));
   }
 
   if (hasMensSizes) {
-    return mensSizes.map(size => ({ label: size, value: `${size} (Men's)` }));
+    return mensSizes.map(size => ({ label: size, value: size }));
   }
 
   if (hasWomensSizes) {
-    return womensSizes.map(size => ({ label: size, value: `${size} (Women's)` }));
+    return womensSizes.map(size => ({ label: size, value: size }));
   }
 
   return [];
@@ -74,13 +72,20 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   }, [refreshItems]);
 
   useEffect(() => {
+    const chatContainer = document.getElementById('lc-container');
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      if (chatContainer) chatContainer.style.display = 'none';
     } else {
       document.body.style.overflow = '';
       setEditingSizeSlug(null);
+      if (chatContainer) chatContainer.style.display = '';
     }
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+      const el = document.getElementById('lc-container');
+      if (el) el.style.display = '';
+    };
   }, [isOpen]);
 
   useEffect(() => {
