@@ -50,20 +50,6 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
   const [sizeError, setSizeError] = useState<boolean>(false);
   const sizeSelectorRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (product?.meta) {
-      if (product.meta.has_mens_sizes) {
-        setSelectedSizeRange('mens');
-      } else if (product.meta.has_womens_sizes) {
-        setSelectedSizeRange('womens');
-      } else if (product.meta.hasSizes) {
-        setSelectedSizeRange('mens');
-      }
-    }
-  }, [product]);
-
-  const faqItems = STORE_FAQS;
-
   const parsedMensSizes = useMemo(() => {
     const raw = product?.meta?.sizes_mens || product?.meta?.sizes;
     if (!raw) return [];
@@ -76,6 +62,22 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
     return raw.split(',').map((s: string) => s.trim()).filter(Boolean);
   }, [product?.meta?.sizes_womens]);
 
+  useEffect(() => {
+    if (product?.meta) {
+      if (product.meta.has_mens_sizes) {
+        setSelectedSizeRange('mens');
+        if (parsedMensSizes.length > 0) setSelectedSize(parsedMensSizes[0]);
+      } else if (product.meta.has_womens_sizes) {
+        setSelectedSizeRange('womens');
+        if (parsedWomensSizes.length > 0) setSelectedSize(parsedWomensSizes[0]);
+      } else if (product.meta.hasSizes) {
+        setSelectedSizeRange('mens');
+        if (parsedMensSizes.length > 0) setSelectedSize(parsedMensSizes[0]);
+      }
+    }
+  }, [product, parsedMensSizes, parsedWomensSizes]);
+
+  const faqItems = STORE_FAQS;
   const visibleFaqItems = showAllFaqs ? faqItems : faqItems.slice(0, COLLAPSED_FAQ_COUNT);
   const descriptionText = product?.description ?? "";
   const shouldCollapseDescription = descriptionText.length > 360;
