@@ -23,9 +23,6 @@ const Hero = () => {
         <div className="max-w-2xl">
           {/* Brand introduction */}
           <h1 className="text-3xl font-bold leading-tight text-[#F8FAFC] md:text-4xl lg:text-5xl">
-            <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#E11D48]/20 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[#F43F5E] border border-[#E11D48]/30 w-fit backdrop-blur-sm">
-              Vretok Gym & Activewear
-            </span>
             <span className="block leading-tight text-white mt-2">
               Engineered Leggings & Gym Fashion
             </span>
