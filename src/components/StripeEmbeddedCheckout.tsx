@@ -280,9 +280,9 @@ export default function StripeEmbeddedCheckout({
             </div>
 
             {/* Shipping badge */}
-            <div className="flex items-center justify-between text-xs text-gray-600 px-1">
-              <span>Shipping</span>
-              <span className="font-semibold text-[#0F172A]">Free</span>
+            <div className="flex justify-between items-center text-[13px] md:text-sm">
+              <span className="text-gray-600">Shipping</span>
+              <span className="text-gray-500">Calculated at checkout</span>
             </div>
           </div>
 

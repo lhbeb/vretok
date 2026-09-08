@@ -151,7 +151,7 @@ const PaypalDirectCheckout: React.FC<PaypalDirectCheckoutProps> = ({
             </div>
             <div className="text-xs text-gray-500 flex items-center gap-1 mt-1">
               <CheckCircle className="h-3 w-3 text-green-500" />
-              Free Express Delivery
+              Express Delivery Available
             </div>
           </div>
 

@@ -67,7 +67,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = ({ product }) => {
             <span className="text-xl font-semibold text-[#0F172A] md:text-2xl">
               ${new Intl.NumberFormat('en-US').format(price)}
             </span>
-            <span className="text-sm font-medium text-[#E11D48]">Free Nationwide Delivery</span>
+            <span className="text-sm font-medium text-[#E11D48]">Nationwide Delivery Available</span>
           </div>
 
           {description && (

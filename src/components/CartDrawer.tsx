@@ -194,7 +194,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </div>
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600">Shipping</span>
-                <span className="font-semibold text-emerald-600">Free</span>
+                <span className="text-gray-500">Calculated at checkout</span>
               </div>
               <div className="border-t border-gray-100" />
               <div className="flex items-center justify-between">

@@ -28,10 +28,10 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     shipsFromFlag: '🇺🇸',
     deliveryDaysMin: 6,
     deliveryDaysMax: 11,
-    freeShippingText: 'Free standard shipping on eligible U.S. orders',
+    freeShippingText: 'Standard shipping on U.S. orders',
     returnsText: 'Eligible returns within 30 days',
     faqShippingAnswer: 'Orders normally require 1–2 business days for handling. Standard transit is estimated at 5–9 business days after dispatch.',
-    faqFreeShippingAnswer: 'Standard shipping is free for eligible orders delivered to a serviceable United States address. Any different charge is shown before payment.',
+    faqFreeShippingAnswer: 'Shipping fees apply to all orders based on promotional terms. Any charge is shown before payment.',
   },
 };
 
