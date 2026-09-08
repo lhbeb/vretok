@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Eye, ShoppingCart } from 'lucide-react';
 import type { Product } from '@/types/product';
 
 interface RecommendedProductsProps {
@@ -55,7 +54,7 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[...Array(4)].map((_, index) => (
               <div key={index} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                <div className="aspect-square bg-gray-200 animate-pulse"></div>
+                <div className="aspect-[3/4] bg-gray-200 animate-pulse"></div>
                 <div className="p-4 space-y-3">
                   <div className="h-4 bg-gray-200 animate-pulse rounded w-3/4"></div>
                   <div className="h-4 bg-gray-200 animate-pulse rounded w-1/2"></div>
@@ -92,15 +91,15 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
             <Link
               key={product.id}
               href={`/products/${product.slug}`}
-              className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all duration-300 transform hover:-translate-y-1"
+              className="group overflow-hidden bg-white"
             >
-              <div className="aspect-square relative overflow-hidden bg-[#F8FAFC]">
+              <div className="relative aspect-[3/4] overflow-hidden bg-[#F4F4F5]">
                 <Image
                   src={product.images && product.images[0] ? product.images[0] : '/placeholder.svg'}
                   alt={product.title}
                   fill
                   unoptimized={true}
-                  className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover object-center transition-opacity duration-200 group-hover:opacity-[0.97]"
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/placeholder.svg';
@@ -108,27 +107,12 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
                 />
               </div>
 
-              <div className="p-4 space-y-3">
-                <h3 className="font-semibold text-[#0F172A] group-hover:text-[#E11D48] transition-colors line-clamp-2 sm:line-clamp-1">
+              <div className="space-y-2 pt-3">
+                <h3 className="line-clamp-2 text-sm font-medium leading-snug text-[#0F172A] sm:text-base">
                   {product.title}
                 </h3>
 
-                <p className="text-sm text-gray-500 overflow-hidden">
-                  <span className="block overflow-hidden text-ellipsis whitespace-nowrap">
-                    {product.condition}
-                  </span>
-                </p>
-
-                <div className="text-xl font-bold text-[#0F172A]">${new Intl.NumberFormat('en-US').format(product.price)}</div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mt-2">
-                  <div className="flex items-center text-sm font-medium text-[#E11D48]">
-                    <Eye className="h-4 w-4 mr-1" />
-                    <span>View Details</span>
-                  </div>
-                  <div className="h-8 w-8 bg-[#0F172A] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <ShoppingCart className="h-4 w-4 text-[#F8FAFC]" />
-                  </div>
-                </div>
+                <div className="text-base font-semibold text-[#0F172A] sm:text-lg">${new Intl.NumberFormat('en-US').format(product.price)}</div>
               </div>
             </Link>
           ))}

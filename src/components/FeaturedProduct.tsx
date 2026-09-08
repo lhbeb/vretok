@@ -20,7 +20,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = ({ product }) => {
   const isSoldOut = inStock === false;
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white border border-[#0F172A]/10 shadow-sm transition-all duration-300 hover:shadow-md md:flex-row">
+    <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-[#0F172A]/10 bg-white md:flex-row">
       <div className="relative w-full overflow-hidden md:w-2/5 md:h-full">
         <div className="absolute left-4 top-4 z-10 rounded-full bg-[#0F172A] px-3 py-1 text-sm font-medium text-[#F8FAFC] shadow-sm">
           <div className="flex items-center gap-1">
@@ -35,7 +35,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = ({ product }) => {
                 src={primaryImage}
                 alt={title}
                 fill
-                className={`object-contain p-4 transition-transform duration-500 group-hover:scale-[1.02] ${isSoldOut ? 'opacity-50' : ''}`}
+                className={`object-cover object-center ${isSoldOut ? 'opacity-50' : ''}`}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 unoptimized
               />

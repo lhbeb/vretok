@@ -133,6 +133,9 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
   // Old and cached navbar links used `?query=Leggings`. Treat known catalog
   // names as exact categories so accessory copy cannot leak into the results.
   const exactCategory = categoryParam.trim() || getExactCatalogCategory(queryParam);
+  const isMensTShirtsCollection = categoryParam.trim().toLowerCase() === 't-shirts men';
+  const isWomensTShirtsCollection = categoryParam.trim().toLowerCase() === 't-shirts women';
+  const isWomensShortsCollection = categoryParam.trim().toLowerCase() === 'shorts women';
   const activeTerm = exactCategory || queryParam;
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -170,7 +173,23 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
 
         const allProducts: Product[] = await response.json();
 
-        const filteredProducts = exactCategory
+        const filteredProducts = isWomensTShirtsCollection
+          ? allProducts.filter((product) => {
+              const title = String(product.title || '');
+              return String(product.category || '').trim().toLowerCase() === 'gym tops' &&
+                !/\b(men|mens|men's)\b/i.test(title);
+            })
+          : isWomensShortsCollection
+          ? allProducts.filter((product) =>
+              String(product.category || '').trim().toLowerCase() === 'gym shorts',
+            )
+          : isMensTShirtsCollection
+          ? allProducts.filter(
+              (product) =>
+                String(product.category || '').trim().toLowerCase() === "men's tops" &&
+                /\b(t-?shirt|tee|shirt)\b/i.test(String(product.title || '')),
+            )
+          : exactCategory
           ? allProducts.filter(
               (product) =>
                 String(product.category || '').trim().toLowerCase() ===
@@ -189,7 +208,7 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
     };
 
     fetchAndSearch();
-  }, [queryParam, exactCategory, activeTerm]);
+  }, [queryParam, exactCategory, activeTerm, isMensTShirtsCollection, isWomensShortsCollection, isWomensTShirtsCollection]);
 
   // Paginated products
   const paginatedProducts = useMemo(() => {
@@ -256,7 +275,7 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
           <div className="container mx-auto px-4 pb-16">
             <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {paginatedProducts.map((product) => (
-                <ProductCard key={product.id} product={product} showFullImage />
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
 

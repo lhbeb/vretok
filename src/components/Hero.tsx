@@ -33,14 +33,13 @@ const Hero = () => {
           {/* Image panel */}
           <div className="relative order-1 min-h-[280px] overflow-hidden md:order-2 md:min-h-0 bg-[#0F172A]/20">
             <Image
-              src="/vretok-wave-hero.webp"
-              alt="Vretok performance collection campaign"
+              src="/vretok-fashion-hero.webp"
+              alt="Vretok blush-pink activewear collection"
               fill
               priority
               sizes="(max-width: 767px) 100vw, 50vw"
-              className="object-cover object-center"
+              className="object-cover object-right"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/60 via-transparent to-transparent" aria-hidden="true" />
           </div>
         </div>
       </div>

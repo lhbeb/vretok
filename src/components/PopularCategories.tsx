@@ -41,23 +41,23 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
               <Link
                 key={category.name}
                 href={`/search?category=${encodeURIComponent(category.name)}`}
-                className="relative overflow-hidden rounded-2xl border border-[#0F172A]/15 bg-white shadow-sm transition-all duration-200 hover:border-[#E11D48] hover:shadow-md group"
+                className="group relative overflow-hidden border border-[#0F172A]/10 bg-white transition-colors duration-200 hover:border-[#0F172A]/25"
                 aria-label={`Shop ${category.name}`}
               >
-                <div className="relative aspect-square overflow-hidden bg-[#F8FAFC] p-3 sm:p-5">
+                <div className="relative aspect-[3/4] overflow-hidden bg-[#F4F4F5]">
                   <Image
                     src={category.image!}
                     alt={`${category.name} collection`}
                     fill
                     unoptimized={true}
                     sizes="(max-width: 1023px) 50vw, 20vw"
-                    className="object-contain p-5 sm:p-7 group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover object-center transition-opacity duration-200 group-hover:opacity-[0.97]"
                   />
                 </div>
 
-                <div className="flex min-h-20 items-center bg-[#0F172A] px-4 py-4 text-[#F8FAFC] sm:px-5 group-hover:bg-[#020617] transition-colors">
+                <div className="flex min-h-16 items-center bg-white px-3 py-3 text-[#0F172A] sm:px-4">
                   <div className="min-w-0">
-                    <h3 className="text-sm font-bold leading-tight sm:text-base text-white">
+                    <h3 className="text-sm font-semibold leading-tight text-[#0F172A] sm:text-base">
                       {category.name}
                     </h3>
                   </div>

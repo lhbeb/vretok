@@ -4,25 +4,30 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { ShoppingCart, Menu, X, Search, ChevronLeft, ChevronRight, Info } from 'lucide-react';
+import { ShoppingCart, Menu, X, Search, ChevronDown, ChevronLeft, ChevronRight, Info } from 'lucide-react';
 import { getCartCount } from '@/utils/cart';
 import ClientOnly from './ClientOnly';
 import SearchBar from './SearchBar';
 
 const catalogNavigation = [
-  { label: 'Leggings', href: '/search?category=Leggings' },
-  { label: 'Activewear', href: '/search?category=Activewear' },
-  { label: 'Featured', href: '/#featured' },
-  { label: 'Track Order', href: '/track' },
-  { label: 'FAQs', href: '/frequently-asked-questions' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Home', href: '/', children: undefined },
+  {
+    label: 'Women',
+    href: '/#women',
+    children: [
+      { label: 'Sports Bras & Crops', href: '/search?category=Sports%20Bras%20%26%20Crops' },
+      { label: 'T-Shirts Women', href: '/search?category=T-Shirts%20Women' },
+      { label: 'Shorts Women', href: '/search?category=Shorts%20Women' },
+      { label: 'Leggings', href: '/search?category=Leggings' },
+    ],
+  },
+  { label: 'Men', href: '/#men', children: undefined },
+  { label: 'Best Sellers', href: '/search?query=Vretok', children: undefined },
+  { label: 'Contact', href: '/contact', children: undefined },
 ] as const;
 
 const desktopNavLinkClass =
   'relative py-1 text-sm font-medium text-slate-200 transition-colors duration-200 hover:text-[#F43F5E] focus-visible:text-[#F43F5E] focus-visible:outline-none after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-[#F43F5E] after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100';
-
-const mobileMenuLinkClass =
-  'text-center font-medium text-[#0F172A] transition-colors duration-200 hover:text-[#E11D48] focus-visible:text-[#E11D48] focus-visible:outline-none';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -297,13 +302,35 @@ const Header = () => {
           <div suppressHydrationWarning={true} className="container mx-auto px-4">
             <nav className="flex items-center justify-center gap-5 xl:gap-7 py-2.5 font-heading">
               {catalogNavigation.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={desktopNavLinkClass}
-                >
-                  {item.label}
-                </Link>
+                item.children ? (
+                  <div key={item.label} className="group/nav relative">
+                    <Link href={item.href} className={`${desktopNavLinkClass} inline-flex items-center gap-1`}>
+                      {item.label}
+                      <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
+                    </Link>
+                    <div className="invisible absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 opacity-0 transition-opacity duration-150 group-hover/nav:visible group-hover/nav:opacity-100 group-focus-within/nav:visible group-focus-within/nav:opacity-100">
+                      <div className="border border-[#0F172A]/10 bg-white py-2 shadow-lg">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.label}
+                            href={child.href}
+                            className="block px-4 py-2.5 text-sm font-medium text-[#0F172A] transition-colors hover:bg-[#F8FAFC] hover:text-[#E11D48] focus-visible:bg-[#F8FAFC] focus-visible:text-[#E11D48]"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={desktopNavLinkClass}
+                  >
+                    {item.label}
+                  </Link>
+                )
               ))}
             </nav>
           </div>
@@ -314,7 +341,30 @@ const Header = () => {
           <div className="lg:hidden bg-[#F8FAFC] border-t border-[#0F172A]/10 shadow-lg">
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col font-heading text-sm space-y-1">
-                {catalogNavigation.map((item) => (
+                {catalogNavigation.map((item) => item.children ? (
+                  <div key={item.label} className="py-1">
+                    <Link
+                      href={item.href}
+                      className="flex items-center justify-between rounded-lg px-3 py-2.5 font-medium text-[#0F172A] transition-colors hover:bg-[#E11D48]/10"
+                      onClick={handleMobileMenuClose}
+                    >
+                      {item.label}
+                      <ChevronDown className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                    <div className="ml-3 border-l border-[#0F172A]/10 pl-3">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.label}
+                          href={child.href}
+                          className="block rounded-lg px-3 py-2 text-sm text-[#0F172A]/75 transition-colors hover:bg-[#E11D48]/10 hover:text-[#E11D48]"
+                          onClick={handleMobileMenuClose}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
                   <Link
                     key={item.label}
                     href={item.href}
@@ -324,19 +374,6 @@ const Header = () => {
                     {item.label}
                   </Link>
                 ))}
-                <div className="border-t border-[#0F172A]/10 my-2 pt-2" />
-                <Link href="/#featured" className="py-2.5 px-3 text-[#0F172A] hover:bg-[#E11D48]/10 rounded-lg font-medium transition-colors" onClick={handleMobileMenuClose}>
-                  Featured Leggings
-                </Link>
-                <Link href="/track" className="py-2.5 px-3 text-[#0F172A] hover:bg-[#E11D48]/10 rounded-lg font-medium transition-colors" onClick={handleMobileMenuClose}>
-                  Track Order
-                </Link>
-                <Link href="/frequently-asked-questions" className="py-2.5 px-3 text-[#0F172A] hover:bg-[#E11D48]/10 rounded-lg font-medium transition-colors" onClick={handleMobileMenuClose}>
-                  FAQs
-                </Link>
-                <Link href="/contact" className="py-2.5 px-3 text-[#0F172A] hover:bg-[#E11D48]/10 rounded-lg font-medium transition-colors" onClick={handleMobileMenuClose}>
-                  Contact Us
-                </Link>
               </nav>
             </div>
           </div>
@@ -360,12 +397,6 @@ const Header = () => {
                   {item.label}
                 </Link>
               ))}
-              <Link
-                href="/#featured"
-                className="flex-shrink-0 whitespace-nowrap rounded-full bg-white/10 hover:bg-white/20 px-3.5 py-1.5 text-xs font-medium text-white transition-colors duration-200"
-              >
-                Featured
-              </Link>
             </nav>
           </div>
         </div>

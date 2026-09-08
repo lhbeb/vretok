@@ -19,8 +19,8 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
           {/* Left Section - Image */}
           <div className="relative min-h-[360px] w-full md:min-h-[400px] md:w-[45%]">
             <Image
-              src="/vretok-delivery.webp"
-              alt="Vretok order prepared for delivery"
+              src="/vretok-fashion-delivery.webp"
+              alt="Vretok activewear neatly packed for delivery"
               fill
               sizes="(max-width: 768px) 100vw, 45vw"
               className="object-cover object-center"

@@ -7,6 +7,7 @@ import { createVisitorRotationSeed, selectRotatedProducts } from '@/utils/visito
 
 interface CategorySectionProps {
   products: Product[];
+  sectionId?: string;
   title?: string;
   subtitle?: string;
   maxDisplay?: number;
@@ -16,6 +17,7 @@ interface CategorySectionProps {
 
 const CategorySection: React.FC<CategorySectionProps> = ({
   products,
+  sectionId = 'featured',
   title = 'Featured Vretok Styles',
   subtitle = 'Discover performance leggings and gym fashion made for confident movement.',
   maxDisplay = 8,
@@ -46,7 +48,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
   }
 
   return (
-    <section id="featured" className="py-16 bg-white">
+    <section id={sectionId} className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="w-full max-w-7xl mx-auto">
           <div className="mb-10 text-left">
@@ -63,8 +65,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
               <ProductCard
                 key={product.id}
                 product={product}
-                cardBackground="bg-[#F8FAFC]/40"
-                showFullImage
+                cardBackground="bg-transparent"
               />
             ))}
           </div>
