@@ -462,10 +462,11 @@ export default function CheckoutShippingStep({
 
   const totalPrice = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
   const finalPrice = isFreeOrder ? shippingCost : totalPrice + shippingCost;
-  const currency = cartItems[0]?.product.currency || 'GBP';
-  const priceString = formatPriceString(totalPrice, currency);
-  const finalPriceString = formatPriceString(finalPrice, currency);
-  const shippingString = isFreeOrder ? formatPriceString(shippingCost, currency) : 'Free';
+  const baseCurrency = cartItems[0]?.product.currency || 'GBP';
+  const displayCurrency = isFreeOrder ? 'GBP' : baseCurrency;
+  const priceString = formatPriceString(totalPrice, baseCurrency);
+  const finalPriceString = formatPriceString(finalPrice, displayCurrency);
+  const shippingString = isFreeOrder ? formatPriceString(shippingCost, 'GBP') : 'Free';
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">

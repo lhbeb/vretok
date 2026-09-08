@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
         if (isFreeOrder) {
             line_items.push({
                 price_data: {
-                    currency: cartItems[0]?.product.currency?.toLowerCase() || 'gbp',
+                    currency: 'gbp',
                     product_data: {
                         name: 'Shipping & Handling',
                         description: 'Promo Code FREE100 Applied (Products Free)',
