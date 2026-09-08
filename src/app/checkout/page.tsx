@@ -35,28 +35,39 @@ const CheckoutPage: React.FC = () => {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    try {
-      const savedPromo = localStorage.getItem('vretok_promo_code');
-      if (savedPromo) {
-        setAppliedPromo(savedPromo);
-        setPromoCodeInput(savedPromo);
-      }
+    const loadCartAndPromo = () => {
+      try {
+        const savedPromo = localStorage.getItem('vretok_promo_code');
+        if (savedPromo) {
+          setAppliedPromo(savedPromo);
+          setPromoCodeInput(savedPromo);
+        }
 
-      const items = getCartItems();
-      if (!items || items.length === 0) {
+        const items = getCartItems();
+        if (!items || items.length === 0) {
+          router.push('/');
+          return;
+        }
+
+        const soldOutItem = items.find(item => item.product.inStock === false);
+        if (soldOutItem) {
+          alert(`The product "${soldOutItem.product.title}" is currently sold out. Please remove it to continue.`);
+          router.push('/cart');
+          return;
+        }
+
+        setCartItems(items);
+      } catch (error) {
+        debugError('CheckoutPage: Error loading cart', error);
         router.push('/');
-        return;
       }
+    };
 
-      const soldOutItem = items.find(item => item.product.inStock === false);
-      if (soldOutItem) {
-        alert(`The product "${soldOutItem.product.title}" is currently sold out. Please remove it to continue.`);
-        router.push('/cart');
-        return;
-      }
+    loadCartAndPromo();
 
-      setCartItems(items);
-
+    // Pixel tracking is only needed once on initial load, not every cart update
+    try {
+      const items = getCartItems();
       items.forEach(item => {
         if (item.product) {
           trackPixelEvent('InitiateCheckout', {
@@ -67,10 +78,10 @@ const CheckoutPage: React.FC = () => {
           });
         }
       });
-    } catch (error) {
-      debugError('CheckoutPage: useEffect - Error loading cart', error);
-      router.push('/');
-    }
+    } catch (e) {}
+
+    window.addEventListener('cartUpdated', loadCartAndPromo);
+    return () => window.removeEventListener('cartUpdated', loadCartAndPromo);
   }, [router]);
 
   useEffect(() => {
