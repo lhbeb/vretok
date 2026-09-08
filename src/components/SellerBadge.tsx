@@ -72,7 +72,7 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
       className="inline-flex items-center gap-2 mt-2 group w-fit"
     >
       {/* Avatar / icon */}
-      <div className="w-5 h-5 rounded-full overflow-hidden bg-[#F8FAFC] flex items-center justify-center flex-shrink-0 ring-1 ring-[#E11D48]/30 group-hover:ring-[#0F172A]/50 transition-all">
+      <div className="w-4 h-4 rounded-full overflow-hidden bg-[#F8FAFC] flex items-center justify-center flex-shrink-0 ring-1 ring-[#E11D48]/30 group-hover:ring-[#0F172A]/50 transition-all">
         {hasAvatar ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={displaySeller.avatarUrl} alt={displaySeller.name} className="w-full h-full object-cover" />
@@ -84,7 +84,7 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
       </div>
 
       {/* Label + name */}
-      <span className="text-sm text-gray-400">Direct Brand:</span>
+      <span className="text-sm text-gray-400">Sold by</span>
       <span className="text-sm font-medium text-gray-700 group-hover:text-[#0F172A] transition-colors">
         {displaySeller.name}
       </span>
