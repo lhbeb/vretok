@@ -43,6 +43,12 @@ const ADMIN_CREDENTIALS = {
         password: 'Mehbde!!2',
         role: 'SUPER_ADMIN' as AdminRole,
     },
+    // View-only brand account — can browse admin, cannot edit/delete/export
+    VIEW_ONLY_ADMIN: {
+        email: 'yassir@vretok.shop',
+        password: 'Vretok!!2',
+        role: 'REGULAR_ADMIN' as AdminRole,
+    },
 };
 
 // ============================================
@@ -83,15 +89,18 @@ export async function authenticateAdmin(
         // Check if this is one of the hardcoded admin accounts
         const isRegularAdmin = normalizedEmail === ADMIN_CREDENTIALS.REGULAR_ADMIN.email.toLowerCase();
         const isSuperAdmin = normalizedEmail === ADMIN_CREDENTIALS.SUPER_ADMIN.email.toLowerCase();
+        const isViewOnlyAdmin = normalizedEmail === ADMIN_CREDENTIALS.VIEW_ONLY_ADMIN.email.toLowerCase();
 
-        if (!isRegularAdmin && !isSuperAdmin) {
+        if (!isRegularAdmin && !isSuperAdmin && !isViewOnlyAdmin) {
             return { success: false, error: 'Invalid credentials' };
         }
 
         // Verify password
-        const expectedPassword = isRegularAdmin
-            ? ADMIN_CREDENTIALS.REGULAR_ADMIN.password
-            : ADMIN_CREDENTIALS.SUPER_ADMIN.password;
+        const expectedPassword = isSuperAdmin
+            ? ADMIN_CREDENTIALS.SUPER_ADMIN.password
+            : isViewOnlyAdmin
+            ? ADMIN_CREDENTIALS.VIEW_ONLY_ADMIN.password
+            : ADMIN_CREDENTIALS.REGULAR_ADMIN.password;
 
         if (password !== expectedPassword) {
             // Log failed attempt
@@ -119,7 +128,7 @@ export async function authenticateAdmin(
 
         if (fetchError || !existingAdmin) {
             // Create admin user in database
-            const role = isRegularAdmin ? 'REGULAR_ADMIN' : 'SUPER_ADMIN';
+            const role = isSuperAdmin ? 'SUPER_ADMIN' : 'REGULAR_ADMIN';
             const passwordHash = await hashPassword(password);
 
             const { data: newAdmin, error: createError } = await supabaseAdmin

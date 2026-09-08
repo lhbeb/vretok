@@ -67,6 +67,7 @@ export default function AdminProductsPage() {
   const [exportingGoogleCSV, setExportingGoogleCSV] = useState(false);
   const [exportingJSON, setExportingJSON] = useState(false);
   const [adminRole, setAdminRole] = useState<string | null>(null);
+  const [isViewOnlyAdmin, setIsViewOnlyAdmin] = useState(false);
   const FEATURE_LIMIT = FEATURED_PRODUCT_LIMIT;
   const itemsPerPage = 12;
 
@@ -103,6 +104,12 @@ export default function AdminProductsPage() {
       .find(row => row.startsWith('admin_role='))
       ?.split('=')[1];
     setAdminRole(role || null);
+    // Detect view-only brand account
+    const email = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('admin_email='))
+      ?.split('=')[1];
+    setIsViewOnlyAdmin(email?.toLowerCase() === 'yassir@vretok.shop');
   }, [fetchProducts]);
 
   // Close dropdown when clicking outside
@@ -895,7 +902,8 @@ export default function AdminProductsPage() {
               </select>
             </div>
 
-            {/* Listed By Filter */}
+            {/* Listed By Filter — hidden for view-only accounts */}
+            {!isViewOnlyAdmin && (
             <div className="flex items-center gap-2">
               <Filter className="h-5 w-5 text-gray-400 shrink-0" />
               <select
@@ -916,6 +924,7 @@ export default function AdminProductsPage() {
                 <option value="none">Not Assigned</option>
               </select>
             </div>
+            )}
 
             {/* Checkout Flow Filter */}
             <div className="flex items-center gap-2">
@@ -964,7 +973,8 @@ export default function AdminProductsPage() {
               <RefreshCw className="h-4 w-4 text-gray-600" />
             </button>
 
-            {/* Export All CSV */}
+            {/* Export All CSV — hidden for view-only accounts */}
+            {!isViewOnlyAdmin && (
             <button
               onClick={handleExportAllCSV}
               disabled={exportingCSV}
@@ -978,8 +988,10 @@ export default function AdminProductsPage() {
               )}
               <span className="font-medium">{exportingCSV ? 'Exporting...' : 'Export CSV'}</span>
             </button>
+            )}
 
-            {/* Export Google Merchant Center CSV */}
+            {/* Export Google Merchant Center CSV — hidden for view-only accounts */}
+            {!isViewOnlyAdmin && (
             <button
               onClick={handleExportGoogleShoppingCSV}
               disabled={exportingGoogleCSV}
@@ -993,9 +1005,10 @@ export default function AdminProductsPage() {
               )}
               <span className="font-medium">{exportingGoogleCSV ? 'Exporting...' : 'Export Google GMC CSV'}</span>
             </button>
+            )}
 
-            {/* Selected items actions */}
-            {selectedProducts.size > 0 && (
+            {/* Selected items actions — hidden for view-only accounts */}
+            {selectedProducts.size > 0 && !isViewOnlyAdmin && (
               <>
                 <button
                   onClick={() => handleBulkGmcUpdate(true)}
@@ -1052,7 +1065,8 @@ export default function AdminProductsPage() {
               </>
             )}
 
-            {/* Add Product */}
+            {/* Add Product — hidden for view-only accounts */}
+            {!isViewOnlyAdmin && (
             <Link
               href="/admin/products/new"
               className="inline-flex items-center justify-center gap-2 px-3 py-2.5 bg-[#0F172A] text-white rounded-xl hover:bg-[#020617] transition-colors shadow-lg shadow-[#0F172A]/25 whitespace-nowrap text-sm shrink-0"
@@ -1060,6 +1074,7 @@ export default function AdminProductsPage() {
               <Plus className="h-4 w-4" />
               <span className="font-medium">Add Product</span>
             </Link>
+            )}
           </div>
         </div>
       </div>
@@ -1224,6 +1239,8 @@ export default function AdminProductsPage() {
                       <PackageX className="h-4 w-4 text-white" />
                     )}
                   </button>
+                  {/* Feature toggle — hidden for view-only */}
+                  {!isViewOnlyAdmin && (
                   <button
                     onClick={(e) => {
                       e.preventDefault();
@@ -1242,6 +1259,7 @@ export default function AdminProductsPage() {
                       <Star className={`h-4 w-4 ${(product.isFeatured || product.is_featured) ? 'text-white fill-white' : 'text-gray-700'}`} />
                     )}
                   </button>
+                  )}
                   <button
                     onClick={(e) => {
                       e.preventDefault();
@@ -1252,12 +1270,15 @@ export default function AdminProductsPage() {
                   >
                     <Eye className="h-4 w-4 text-gray-700" />
                   </button>
+                  {/* Edit link — hidden for view-only */}
+                  {!isViewOnlyAdmin && (
                   <Link
                     href={`/admin/products/${product.slug}/edit`}
                     className="p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors"
                   >
                     <Edit className="h-4 w-4 text-gray-700" />
                   </Link>
+                  )}
                   {/* Only SUPER_ADMIN can delete products */}
                   {adminRole === 'SUPER_ADMIN' && (
                     <button
@@ -1558,6 +1579,8 @@ export default function AdminProductsPage() {
                         >
                           <Eye className="h-4 w-4 text-gray-500" />
                         </button>
+                        {/* Feature toggle — hidden for view-only */}
+                        {!isViewOnlyAdmin && (
                         <button
                           onClick={(e) => {
                             e.preventDefault();
@@ -1576,12 +1599,16 @@ export default function AdminProductsPage() {
                             <Star className={`h-4 w-4 ${(product.isFeatured || product.is_featured) ? 'text-[#0F172A] fill-[#0F172A]' : 'text-gray-500'}`} />
                           )}
                         </button>
+                        )}
+                        {/* Edit link — hidden for view-only */}
+                        {!isViewOnlyAdmin && (
                         <Link
                           href={`/admin/products/${product.slug}/edit`}
                           className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                         >
                           <Edit className="h-4 w-4 text-gray-500" />
                         </Link>
+                        )}
                         {/* Only SUPER_ADMIN can delete products */}
                         {adminRole === 'SUPER_ADMIN' && (
                           <button
@@ -1628,6 +1655,8 @@ export default function AdminProductsPage() {
                               <span>View Product</span>
                             </button>
 
+                            {/* Feature toggle in dropdown — hidden for view-only */}
+                            {!isViewOnlyAdmin && (
                             <button
                               onClick={(e) => {
                                 e.preventDefault();
@@ -1644,6 +1673,7 @@ export default function AdminProductsPage() {
                               )}
                               <span>{(product.isFeatured || product.is_featured) ? 'Unfeature Product' : 'Feature Product'}</span>
                             </button>
+                            )}
 
                             <button
                               onClick={(e) => {
@@ -1684,6 +1714,8 @@ export default function AdminProductsPage() {
                               <span>{product.inStock !== false ? 'Mark as Sold Out' : 'Mark as In Stock'}</span>
                             </button>
 
+                            {/* Edit link in dropdown — hidden for view-only */}
+                            {!isViewOnlyAdmin && (
                             <Link
                               href={`/admin/products/${product.slug}/edit`}
                               onClick={() => setOpenDropdown(null)}
@@ -1692,6 +1724,7 @@ export default function AdminProductsPage() {
                               <Edit className="h-4 w-4 text-gray-400" />
                               <span>Edit Product</span>
                             </Link>
+                            )}
 
                             <div className="border-t border-gray-100 my-1"></div>
 
