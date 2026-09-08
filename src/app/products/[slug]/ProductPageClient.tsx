@@ -596,41 +596,9 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     </label>
                   </div>
 
-                  {/* Sizing Tab Selector */}
-                  {!!(product?.meta?.has_mens_sizes && product?.meta?.has_womens_sizes) && (
-                    <div className="flex gap-2 mb-4 p-1 bg-gray-100 rounded-xl">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedSizeRange('mens');
-                          setSelectedSize('');
-                          setSizeError(false);
-                        }}
-                        className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 ${
-                          selectedSizeRange === 'mens' ? 'bg-[#0F172A] text-[#F8FAFC] shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                        }`}
-                      >
-                        Men&apos;s Sizing
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedSizeRange('womens');
-                          setSelectedSize('');
-                          setSizeError(false);
-                        }}
-                        className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-bold transition-all duration-200 ${
-                          selectedSizeRange === 'womens' ? 'bg-[#0F172A] text-[#F8FAFC] shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                        }`}
-                      >
-                        Women&apos;s Sizing
-                      </button>
-                    </div>
-                  )}
-
                   {/* Sizing Grid */}
                   <div className="flex flex-wrap gap-2">
-                    {(selectedSizeRange === 'womens' ? parsedWomensSizes : parsedMensSizes).map((size) => (
+                    {Array.from(new Set([...parsedMensSizes, ...parsedWomensSizes])).map((size) => (
                       <button
                         key={size}
                         onClick={() => {
@@ -645,7 +613,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                             : 'bg-white border-gray-200 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
                         }`}
                       >
-                        {size}
+                        {size.replace(/\s*\((?:Men's|Women's)\)/i, '')}
                       </button>
                     ))}
                   </div>

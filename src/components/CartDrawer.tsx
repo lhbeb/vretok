@@ -23,6 +23,11 @@ function parseSizes(value?: string): string[] {
   return Array.from(new Set(value.split(',').map(size => size.trim()).filter(Boolean)));
 }
 
+function formatSizeDisplay(size?: string) {
+  if (!size) return '';
+  return size.replace(/\s*\((?:Men's|Women's)\)/i, '');
+}
+
 function getSizeOptions(item: CartItem): SizeOption[] {
   const meta = item.product.meta;
   if (!meta) return [];
@@ -34,15 +39,15 @@ function getSizeOptions(item: CartItem): SizeOption[] {
 
   if (hasMensSizes && hasWomensSizes) {
     const allSizes = new Set([...mensSizes, ...womensSizes]);
-    return Array.from(allSizes).map(size => ({ label: size, value: size }));
+    return Array.from(allSizes).map(size => ({ label: formatSizeDisplay(size), value: size }));
   }
 
   if (hasMensSizes) {
-    return mensSizes.map(size => ({ label: size, value: size }));
+    return mensSizes.map(size => ({ label: formatSizeDisplay(size), value: size }));
   }
 
   if (hasWomensSizes) {
-    return womensSizes.map(size => ({ label: size, value: size }));
+    return womensSizes.map(size => ({ label: formatSizeDisplay(size), value: size }));
   }
 
   return [];
@@ -237,9 +242,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                                 onClick={() => setEditingSizeSlug(isEditingSize ? null : item.product.slug)}
                                 className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-semibold text-[#0F172A] transition-colors hover:border-[#E11D48] hover:text-[#E11D48]"
                                 aria-expanded={isEditingSize}
-                                aria-label={`Change size for ${item.product.title}. Current size: ${item.product.selectedSize || 'not selected'}`}
+                                aria-label={`Change size for ${item.product.title}. Current size: ${formatSizeDisplay(item.product.selectedSize) || 'not selected'}`}
                               >
-                                Size: {item.product.selectedSize || 'Choose'}
+                                Size: {formatSizeDisplay(item.product.selectedSize) || 'Choose'}
                                 <ChevronDown className={`h-3 w-3 transition-transform ${isEditingSize ? 'rotate-180' : ''}`} />
                               </button>
 
@@ -267,7 +272,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                               )}
                             </div>
                           ) : item.product.selectedSize ? (
-                            <span className="text-xs font-medium text-gray-500">Size: {item.product.selectedSize}</span>
+                            <span className="text-xs font-medium text-gray-500">Size: {formatSizeDisplay(item.product.selectedSize)}</span>
                           ) : null}
                         </div>
                         <button
