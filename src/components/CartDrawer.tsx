@@ -27,6 +27,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     setMounted(true);
     refreshItems();
     window.addEventListener('cartUpdated', refreshItems);
+    if (typeof window !== 'undefined') {
+      const savedPromo = localStorage.getItem('vretok_promo_code');
+      if (savedPromo) setPromoCode(savedPromo.toUpperCase());
+    }
     return () => window.removeEventListener('cartUpdated', refreshItems);
   }, [refreshItems]);
 
@@ -58,10 +62,18 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     router.push('/checkout');
   };
 
-  const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const rawSubtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+  const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 6;
+  const shippingCost = isFreeOrder ? 29.99 : 0;
+  
+  const finalTotal = isFreeOrder ? shippingCost : rawSubtotal;
+  
   const currency = items[0]?.product.currency || 'GBP';
-  const fmt = (n: number) =>
-    new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(n);
+  const displayCurrency = isFreeOrder ? 'GBP' : currency;
+  
+  const fmt = (n: number, c: string = displayCurrency) =>
+    new Intl.NumberFormat('en-US', { style: 'currency', currency: c }).format(n);
 
   if (!mounted) return null;
 
@@ -189,17 +201,28 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             {/* Footer / Totals */}
             <div className="border-t border-gray-100 bg-white px-5 py-4 space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Subtotal ({items.length} {items.length === 1 ? 'item' : 'items'})</span>
-                <span className="font-semibold text-[#0F172A]">{fmt(subtotal)}</span>
+                <span className="text-gray-600">Subtotal ({totalQuantity} {totalQuantity === 1 ? 'item' : 'items'})</span>
+                <div className="flex items-center gap-2">
+                  {isFreeOrder && <span className="text-gray-400 line-through text-xs">{fmt(rawSubtotal, currency)}</span>}
+                  <span className="font-semibold text-[#0F172A]">{isFreeOrder ? fmt(0, 'GBP') : fmt(rawSubtotal, currency)}</span>
+                </div>
               </div>
+              {isFreeOrder && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-[#E11D48] font-semibold">Promo (FREE100)</span>
+                  <span className="font-semibold text-[#E11D48]">-{fmt(rawSubtotal, currency)}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600">Shipping</span>
-                <span className="text-gray-500">Calculated at checkout</span>
+                <span className={isFreeOrder ? 'font-semibold text-[#0F172A]' : 'text-gray-500'}>
+                  {isFreeOrder ? fmt(shippingCost, 'GBP') : 'Calculated at checkout'}
+                </span>
               </div>
               <div className="border-t border-gray-100" />
               <div className="flex items-center justify-between">
                 <span className="text-base font-bold text-[#0F172A]">Total</span>
-                <span className="text-xl font-extrabold text-[#0F172A]">{fmt(subtotal)}</span>
+                <span className="text-xl font-extrabold text-[#0F172A]">{fmt(finalTotal, displayCurrency)}</span>
               </div>
 
               <button
