@@ -84,7 +84,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       <div
         aria-hidden="true"
         onClick={onClose}
-        className={`fixed inset-0 z-[200] bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[99998] bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       />
@@ -94,7 +94,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Shopping cart"
-        className={`fixed right-0 top-0 bottom-0 z-[201] flex w-full max-w-[420px] flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`fixed right-0 top-0 bottom-0 z-[99999] flex w-full max-w-[420px] flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
