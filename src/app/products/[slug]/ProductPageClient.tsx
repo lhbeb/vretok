@@ -215,15 +215,6 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
       debugLog('handleAddToCart', 'Calling addToCart...', 'log');
 
       let sizeValue = selectedSize;
-      if (selectedSize) {
-        if (product.meta?.has_mens_sizes && product.meta?.has_womens_sizes) {
-          sizeValue = `${selectedSize} (${selectedSizeRange === 'mens' ? "Men's" : "Women's"})`;
-        } else if (product.meta?.has_mens_sizes || product.meta?.hasSizes) {
-          sizeValue = `${selectedSize} (Men's)`;
-        } else if (product.meta?.has_womens_sizes) {
-          sizeValue = `${selectedSize} (Women's)`;
-        }
-      }
 
       // Add to cart - this is client-side only (localStorage)
       addToCart({
@@ -312,15 +303,6 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
       }
 
       let sizeValue = selectedSize;
-      if (selectedSize) {
-        if (product.meta?.has_mens_sizes && product.meta?.has_womens_sizes) {
-          sizeValue = `${selectedSize} (${selectedSizeRange === 'mens' ? "Men's" : "Women's"})`;
-        } else if (product.meta?.has_mens_sizes || product.meta?.hasSizes) {
-          sizeValue = `${selectedSize} (Men's)`;
-        } else if (product.meta?.has_womens_sizes) {
-          sizeValue = `${selectedSize} (Women's)`;
-        }
-      }
 
       addToCart({
         ...product,

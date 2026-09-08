@@ -94,7 +94,7 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
         {isVretok ? (
           <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0 text-[#E11D48]" />
         ) : (
-          <Star className="w-3.5 h-3.5 flex-shrink-0 text-[#E11D48] fill-[#E11D48] cursor-help" />
+          <Star className="w-3.5 h-3.5 flex-shrink-0 text-[#F59E0B] fill-[#F59E0B] cursor-help" />
         )}
         
         {/* Tooltip for md size */}
@@ -111,7 +111,7 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
         <div className="flex items-center text-xs text-gray-500 font-medium ml-1">
           <span className="mr-1.5 opacity-50">•</span>
           <span className="text-[#0F172A] font-bold mr-0.5">{(seller.averageRating ?? 5).toFixed(1)}</span>
-          <Star className="w-3 h-3 text-[#E11D48] fill-[#E11D48] mr-1" />
+          <Star className="w-3 h-3 text-[#F59E0B] fill-[#F59E0B] mr-1" />
           <span>({seller.totalReviews})</span>
         </div>
       )}
