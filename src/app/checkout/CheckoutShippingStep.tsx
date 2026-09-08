@@ -469,6 +469,14 @@ export default function CheckoutShippingStep({
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">
+      {/* Global Vretok Checkout Header */}
+      <header className="bg-[#0F172A] w-full py-4 border-b border-[#0F172A]/10 shadow-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 flex justify-center">
+          <Link href="/">
+            <Image src="/mainlogo.svg" alt="Vretok Logo" width={180} height={54} priority className="h-10 w-auto" />
+          </Link>
+        </div>
+      </header>
       <CheckoutNotifier />
       <main className="flex-grow py-4">
         <div className="container mx-auto px-4">
