@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/types/product';
 
-const POPULAR_CATEGORY_NAMES = ['Leggings', 'Everyday Leggings', 'Training Leggings', 'Matching Sets', 'Seamless Leggings', 'Sculpt Leggings', 'Gym Tops', 'Gym Accessories'] as const;
+const POPULAR_CATEGORY_NAMES = ['Leggings', 'Gym Shorts', 'Sports Bras & Crops', 'Gym Tops', "Men's Shorts", "Men's Tops"] as const;
 
 interface PopularCategoriesProps {
   products: Product[];
