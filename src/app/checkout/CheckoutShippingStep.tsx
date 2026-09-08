@@ -412,19 +412,6 @@ function SecureCheckoutInfo({ mobile = false }: { mobile?: boolean }) {
           style={{ imageRendering: 'crisp-edges' }}
         />
       </div>
-      <div className={`flex flex-wrap items-center justify-center text-xs text-gray-500 mt-2 ${mobile ? 'gap-2 px-4' : 'gap-3'}`}>
-        <Link href="/terms" className="hover:text-[#0F172A] hover:underline transition-colors">
-          Terms of Service
-        </Link>
-        <span className="text-gray-300">•</span>
-        <Link href="/return-policy" className="hover:text-[#0F172A] hover:underline transition-colors">
-          Refund and Return Policy
-        </Link>
-        <span className="text-gray-300">•</span>
-        <Link href="/shipping-policy" className="hover:text-[#0F172A] hover:underline transition-colors">
-          Shipping Policy
-        </Link>
-      </div>
     </div>
   );
 }
