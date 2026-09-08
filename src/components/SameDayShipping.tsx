@@ -108,7 +108,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
             Ready to experience the Vretok difference?
           </p>
           <p className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0F172A]">
-            Order today for <span className="text-[#E11D48]">fast nationwide delivery</span>
+            Order today for <span className="text-[#E11D48]">fast worldwide shipping</span>
           </p>
         </div>
         <a
