@@ -1,9 +1,11 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Check, ShoppingBag } from 'lucide-react';
 import type { Product } from '@/types/product';
+import { addToCart } from '@/utils/cart';
 
 interface ProductCardProps {
   product: Product;
@@ -20,20 +22,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const primarySrc  = images?.[0] || '/placeholder.svg';
   const secondarySrc = images?.[1] || null;
 
-  const [primaryError,   setPrimaryError]   = React.useState(false);
-  const [secondaryError, setSecondaryError] = React.useState(false);
+  const [primaryError,   setPrimaryError]   = useState(false);
+  const [secondaryError, setSecondaryError] = useState(false);
+  const [added, setAdded] = useState(false);
 
   const hasHover = secondarySrc && !secondaryError;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isSoldOut) return;
+
+    addToCart(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
 
   return (
     <article className={`${cardBackground} group flex flex-col`}>
       <Link
         href={`/products/${slug}`}
-        className="block overflow-hidden bg-[#F4F4F5] focus-visible:ring-2 focus-visible:ring-[#0F172A] focus-visible:ring-offset-2"
+        className="block relative overflow-hidden bg-[#F4F4F5] focus-visible:ring-2 focus-visible:ring-[#0F172A] focus-visible:ring-offset-2"
         aria-label={`View ${title}`}
       >
         <div className="relative aspect-[3/4] w-full overflow-hidden">
-
           {/* Primary image — fades out on hover when secondary exists */}
           <Image
             src={primaryError ? '/placeholder.svg' : primarySrc}
@@ -49,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             onError={() => setPrimaryError(true)}
           />
 
-          {/* Secondary image — fades in on hover (always rendered but invisible) */}
+          {/* Secondary image — fades in on hover */}
           {hasHover && (
             <Image
               src={secondarySrc}
@@ -75,6 +87,32 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           )}
         </div>
+
+        {/* Quick Add Button (Desktop Hover) */}
+        {!isSoldOut && (
+          <div className="absolute bottom-0 left-0 right-0 p-3 lg:translate-y-full lg:opacity-0 lg:transition-all lg:duration-300 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 z-20">
+            <button
+              onClick={handleAddToCart}
+              className={`w-full flex items-center justify-center gap-2 rounded-full py-2.5 text-sm font-bold shadow-lg transition-colors duration-200 ${
+                added 
+                  ? 'bg-emerald-600 text-white' 
+                  : 'bg-white/95 text-[#0F172A] hover:bg-[#0F172A] hover:text-white backdrop-blur-sm'
+              }`}
+            >
+              {added ? (
+                <>
+                  <Check className="h-4 w-4" />
+                  Added to Cart
+                </>
+              ) : (
+                <>
+                  <ShoppingBag className="h-4 w-4" />
+                  Quick Add
+                </>
+              )}
+            </button>
+          </div>
+        )}
       </Link>
 
       <div className="flex flex-grow flex-col pt-3">

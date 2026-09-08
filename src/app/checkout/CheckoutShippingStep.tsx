@@ -4,25 +4,20 @@ import { useState } from 'react';
 import type { FormEventHandler, MouseEvent, ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown, Globe2, Mail, Store, Trash, User } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Mail, Store, Trash, User } from 'lucide-react';
 import CheckoutNotifier from '@/components/CheckoutNotifier';
 import CountrySelect from '@/components/CountrySelect';
-import PaypalApiRedirectButton from '@/components/PaypalApiRedirectButton';
-import PaypalRedirectButton from '@/components/PaypalRedirectButton';
 import type { CartItem } from '@/utils/cart';
 import type { CheckoutFormController } from './useCheckoutForm';
-import type { PaypalApiInitializationResult, PaypalPaymentInitializationResult } from './types';
+import { removeFromCart } from '@/utils/cart';
 
 interface CheckoutShippingStepProps {
-  cartItem: CartItem;
-  sellerName: string | null;
+  cartItems: CartItem[];
   form: CheckoutFormController;
   isSendingEmail: boolean;
   isRedirecting: boolean;
   checkoutError: string;
   onSubmit: FormEventHandler<HTMLFormElement>;
-  onPaypalBeforePayment: () => Promise<PaypalPaymentInitializationResult>;
-  onPaypalApiBeforePayment: () => Promise<PaypalApiInitializationResult>;
   onClearCart: () => void;
   onDismissCheckoutError: () => void;
 }
@@ -155,7 +150,6 @@ function AddressFields({
     </div>
   ) : null;
 
-  // Ko-fi collects buyer name in Phase 2 — hide the field entirely in Phase 1
   const fullNameField = form.requiresFullName ? (
     <div>
       <label htmlFor={fieldId('fullName')} className="block text-sm font-semibold text-gray-700 mb-3">
@@ -430,83 +424,71 @@ function SecureCheckoutInfo({ mobile = false }: { mobile?: boolean }) {
   );
 }
 
-function formatPrice(cartItem: CartItem, amount: number) {
-  const { product } = cartItem;
-  const currency = product.currency || 'USD';
-  const targetMarket = product.meta?.targetMarket || '';
-
+function formatPriceString(amount: number, currency: string = 'USD') {
   let symbol = '$';
   if (currency === 'GBP') symbol = '£';
   else if (currency === 'EUR') symbol = '€';
   else if (currency === 'CAD') symbol = 'CA$';
   else if (currency === 'AUD') symbol = 'A$';
-  else if (targetMarket === 'uk') symbol = '£';
-  else if (targetMarket === 'eu') symbol = '€';
-  else if (targetMarket === 'ca') symbol = 'CA$';
-  else if (targetMarket === 'au') symbol = 'A$';
 
   return `${symbol}${amount.toFixed(2)}`;
 }
 
 export default function CheckoutShippingStep({
-  cartItem,
-  sellerName,
+  cartItems,
   form,
   isSendingEmail,
   isRedirecting,
   checkoutError,
   onSubmit,
-  onPaypalBeforePayment,
-  onPaypalApiBeforePayment,
   onClearCart,
   onDismissCheckoutError,
 }: CheckoutShippingStepProps) {
   const [showMobileOrderSummary, setShowMobileOrderSummary] = useState(false);
-  const { product } = cartItem;
-  const price = formatPrice(cartItem, product.price);
+  
+  const totalPrice = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
+  const currency = cartItems[0]?.product.currency || 'USD';
+  const priceString = formatPriceString(totalPrice, currency);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">
       <CheckoutNotifier />
       <main className="flex-grow py-4">
         <div className="container mx-auto px-4">
-          <Link href={`/products/${product.slug}`} className="inline-flex items-center text-[#0F172A] hover:text-[#020617] mb-4 text-sm">
+          <Link href={`/`} className="inline-flex items-center text-[#0F172A] hover:text-[#020617] mb-4 text-sm">
             <ArrowLeft className="h-3.5 w-3.5 mr-1.5" />
-            <span className="hidden sm:inline">Back To Product</span>
+            <span className="hidden sm:inline">Back To Shop</span>
             <span className="sm:hidden">Back</span>
           </Link>
 
+          {/* Mobile Order Summary Toggle */}
           <div className="lg:hidden mb-4">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
               <button
                 type="button"
-                onClick={() => setShowMobileOrderSummary(previous => !previous)}
+                onClick={() => setShowMobileOrderSummary(prev => !prev)}
                 className="w-full p-4 flex items-center justify-between text-left focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-2xl"
               >
                 <div className="flex items-center space-x-4">
                   <div className="relative w-16 h-16 flex-shrink-0">
                     <div className="w-full h-full bg-gray-50 rounded-2xl flex items-center justify-center overflow-hidden">
                       <Image
-                        src={product.images[0]}
-                        alt={product.title}
+                        src={cartItems[0]?.product.images?.[0] || '/placeholder.svg'}
+                        alt="Cart Items"
                         width={56}
                         height={56}
                         className="w-14 h-14 object-cover rounded-lg transition-transform duration-200 hover:scale-105"
                       />
                     </div>
                     <div className="absolute -top-1 -right-1 w-5 h-5 bg-gray-600 rounded-full flex items-center justify-center shadow-sm">
-                      <span className="text-white text-xs font-bold">1</span>
+                      <span className="text-white text-xs font-bold">{cartItems.length}</span>
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-[#262626] text-base line-clamp-1 mb-1">{product.title}</h3>
-                    <p className="text-[#0F172A] font-bold text-xl mb-1">{price}</p>
-                    {sellerName && (
-                      <p className="mb-1 flex min-w-0 items-center gap-1.5 text-sm text-gray-600" aria-label={`Seller: ${sellerName}`}>
-                        <Store className="h-4 w-4 shrink-0 text-[#262626]" aria-hidden="true" />
-                        <span className="truncate font-medium text-[#262626]">{sellerName}</span>
-                      </p>
-                    )}
+                    <h3 className="font-semibold text-[#262626] text-base line-clamp-1 mb-1">
+                      {cartItems.length === 1 ? cartItems[0].product.title : `${cartItems.length} items`}
+                    </h3>
+                    <p className="text-[#0F172A] font-bold text-xl mb-1">{priceString}</p>
                     <p className="text-gray-400 text-xs leading-tight">Tap To View/Hide Summary</p>
                   </div>
                 </div>
@@ -515,13 +497,22 @@ export default function CheckoutShippingStep({
 
               {showMobileOrderSummary && (
                 <div className="px-4 pb-4 border-t border-gray-100 mt-4 pt-4 space-y-4">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-600">Quantity</span>
-                    <span className="font-medium">{cartItem.quantity}</span>
+                  <div className="flex flex-col gap-4 mb-4 border-b border-gray-100 pb-4">
+                    {cartItems.map((item) => (
+                      <div key={item.product.slug} className="flex gap-4">
+                        <Image src={item.product.images?.[0] || '/placeholder.svg'} width={48} height={48} className="w-12 h-12 object-cover rounded" alt={item.product.title} />
+                        <div className="flex-1 text-sm">
+                          <p className="font-medium text-[#262626] line-clamp-1">{item.product.title}</p>
+                          <p className="text-gray-500">Qty: {item.quantity}</p>
+                        </div>
+                        <div className="text-sm font-medium">{formatPriceString(item.product.price, item.product.currency)}</div>
+                      </div>
+                    ))}
                   </div>
+
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600">Subtotal</span>
-                    <span className="font-medium">{price}</span>
+                    <span className="font-medium">{priceString}</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600">Shipping</span>
@@ -529,7 +520,7 @@ export default function CheckoutShippingStep({
                   </div>
                   <div className="border-t border-gray-200 pt-3 flex justify-between items-center">
                     <span className="text-base font-semibold text-[#262626]">Total</span>
-                    <span className="text-lg font-bold text-[#0F172A]">{price}</span>
+                    <span className="text-lg font-bold text-[#0F172A]">{priceString}</span>
                   </div>
                 </div>
               )}
@@ -544,20 +535,7 @@ export default function CheckoutShippingStep({
                   <form onSubmit={onSubmit} className="space-y-6">
                     <AddressFields form={form} />
                     <div className="hidden lg:block mt-8">
-                      {product.checkoutFlow === 'paypal-direct' ? (
-                        <PaypalRedirectButton
-                          onBeforePayment={onPaypalBeforePayment}
-                          shippingData={form.shippingData}
-                          disabled={isSendingEmail || !form.isFormValid}
-                        />
-                      ) : product.checkoutFlow === 'paypal-api' ? (
-                        <PaypalApiRedirectButton
-                          onBeforePayment={onPaypalApiBeforePayment}
-                          disabled={isSendingEmail || !form.isFormValid}
-                        />
-                      ) : (
-                        <ContinueButton isSendingEmail={isSendingEmail} isRedirecting={isRedirecting} />
-                      )}
+                      <ContinueButton isSendingEmail={isSendingEmail} isRedirecting={isRedirecting} />
                     </div>
                   </form>
                   <SecureCheckoutInfo />
@@ -568,78 +546,69 @@ export default function CheckoutShippingStep({
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
                   {/* Header */}
-                  <div className="px-6 pt-6 pb-5 border-b border-gray-100">
+                  <div className="px-6 pt-6 pb-5 border-b border-gray-100 flex justify-between items-center">
                     <h2 className="text-base font-semibold text-gray-400 uppercase tracking-widest">Order Summary</h2>
+                    <span className="text-sm text-gray-500">{cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}</span>
                   </div>
 
-                  {/* Product row */}
-                  <div className="px-6 py-5 flex items-start gap-4">
-                    {/* Image */}
-                    <div className="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
-                      <Image
-                        src={product.images[0]}
-                        alt={product.title}
-                        width={80}
-                        height={80}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-
-                    {/* Info */}
-                    <div className="flex-1 min-w-0 flex flex-col gap-2">
-                      <h3 className="font-semibold text-[#262626] text-sm leading-snug line-clamp-2">{product.title}</h3>
-
-                      {sellerName && (
-                        <div className="flex items-center gap-1.5" aria-label={`Seller: ${sellerName}`}>
-                          <Store className="h-3.5 w-3.5 shrink-0 text-gray-400" aria-hidden="true" />
-                          <span className="truncate text-xs text-gray-500 font-medium">{sellerName}</span>
+                  {/* Product rows */}
+                  <div className="max-h-[300px] overflow-y-auto">
+                    {cartItems.map((item) => (
+                      <div key={item.product.slug} className="px-6 py-5 flex items-start gap-4 border-b border-gray-50 last:border-0">
+                        {/* Image */}
+                        <div className="w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
+                          <Image
+                            src={item.product.images?.[0] || '/placeholder.svg'}
+                            alt={item.product.title}
+                            width={64}
+                            height={64}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
-                      )}
 
-                      {/* Chips row */}
-                      <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
-                        <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-1 rounded-full">
-                          {product.condition}
-                        </span>
-                        {(product as ProductWithSelectedSize).selectedSize && (
-                          <span className="bg-[#0F172A]/8 text-[#0F172A] text-xs font-semibold px-2.5 py-1 rounded-full">
-                            Size: {(product as ProductWithSelectedSize).selectedSize}
-                          </span>
-                        )}
-                        <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-1 rounded-full">
-                          Qty {cartItem.quantity}
-                        </span>
+                        {/* Info */}
+                        <div className="flex-1 min-w-0 flex flex-col gap-1">
+                          <h3 className="font-semibold text-[#262626] text-sm leading-snug line-clamp-2">{item.product.title}</h3>
+
+                          {/* Chips row */}
+                          <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
+                            <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">
+                              Qty {item.quantity}
+                            </span>
+                            <span className="text-sm font-semibold ml-auto">
+                              {formatPriceString(item.product.price, item.product.currency)}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <button
+                          type="button"
+                          onClick={() => {
+                            removeFromCart(item.product.slug);
+                            window.dispatchEvent(new CustomEvent('cartUpdated'));
+                          }}
+                          className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                          aria-label="Remove item"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </button>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Price + remove */}
-                  <div className="px-6 pb-5 flex items-center justify-between">
-                    <span className="text-xl font-bold text-[#0F172A]">{price}</span>
-                    <button
-                      type="button"
-                      onClick={onClearCart}
-                      className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-red-500 transition-colors px-3 py-1.5 rounded-full hover:bg-red-50"
-                      aria-label="Remove item"
-                    >
-                      <Trash className="h-3.5 w-3.5" />
-                      Remove
-                    </button>
+                    ))}
                   </div>
 
                   {/* Totals */}
-                  <div className="border-t border-gray-100 px-6 py-5 space-y-3">
+                  <div className="border-t border-gray-100 px-6 py-5 space-y-3 bg-gray-50">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-500">Subtotal</span>
-                      <span className="font-medium text-[#262626]">{price}</span>
+                      <span className="font-medium text-[#262626]">{priceString}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-500">Shipping</span>
                       <span className="font-semibold text-emerald-600">Free</span>
                     </div>
-                    <div className="border-t border-gray-100 pt-3 flex justify-between items-center">
+                    <div className="border-t border-gray-200 pt-3 flex justify-between items-center">
                       <span className="text-sm font-semibold text-[#262626]">Total</span>
-                      <span className="text-lg font-bold text-[#0F172A]">{price}</span>
+                      <span className="text-lg font-bold text-[#0F172A]">{priceString}</span>
                     </div>
                   </div>
 
@@ -668,33 +637,12 @@ export default function CheckoutShippingStep({
                   </div>
                 )}
 
-                {product.checkoutFlow !== 'paypal-direct' && product.checkoutFlow !== 'paypal-api' && (
-                  <MobileCheckoutCTA
-                    disabled={isSendingEmail || isRedirecting}
-                    isLoading={isSendingEmail || isRedirecting}
-                    loadingLabel={isSendingEmail ? 'Confirming Address...' : 'Redirecting...'}
-                    label="Continue to Payment"
-                  />
-                )}
-
-                {product.checkoutFlow === 'paypal-direct' && (
-                  <FixedCheckoutBar>
-                    <PaypalRedirectButton
-                      onBeforePayment={onPaypalBeforePayment}
-                      shippingData={form.shippingData}
-                      disabled={isSendingEmail || !form.isFormValid}
-                    />
-                  </FixedCheckoutBar>
-                )}
-
-                {product.checkoutFlow === 'paypal-api' && (
-                  <FixedCheckoutBar>
-                    <PaypalApiRedirectButton
-                      onBeforePayment={onPaypalApiBeforePayment}
-                      disabled={isSendingEmail || !form.isFormValid}
-                    />
-                  </FixedCheckoutBar>
-                )}
+                <MobileCheckoutCTA
+                  disabled={isSendingEmail || isRedirecting}
+                  isLoading={isSendingEmail || isRedirecting}
+                  loadingLabel={isSendingEmail ? 'Confirming Address...' : 'Redirecting...'}
+                  label="Continue to Payment"
+                />
 
                 <SecureCheckoutInfo mobile />
               </form>
@@ -704,8 +652,4 @@ export default function CheckoutShippingStep({
       </main>
     </div>
   );
-}
-
-interface ProductWithSelectedSize {
-  selectedSize?: string;
 }

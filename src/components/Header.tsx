@@ -8,6 +8,7 @@ import { ShoppingCart, Menu, X, Search, ChevronDown, ChevronLeft, ChevronRight, 
 import { getCartCount } from '@/utils/cart';
 import ClientOnly from './ClientOnly';
 import SearchBar from './SearchBar';
+import CartDrawer from './CartDrawer';
 
 const catalogNavigation = [
   { label: 'Home', href: '/', children: undefined },
@@ -32,6 +33,7 @@ const desktopNavLinkClass =
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
   const [currentAnnouncement, setCurrentAnnouncement] = useState(0);
@@ -41,25 +43,23 @@ const Header = () => {
   const headerRef = useRef<HTMLElement>(null);
   const announcementIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Check if we're on the checkout page
+  // Check if we are on the checkout page
   const isCheckoutPage = pathname === '/checkout';
 
   const announcements = [
     <span key="nav-1">⚡ <span className="font-bold">Vretok Activewear</span> — Own Your Movement</span>,
     <span key="nav-2">✦ <span className="font-bold">Performance Leggings</span> & <span className="font-bold">Gym Fashion</span></span>,
-    "whatsapp-contact" // Special marker for WhatsApp announcement
+    "whatsapp-contact",
   ];
 
-  // Announcement bar animation
+  // Announcement bar rotation
   useEffect(() => {
     const startAnnouncementRotation = () => {
       announcementIntervalRef.current = setInterval(() => {
         setCurrentAnnouncement(prev => (prev + 1) % announcements.length);
       }, 2500);
     };
-
     startAnnouncementRotation();
-
     return () => {
       if (announcementIntervalRef.current) {
         clearInterval(announcementIntervalRef.current);
@@ -71,7 +71,6 @@ const Header = () => {
     if (announcementIntervalRef.current) {
       clearInterval(announcementIntervalRef.current);
     }
-
     setCurrentAnnouncement(prev => {
       if (direction === 'prev') {
         return prev === 0 ? announcements.length - 1 : prev - 1;
@@ -79,8 +78,6 @@ const Header = () => {
         return (prev + 1) % announcements.length;
       }
     });
-
-    // Restart auto-rotation after manual navigation
     setTimeout(() => {
       announcementIntervalRef.current = setInterval(() => {
         setCurrentAnnouncement(prev => (prev + 1) % announcements.length);
@@ -107,11 +104,9 @@ const Header = () => {
         setIsSticky(false);
         return;
       }
-
       if (typeof window !== 'undefined') {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const promotionalBarHeight = 40;
-
         if (scrollTop > promotionalBarHeight) {
           setIsSticky(true);
         } else {
@@ -119,7 +114,6 @@ const Header = () => {
         }
       }
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -127,9 +121,7 @@ const Header = () => {
   }, [pathname]);
 
   const handleCartClick = () => {
-    if (cartCount > 0) {
-      router.push('/checkout');
-    }
+    setIsCartOpen(true);
   };
 
   const handleMobileMenuClose = () => {
@@ -138,10 +130,11 @@ const Header = () => {
 
   return (
     <>
-      {/* 1. Announcement Bar - Cream background (#F8FAFC) with Deep Obsidian text (#0F172A) */}
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      {/* 1. Announcement Bar */}
       <div suppressHydrationWarning={true} className="bg-[#F8FAFC] text-[#0F172A] py-2 relative overflow-hidden h-[40px] flex items-center border-b border-[#0F172A]/10">
         <div suppressHydrationWarning={true} className="container mx-auto px-4 flex items-center justify-center relative w-full h-full text-xs sm:text-sm">
-          {/* Announcement Text */}
           <div suppressHydrationWarning={true} className="text-center font-medium px-4 sm:px-16 transition-all duration-500 ease-in-out h-full flex items-center justify-center min-h-[24px]">
             {announcements[currentAnnouncement] === "whatsapp-contact" ? (
               <div key={currentAnnouncement} className="flex items-center justify-center animate-fade-in text-xs sm:text-sm h-full w-full">
@@ -164,7 +157,6 @@ const Header = () => {
             )}
           </div>
 
-          {/* Desktop Carousel Navigation Arrows */}
           <button
             onClick={() => handleAnnouncementNavigation('prev')}
             className="hidden sm:block absolute left-1/2 transform -translate-x-60 p-1 hover:bg-[#0F172A]/10 rounded-full transition-colors duration-200 z-10 text-[#0F172A]"
@@ -183,20 +175,17 @@ const Header = () => {
         </div>
       </div>
 
-      {/* 2. Main Header - Deep Obsidian (#0F172A) */}
+      {/* 2. Main Header */}
       <header
         ref={headerRef}
         suppressHydrationWarning={true}
-        className={`transition-all duration-300 ${isSticky
-          ? 'fixed top-0 left-0 right-0 z-50 shadow-md'
-          : 'relative'
-          }`}
+        className={`transition-all duration-300 ${isSticky ? 'fixed top-0 left-0 right-0 z-50 shadow-md' : 'relative'}`}
       >
         <div suppressHydrationWarning={true} className="bg-[#0F172A] text-white">
           <div suppressHydrationWarning={true} className="container mx-auto px-4 py-2 sm:py-2.5 lg:py-3">
             <div suppressHydrationWarning={true} className="flex items-center justify-between gap-4 sm:gap-6">
-              
-              {/* Logo - Vretok Oval SVG */}
+
+              {/* Logo */}
               <Link href="/" className="flex items-center space-x-2 flex-shrink-0 text-white hover:opacity-90 transition-opacity py-1">
                 <Image
                   src="/mainlogo.svg"
@@ -208,7 +197,7 @@ const Header = () => {
                 />
               </Link>
 
-              {/* Desktop Search Bar - Rounded-full Pill Shape */}
+              {/* Desktop Search Bar */}
               <div suppressHydrationWarning={true} className="hidden lg:flex flex-1 max-w-xl mx-8">
                 <div
                   suppressHydrationWarning={true}
@@ -227,7 +216,6 @@ const Header = () => {
 
               {/* Right Side Actions */}
               <div suppressHydrationWarning={true} className="flex items-center gap-3">
-                {/* Mobile Search Icon - Visible when sticky or mobile */}
                 {isSticky && (
                   <button
                     onClick={() => setIsSearchOpen(true)}
@@ -238,7 +226,6 @@ const Header = () => {
                   </button>
                 )}
 
-                {/* Help / Contact Icon - Desktop */}
                 <Link
                   href="/contact"
                   className="hidden sm:flex items-center gap-1 text-white hover:text-[#F8FAFC] px-2.5 py-1.5 rounded-full hover:bg-white/10 transition-colors duration-200 text-sm font-medium"
@@ -248,7 +235,7 @@ const Header = () => {
                   <span className="hidden xl:inline text-xs">Help</span>
                 </Link>
 
-                {/* Cart Action Button - Electric Rose (#E11D48) Pill matching reference */}
+                {/* Cart Button */}
                 <button
                   onClick={handleCartClick}
                   className="relative flex items-center gap-2 bg-[#E11D48] hover:bg-[#BE123C] text-white px-3.5 py-1.5 rounded-full font-medium text-xs sm:text-sm transition-all duration-200 shadow-sm"
@@ -278,7 +265,7 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Search Bar - Below header when not sticky */}
+        {/* Mobile Search Bar */}
         {!isSticky && !isCheckoutPage && (
           <div suppressHydrationWarning={true} className="lg:hidden bg-[#0F172A] border-t border-white/10 px-4 py-2.5">
             <div
@@ -297,11 +284,11 @@ const Header = () => {
           </div>
         )}
 
-        {/* 3. Navigation Bar - Electric Rose (#E11D48) */}
+        {/* 3. Navigation Bar */}
         <div suppressHydrationWarning={true} className="hidden lg:block bg-[#E11D48] border-t border-black/5">
           <div suppressHydrationWarning={true} className="container mx-auto px-4">
             <nav className="flex items-center justify-center gap-5 xl:gap-7 py-2.5 font-heading">
-              {catalogNavigation.map((item) => (
+              {catalogNavigation.map((item) =>
                 item.children ? (
                   <div key={item.label} className="group/nav relative">
                     <Link href={item.href} className={`${desktopNavLinkClass} inline-flex items-center gap-1`}>
@@ -331,7 +318,7 @@ const Header = () => {
                     {item.label}
                   </Link>
                 )
-              ))}
+              )}
             </nav>
           </div>
         </div>
@@ -341,45 +328,46 @@ const Header = () => {
           <div className="lg:hidden bg-[#F8FAFC] border-t border-[#0F172A]/10 shadow-lg">
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col font-heading text-sm space-y-1">
-                {catalogNavigation.map((item) => item.children ? (
-                  <div key={item.label} className="py-1">
+                {catalogNavigation.map((item) =>
+                  item.children ? (
+                    <div key={item.label} className="py-1">
+                      <Link
+                        href={item.href}
+                        className="flex items-center justify-between rounded-lg px-3 py-2.5 font-medium text-[#0F172A] transition-colors hover:bg-[#E11D48]/10"
+                        onClick={handleMobileMenuClose}
+                      >
+                        {item.label}
+                        <ChevronDown className="h-4 w-4" aria-hidden="true" />
+                      </Link>
+                      <div className="ml-3 border-l border-[#0F172A]/10 pl-3">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.label}
+                            href={child.href}
+                            className="block rounded-lg px-3 py-2 text-sm text-[#0F172A]/75 transition-colors hover:bg-[#E11D48]/10 hover:text-[#E11D48]"
+                            onClick={handleMobileMenuClose}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
                     <Link
+                      key={item.label}
                       href={item.href}
-                      className="flex items-center justify-between rounded-lg px-3 py-2.5 font-medium text-[#0F172A] transition-colors hover:bg-[#E11D48]/10"
+                      className="py-2.5 px-3 text-[#0F172A] hover:bg-[#E11D48]/10 rounded-lg font-medium transition-colors"
                       onClick={handleMobileMenuClose}
                     >
                       {item.label}
-                      <ChevronDown className="h-4 w-4" aria-hidden="true" />
                     </Link>
-                    <div className="ml-3 border-l border-[#0F172A]/10 pl-3">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.label}
-                          href={child.href}
-                          className="block rounded-lg px-3 py-2 text-sm text-[#0F172A]/75 transition-colors hover:bg-[#E11D48]/10 hover:text-[#E11D48]"
-                          onClick={handleMobileMenuClose}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="py-2.5 px-3 text-[#0F172A] hover:bg-[#E11D48]/10 rounded-lg font-medium transition-colors"
-                    onClick={handleMobileMenuClose}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                  )
+                )}
               </nav>
             </div>
           </div>
         )}
 
-        {/* SearchBar overlay */}
         <SearchBar open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
       </header>
 

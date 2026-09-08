@@ -11,7 +11,11 @@ interface SearchPageClientProps {
   initialCategory?: string;
 }
 
-const CATALOG_CATEGORIES = ["Leggings", "Everyday Leggings", "Training Leggings", "Matching Sets", "Seamless Leggings", "Sculpt Leggings", "Gym Tops", "Gym Accessories"] as const;
+const CATALOG_CATEGORIES = [
+  "Leggings", "Everyday Leggings", "Training Leggings", "Matching Sets", 
+  "Seamless Leggings", "Sculpt Leggings", "Gym Tops", "Gym Accessories",
+  "Sports Bras & Crops", "T-Shirts Women", "Shorts Women"
+] as const;
 
 function getExactCatalogCategory(value: string): string {
   const normalizedValue = value.trim().toLowerCase();
