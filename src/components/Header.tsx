@@ -374,7 +374,7 @@ const Header = () => {
       {/* Mobile Swipeable Menu - Below header */}
       {!isCheckoutPage && (
         <div suppressHydrationWarning={true} className="lg:hidden bg-[#E11D48] border-t border-black/5">
-          <div suppressHydrationWarning={true} className="overflow-x-auto scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
+          <div suppressHydrationWarning={true} className="overflow-x-auto overflow-y-hidden scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
             <nav className="flex min-w-max items-center gap-2 px-3 py-2">
               {catalogNavigation.map((item) => (
                 <Link
