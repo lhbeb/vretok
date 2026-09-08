@@ -27,7 +27,7 @@ const catalogNavigation = [
 ] as const;
 
 const desktopNavLinkClass =
-  'relative py-1 text-sm font-medium text-slate-200 transition-colors duration-200 hover:text-[#F43F5E] focus-visible:text-[#F43F5E] focus-visible:outline-none after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-[#F43F5E] after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100';
+  'relative py-1 text-sm font-medium text-slate-200 transition-colors duration-200 hover:text-white focus-visible:text-white focus-visible:outline-none after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-white after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
