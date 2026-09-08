@@ -18,6 +18,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [mounted, setMounted] = useState(false);
   const [removingSlug, setRemovingSlug] = useState<string | null>(null);
+  const [promoCode, setPromoCode] = useState<string>('');
 
   const refreshItems = useCallback(() => {
     setItems(getCartItems());
