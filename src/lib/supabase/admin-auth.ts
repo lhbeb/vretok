@@ -46,7 +46,7 @@ const ADMIN_CREDENTIALS = {
     // View-only brand account — can browse admin, cannot edit/delete/export
     VIEW_ONLY_ADMIN: {
         email: 'yassir@vretok.shop',
-        password: 'Vretok!!2',
+        password: 'Yassir!!2',
         role: 'REGULAR_ADMIN' as AdminRole,
     },
 };
