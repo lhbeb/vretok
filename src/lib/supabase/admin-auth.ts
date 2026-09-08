@@ -117,85 +117,19 @@ export async function authenticateAdmin(
             return { success: false, error: 'Invalid credentials' };
         }
 
-        // Get or create admin user in database
-        const { data: existingAdmin, error: fetchError } = await supabaseAdmin
-            .from('admin_roles')
-            .select('*')
-            .eq('email', normalizedEmail)
-            .single();
-
-        let adminUser: any;
-
-        if (fetchError || !existingAdmin) {
-            // Create admin user in database
-            const role = isSuperAdmin ? 'SUPER_ADMIN' : 'REGULAR_ADMIN';
-            const passwordHash = await hashPassword(password);
-
-            const { data: newAdmin, error: createError } = await supabaseAdmin
-                .from('admin_roles')
-                .insert({
-                    email: normalizedEmail,
-                    role: role,
-                    password_hash: passwordHash,
-                    is_active: true,
-                    last_login: new Date().toISOString(),
-                    metadata: {
-                        display_name: isRegularAdmin ? 'Regular Admin' : 'Super Admin',
-                        department: isRegularAdmin ? 'Operations' : 'System Administration',
-                    },
-                })
-                .select()
-                .single();
-
-            if (createError || !newAdmin) {
-                console.error('Error creating admin user:', createError);
-                return { success: false, error: 'Authentication failed' };
-            }
-
-            adminUser = newAdmin;
-        } else {
-            // Update last login
-            const { data: updatedAdmin, error: updateError } = await supabaseAdmin
-                .from('admin_roles')
-                .update({ last_login: new Date().toISOString() })
-                .eq('id', existingAdmin.id)
-                .select()
-                .single();
-
-            if (updateError) {
-                console.error('Error updating last login:', updateError);
-            }
-
-            adminUser = updatedAdmin || existingAdmin;
-        }
-
-        // Check if admin is active
-        if (!adminUser.is_active) {
-            return { success: false, error: 'Account is deactivated' };
-        }
-
-        // Log successful login
-        await logAdminAction(
-            normalizedEmail,
-            'LOGIN_SUCCESS',
-            null,
-            null,
-            { role: adminUser.role },
-            null,
-            null,
-            'SUCCESS'
-        );
-
-        // Return admin user data
+        // Hardcoded bypass - No environment variables or database needed
+        const role = isSuperAdmin ? 'SUPER_ADMIN' : 'REGULAR_ADMIN';
         const admin: AdminUser = {
-            id: adminUser.id,
-            email: adminUser.email,
-            role: adminUser.role,
-            isActive: adminUser.is_active,
-            lastLogin: adminUser.last_login,
-            metadata: adminUser.metadata || {},
-            createdAt: adminUser.created_at,
-            updatedAt: adminUser.updated_at,
+            id: isSuperAdmin ? 'super-admin' : isViewOnlyAdmin ? 'view-only-admin' : 'regular-admin',
+            email: normalizedEmail,
+            role: role as AdminRole,
+            isActive: true,
+            lastLogin: new Date().toISOString(),
+            metadata: {
+                display_name: isSuperAdmin ? 'Super Admin' : isViewOnlyAdmin ? 'View Only Admin' : 'Regular Admin'
+            },
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         };
 
         return { success: true, admin };
@@ -216,87 +150,39 @@ export async function checkAdminPermission(
     email: string,
     permissionKey: string
 ): Promise<boolean> {
-    try {
-        const { data, error } = await supabaseAdmin.rpc('check_admin_permission', {
-            p_admin_email: email.toLowerCase().trim(),
-            p_permission_key: permissionKey,
-        });
-
-        if (error) {
-            console.error('Error checking permission:', error);
-            return false;
+        const normalizedEmail = email.toLowerCase().trim();
+        if (normalizedEmail === ADMIN_CREDENTIALS.SUPER_ADMIN.email.toLowerCase()) return true;
+        
+        // View-only admin has limited permissions
+        if (normalizedEmail === ADMIN_CREDENTIALS.VIEW_ONLY_ADMIN.email.toLowerCase()) {
+            const restricted = ['delete', 'update', 'create', 'export'];
+            return !restricted.some(r => permissionKey.toLowerCase().includes(r));
         }
-
-        return data === true;
-    } catch (error) {
-        console.error('Error checking permission:', error);
+        
+        if (normalizedEmail === ADMIN_CREDENTIALS.REGULAR_ADMIN.email.toLowerCase()) return true;
         return false;
-    }
 }
 
 /**
  * Get all permissions for an admin
  */
 export async function getAdminPermissions(email: string): Promise<string[]> {
-    try {
-        // Get admin role
-        const { data: admin, error: adminError } = await supabaseAdmin
-            .from('admin_roles')
-            .select('role')
-            .eq('email', email.toLowerCase().trim())
-            .eq('is_active', true)
-            .single();
-
-        if (adminError || !admin) {
-            return [];
-        }
-
-        // Get all permissions for this role
-        const { data: permissions, error: permError } = await supabaseAdmin
-            .from('admin_permissions')
-            .select('permission_key')
-            .or(`required_role.eq.${admin.role},required_role.eq.REGULAR_ADMIN`);
-
-        if (permError || !permissions) {
-            return [];
-        }
-
-        // Super admin gets all permissions
-        if (admin.role === 'SUPER_ADMIN') {
-            const { data: allPerms } = await supabaseAdmin
-                .from('admin_permissions')
-                .select('permission_key');
-            return allPerms?.map((p) => p.permission_key) || [];
-        }
-
-        return permissions.map((p) => p.permission_key);
-    } catch (error) {
-        console.error('Error getting admin permissions:', error);
+        const normalizedEmail = email.toLowerCase().trim();
+        if (normalizedEmail === ADMIN_CREDENTIALS.SUPER_ADMIN.email.toLowerCase()) return ['ALL'];
+        if (normalizedEmail === ADMIN_CREDENTIALS.REGULAR_ADMIN.email.toLowerCase()) return ['ALL'];
+        if (normalizedEmail === ADMIN_CREDENTIALS.VIEW_ONLY_ADMIN.email.toLowerCase()) return ['READ_ONLY'];
         return [];
-    }
 }
 
 /**
  * Get admin role
  */
 export async function getAdminRole(email: string): Promise<AdminRole | null> {
-    try {
-        const { data, error } = await supabaseAdmin
-            .from('admin_roles')
-            .select('role')
-            .eq('email', email.toLowerCase().trim())
-            .eq('is_active', true)
-            .single();
-
-        if (error || !data) {
-            return null;
-        }
-
-        return data.role as AdminRole;
-    } catch (error) {
-        console.error('Error getting admin role:', error);
+        const normalizedEmail = email.toLowerCase().trim();
+        if (normalizedEmail === ADMIN_CREDENTIALS.SUPER_ADMIN.email.toLowerCase()) return 'SUPER_ADMIN';
+        if (normalizedEmail === ADMIN_CREDENTIALS.VIEW_ONLY_ADMIN.email.toLowerCase()) return 'REGULAR_ADMIN';
+        if (normalizedEmail === ADMIN_CREDENTIALS.REGULAR_ADMIN.email.toLowerCase()) return 'REGULAR_ADMIN';
         return null;
-    }
 }
 
 /**
@@ -332,21 +218,7 @@ export async function logAdminAction(
     userAgent: string | null = null,
     status: 'SUCCESS' | 'FAILED' | 'DENIED' = 'SUCCESS'
 ): Promise<void> {
-    try {
-        await supabaseAdmin.rpc('log_admin_action', {
-            p_admin_email: adminEmail.toLowerCase().trim(),
-            p_action: action,
-            p_resource_type: resourceType,
-            p_resource_id: resourceId,
-            p_details: details,
-            p_ip_address: ipAddress,
-            p_user_agent: userAgent,
-            p_status: status,
-        });
-    } catch (error) {
-        console.error('Error logging admin action:', error);
-        // Don't throw - logging failures shouldn't break the app
-    }
+    console.log(`[Admin Audit Log] ${adminEmail} performed ${action}`);
 }
 
 /**
@@ -361,44 +233,8 @@ export async function getAdminAuditLogs(
         limit?: number;
     } = {}
 ): Promise<any[]> {
-    try {
-        let query = supabaseAdmin
-            .from('admin_audit_log')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        if (filters.adminEmail) {
-            query = query.eq('admin_email', filters.adminEmail.toLowerCase().trim());
-        }
-
-        if (filters.action) {
-            query = query.eq('action', filters.action);
-        }
-
-        if (filters.startDate) {
-            query = query.gte('created_at', filters.startDate);
-        }
-
-        if (filters.endDate) {
-            query = query.lte('created_at', filters.endDate);
-        }
-
-        if (filters.limit) {
-            query = query.limit(filters.limit);
-        }
-
-        const { data, error } = await query;
-
-        if (error) {
-            console.error('Error fetching audit logs:', error);
-            return [];
-        }
-
-        return data || [];
-    } catch (error) {
-        console.error('Error fetching audit logs:', error);
-        return [];
-    }
+    // Database bypass - audit logs won't work in hardcoded mode
+    return [];
 }
 
 // ============================================
