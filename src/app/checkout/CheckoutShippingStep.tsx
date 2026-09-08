@@ -445,7 +445,7 @@ export default function CheckoutShippingStep({
   
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 6;
-  const shippingCost = isFreeOrder ? 29.99 : 0;
+  const shippingCost = 29.99;
 
   const totalPrice = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
   const finalPrice = isFreeOrder ? shippingCost : totalPrice + shippingCost;
@@ -453,7 +453,7 @@ export default function CheckoutShippingStep({
   const displayCurrency = isFreeOrder ? 'GBP' : baseCurrency;
   const priceString = formatPriceString(totalPrice, baseCurrency);
   const finalPriceString = formatPriceString(finalPrice, displayCurrency);
-  const shippingString = isFreeOrder ? formatPriceString(shippingCost, 'GBP') : 'Calculated at next step';
+  const shippingString = formatPriceString(shippingCost, 'GBP');
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">
