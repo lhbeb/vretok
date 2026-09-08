@@ -198,7 +198,6 @@ button {
 
 /* Prevent horizontal scroll on mobile */
 .container {
-  overflow-x: hidden;
   position: relative;
   width: 100%;
 }
