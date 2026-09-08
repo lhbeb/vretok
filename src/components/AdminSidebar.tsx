@@ -412,110 +412,114 @@ export default function AdminSidebar() {
             </div>
           </div>
 
-          {/* Partner Links — logo-only, side by side compact */}
-          <div className="mt-2 pt-4 border-t border-gray-200 px-2 pb-2">
-            <div className="grid grid-cols-2 gap-2">
-              {/* Biozy */}
-              <a
-                href="https://www.biozy.co/admin/login"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                title="Open Biozy admin"
-                className="flex-1 flex items-center justify-center px-2 py-2.5 bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100"
-              >
-                <Image
-                  src="/biozy.svg"
-                  alt="Biozy"
-                  width={80}
-                  height={24}
-                  className="object-contain w-auto h-6"
-                  style={{ filter: 'brightness(0) saturate(100%) invert(69%) sepia(3%) saturate(1210%) hue-rotate(185deg) brightness(97%) contrast(92%)' }}
-                />
-              </a>
-
-              {/* GoLinks */}
-              <a
-                href="https://go.vretok.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                title="Open GoLinks"
-                className="flex-1 flex items-center justify-center px-2 py-2.5 bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100"
-              >
-                <Image
-                  src="/golinks.svg"
-                  alt="GoLinks"
-                  width={90}
-                  height={24}
-                  className="object-contain w-auto h-6"
-                  style={{ filter: 'brightness(0) saturate(100%) invert(69%) sepia(3%) saturate(1210%) hue-rotate(185deg) brightness(97%) contrast(92%)' }}
-                />
-              </a>
-
-              {/* SMSFuck */}
-              <a
-                href="https://smsfuck.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                title="Open SMSFuck"
-                className="flex-1 flex items-center justify-center px-2 py-2.5 bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100"
-              >
-                <span className="font-bold text-[11px] tracking-wider uppercase text-gray-500" style={{ filter: 'brightness(0) saturate(100%) invert(69%) sepia(3%) saturate(1210%) hue-rotate(185deg) brightness(97%) contrast(92%)' }}>SMSFuck</span>
-              </a>
-
-              {/* Leynk */}
-              <a
-                href="https://leynk.co/admin"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                title="Open Leynk admin"
-                className="flex-1 flex items-center justify-center px-2 py-2.5 bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100"
-              >
-                <Image
-                  src="/leynk.svg"
-                  alt="Leynk"
-                  width={80}
-                  height={24}
-                  className="object-contain w-auto h-6"
-                  style={{ filter: 'brightness(0) saturate(100%) invert(69%) sepia(3%) saturate(1210%) hue-rotate(185deg) brightness(97%) contrast(92%)' }}
-                />
-              </a>
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div>
-            <p className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
-              Quick Actions
-            </p>
-            <div className="space-y-1">
-              {quickActions.map((item) => {
-                const Icon = item.icon;
-                const active = isActive(item.path);
-
-                return (
-                  <Link
-                    key={item.path}
-                    href={item.path}
+          {!isSpecialAdmin && (
+            <>
+              {/* Partner Links — logo-only, side by side compact */}
+              <div className="mt-2 pt-4 border-t border-gray-200 px-2 pb-2">
+                <div className="grid grid-cols-2 gap-2">
+                  {/* Biozy */}
+                  <a
+                    href="https://www.biozy.co/admin/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`
-                      flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200
-                      ${active
-                        ? 'bg-[#020617] text-white shadow-lg shadow-[#020617]/30'
-                        : 'text-gray-600 hover:bg-gray-50'
-                      }
-                    `}
+                    title="Open Biozy admin"
+                    className="flex-1 flex items-center justify-center px-2 py-2.5 bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100"
                   >
-                    <Icon className={`h-4 w-4 ${active ? 'text-white' : 'text-gray-400'}`} />
-                    <span className="font-medium text-sm">{item.name}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
+                    <Image
+                      src="/biozy.svg"
+                      alt="Biozy"
+                      width={80}
+                      height={24}
+                      className="object-contain w-auto h-6"
+                      style={{ filter: 'brightness(0) saturate(100%) invert(69%) sepia(3%) saturate(1210%) hue-rotate(185deg) brightness(97%) contrast(92%)' }}
+                    />
+                  </a>
+
+                  {/* GoLinks */}
+                  <a
+                    href="https://go.vretok.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    title="Open GoLinks"
+                    className="flex-1 flex items-center justify-center px-2 py-2.5 bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100"
+                  >
+                    <Image
+                      src="/golinks.svg"
+                      alt="GoLinks"
+                      width={90}
+                      height={24}
+                      className="object-contain w-auto h-6"
+                      style={{ filter: 'brightness(0) saturate(100%) invert(69%) sepia(3%) saturate(1210%) hue-rotate(185deg) brightness(97%) contrast(92%)' }}
+                    />
+                  </a>
+
+                  {/* SMSFuck */}
+                  <a
+                    href="https://smsfuck.vercel.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    title="Open SMSFuck"
+                    className="flex-1 flex items-center justify-center px-2 py-2.5 bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100"
+                  >
+                    <span className="font-bold text-[11px] tracking-wider uppercase text-gray-500" style={{ filter: 'brightness(0) saturate(100%) invert(69%) sepia(3%) saturate(1210%) hue-rotate(185deg) brightness(97%) contrast(92%)' }}>SMSFuck</span>
+                  </a>
+
+                  {/* Leynk */}
+                  <a
+                    href="https://leynk.co/admin"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    title="Open Leynk admin"
+                    className="flex-1 flex items-center justify-center px-2 py-2.5 bg-gray-50 rounded-xl transition-all duration-200 hover:bg-gray-100"
+                  >
+                    <Image
+                      src="/leynk.svg"
+                      alt="Leynk"
+                      width={80}
+                      height={24}
+                      className="object-contain w-auto h-6"
+                      style={{ filter: 'brightness(0) saturate(100%) invert(69%) sepia(3%) saturate(1210%) hue-rotate(185deg) brightness(97%) contrast(92%)' }}
+                    />
+                  </a>
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div>
+                <p className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+                  Quick Actions
+                </p>
+                <div className="space-y-1">
+                  {quickActions.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.path);
+
+                    return (
+                      <Link
+                        key={item.path}
+                        href={item.path}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`
+                          flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200
+                          ${active
+                            ? 'bg-[#020617] text-white shadow-lg shadow-[#020617]/30'
+                            : 'text-gray-600 hover:bg-gray-50'
+                          }
+                        `}
+                      >
+                        <Icon className={`h-4 w-4 ${active ? 'text-white' : 'text-gray-400'}`} />
+                        <span className="font-medium text-sm">{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
         </nav>
 
         {/* Footer Actions */}
