@@ -211,7 +211,7 @@ function ThankYouContent() {
           <div className="bg-[#F7F3E8] border border-[#397F86]/30 rounded-xl p-6 mb-8">
             <h3 className="font-semibold text-[#123E52] mb-2">Need Help?</h3>
             <p className="text-sm text-gray-600 mb-3">
-              If you have any questions about your kayak order, don&apos;t hesitate to reach out:
+              If you have any questions about your Vretok order, don&apos;t hesitate to reach out:
             </p>
             <BrandContactDetails />
           </div>

@@ -234,7 +234,7 @@ export async function getRecommendedProducts(
 }
 
 /**
- * Get products by collection tag (e.g., 'fashion', 'kayaks', 'entertainment')
+ * Get products by collection tag (e.g., 'fashion', 'leggings', 'entertainment')
  * Filters products by collection tag in the collections array
  * Only returns published products (drafts are excluded)
  */

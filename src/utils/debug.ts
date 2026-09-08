@@ -66,7 +66,7 @@ if (typeof window !== 'undefined') {
     },
     cart: () => {
       try {
-        const cart = localStorage.getItem('RoxanneJoiner_cart');
+        const cart = localStorage.getItem('Vretok_cart');
         console.log('Cart Data:', cart ? JSON.parse(cart) : null);
       } catch (e) {
         console.error('Error reading cart:', e);

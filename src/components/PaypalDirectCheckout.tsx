@@ -78,7 +78,7 @@ const PaypalDirectCheckout: React.FC<PaypalDirectCheckoutProps> = ({
       cancel_return: `${window.location.origin}/checkout?payment=cancelled`,
       notify_url: `${window.location.origin}/api/paypal/ipn`,
       rm: '0',
-      bn: 'RoxanneJoiner_BuyNow_WPS_US',
+      bn: 'Vretok_BuyNow_WPS_US',
       ...buildPaypalAddressFields(shippingData),
     };
 

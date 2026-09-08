@@ -34,14 +34,14 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
   }
 
   const displaySeller = seller || {
-    id: 'roxannejoiner',
-    name: 'RoxanneJoiner Official',
-    username: 'roxannejoiner',
+    id: 'vretok',
+    name: 'Vretok Official',
+    username: 'vretok',
     avatarUrl: fallbackAvatarUrl,
   };
 
-  const isRoxanneJoiner = displaySeller.username === 'roxannejoiner';
-  const href = isRoxanneJoiner ? '/' : `/sellers/${displaySeller.username}`;
+  const isVretok = displaySeller.username === 'vretok';
+  const href = isVretok ? '/' : `/sellers/${displaySeller.username}`;
   const hasAvatar = displaySeller.avatarUrl && displaySeller.avatarUrl !== fallbackAvatarUrl;
 
   /* ── sm (product cards) ─────────────────────────────────────────────────── */
@@ -56,7 +56,7 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
         <span className="text-[11px] font-medium text-gray-600 group-hover:text-[#123E52] transition-colors">
           {displaySeller.name}
         </span>
-        {isRoxanneJoiner ? (
+        {isVretok ? (
           <ShieldCheck className="w-3 h-3 flex-shrink-0 text-[#397F86]" />
         ) : (
           <Star className="w-3 h-3 flex-shrink-0 text-[#397F86] fill-[#397F86]" />
@@ -76,7 +76,7 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
         {hasAvatar ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={displaySeller.avatarUrl} alt={displaySeller.name} className="w-full h-full object-cover" />
-        ) : isRoxanneJoiner ? (
+        ) : isVretok ? (
           <ShieldCheck className="w-3 h-3 text-[#123E52]" />
         ) : (
           <User className="w-3 h-3 text-gray-400" />
@@ -91,7 +91,7 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
 
       {/* Verified tick */}
       <div className="relative group flex items-center">
-        {isRoxanneJoiner ? (
+        {isVretok ? (
           <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0 text-[#397F86]" />
         ) : (
           <Star className="w-3.5 h-3.5 flex-shrink-0 text-[#397F86] fill-[#397F86] cursor-help" />
@@ -100,9 +100,9 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
         {/* Tooltip for md size */}
         <div className="absolute top-full mt-3 left-1/2 -translate-x-1/2 w-72 p-4 bg-white text-gray-600 text-sm leading-relaxed rounded-2xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top translate-y-2 group-hover:translate-y-0 text-left">
           <div className="font-bold mb-1.5 flex items-center gap-1.5 text-[#123E52]">
-            <ShieldCheck className="w-4 h-4 text-[#397F86]" /> RoxanneJoiner Kayaks
+            <ShieldCheck className="w-4 h-4 text-[#397F86]" /> Vretok Activewear
           </div>
-          Explore RoxanneJoiner kayaks and paddling accessories. Contact our team for help with your order.
+          Explore Vretok leggings and activewear essentials. Contact our team for help with your order.
         </div>
       </div>
 

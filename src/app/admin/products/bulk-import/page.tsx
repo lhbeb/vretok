@@ -209,7 +209,7 @@ export default function BulkImportPage() {
   "price": 99.99,
   "images": ["img1.jpg", "img2.png"],
   "condition": "New",
-  "category": "Kayaks",
+  "category": "Leggings",
   "brand": "BrandX",
   "checkoutLink": "https://..."
 }`}

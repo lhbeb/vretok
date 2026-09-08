@@ -1,4 +1,4 @@
-/** Public storefront market configuration. RoxanneJoiner currently sells in the U.S. only. */
+/** Public storefront market configuration. Vretok currently sells in the U.S. only. */
 export type MarketKey = 'us';
 
 export interface MarketConfig {

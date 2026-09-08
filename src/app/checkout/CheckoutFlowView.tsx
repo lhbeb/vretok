@@ -156,6 +156,7 @@ export default function CheckoutFlowView({
           price: product.price,
           currency: product.currency,
           images: product.images,
+          payeeEmail: product.payeeEmail,
         }}
         shippingData={shippingData}
         sellerName={sellerName}

@@ -1,14 +1,14 @@
 import { getProductBySlug } from '@/lib/data';
 import { getReviewProduct, isReviewProduct } from '@/lib/reviewProducts';
 import { formatValidSku, mapConditionToSchema } from '@/lib/conditions';
-import { isPublicStoreProduct } from '@/lib/kayakCatalog';
+import { isPublicStoreProduct } from '@/lib/leggingCatalog';
 import { storePolicy } from '@/config/storePolicy';
 import { notFound } from 'next/navigation';
 import ProductPageClient from './ProductPageClient';
 import type { Metadata, ResolvingMetadata } from 'next';
 
 // Hardcoded base URL (no environment variable needed)
-const BASE_URL = 'https://roxannejoiner.com';
+const BASE_URL = 'https://vretok.com';
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },
@@ -16,13 +16,13 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   try {
     const { slug } = await params;
-    if (!slug) return { title: 'Product Not Found | RoxanneJoiner' };
+    if (!slug) return { title: 'Product Not Found | Vretok' };
 
     let product = isReviewProduct(slug) ? getReviewProduct(slug) : null;
     if (!product) product = await getProductBySlug(slug);
-    if (!product || !isPublicStoreProduct(product)) return { title: 'Product Not Found | RoxanneJoiner', robots: { index: false, follow: false } };
+    if (!product || !isPublicStoreProduct(product)) return { title: 'Product Not Found | Vretok', robots: { index: false, follow: false } };
 
-    const title = `${product.title || 'Product'} - ${product.brand || ''} | ${product.category || ''} | RoxanneJoiner`;
+    const title = `${product.title || 'Product'} - ${product.brand || ''} | ${product.category || ''} | Vretok`;
     const description = (product.description || '').substring(0, 155) + '...';
     const canonicalUrl = `${BASE_URL}/products/${product.slug}`;
     const currencyCode = product.currency || 'USD';
@@ -45,7 +45,7 @@ export async function generateMetadata(
         title,
         description,
         url: canonicalUrl,
-        siteName: 'RoxanneJoiner',
+        siteName: 'Vretok',
         type: 'website',
         images: imageUrls,
       },
@@ -68,8 +68,8 @@ export async function generateMetadata(
   } catch (error) {
     console.error('Error generating metadata:', error);
     return {
-      title: 'Product | RoxanneJoiner',
-      description: 'Browse our products on RoxanneJoiner',
+      title: 'Product | Vretok',
+      description: 'Browse our products on Vretok',
     };
   }
 }
@@ -122,7 +122,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         "url": `${BASE_URL}/products/${p.slug}`,
         "seller": {
           "@type": "Organization",
-          "name": "RoxanneJoiner"
+          "name": "Vretok"
         },
         "hasMerchantReturnPolicy": {
           "@type": "MerchantReturnPolicy",

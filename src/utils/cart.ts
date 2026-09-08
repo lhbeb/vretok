@@ -7,7 +7,7 @@ export interface CartItem {
   addedAt: string;
 }
 
-export const CART_STORAGE_KEY = 'RoxanneJoiner_cart';
+export const CART_STORAGE_KEY = 'Vretok_cart';
 
 export function addToCart(product: Product): void {
   debugCart('addToCart called', { product: product ? { id: product.id, slug: product.slug, title: product.title } : null });

@@ -144,7 +144,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                     &apos;s listings
                   </>
                 ) : (
-                  'Reviews from this listing or similar other listings on RoxanneJoiner'
+                  'Reviews from this listing or similar other listings on Vretok'
                 )}
               </h2>
               <div className="flex items-center gap-4">

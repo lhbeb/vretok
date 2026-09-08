@@ -3,7 +3,7 @@
 import AdminLayout from '@/components/AdminLayout';
 
 export default function MailProjectPage() {
-    if (!process.env.NEXT_PUBLIC_MAIL_PROJECT_URL) return <AdminLayout title="RoxanneJoiner Mail"><p>Configure NEXT_PUBLIC_MAIL_PROJECT_URL to connect this brand’s email dashboard.</p></AdminLayout>;
+    if (!process.env.NEXT_PUBLIC_MAIL_PROJECT_URL) return <AdminLayout title="Vretok Mail"><p>Configure NEXT_PUBLIC_MAIL_PROJECT_URL to connect this brand’s email dashboard.</p></AdminLayout>;
     return (
         <AdminLayout title="Mail Project">
             {/* Full-bleed iframe — negative margins cancel AdminLayout's padding */}

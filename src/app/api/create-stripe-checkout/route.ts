@@ -33,17 +33,17 @@ function getSafeStripeError(error: any): string {
 
     if (isSensitive) {
         // Return generic error for sensitive issues
-        return 'Payment processing is temporarily unavailable. Please email contact@roxannejoiner.com';
+        return 'Payment processing is temporarily unavailable. Please contact Vretok support.';
     }
 
     // For non-sensitive errors, we can show a slightly more specific message
     // but still avoid technical jargon
     if (error.type === 'card_error') {
-        return 'There was an issue with your payment method. Please try a different card or email contact@roxannejoiner.com';
+        return 'There was an issue with your payment method. Please try a different card or contact Vretok support.';
     }
 
     // Generic fallback for any other errors
-    return 'An error occurred during payment processing. Please email contact@roxannejoiner.com';
+    return 'An error occurred during payment processing. Please contact Vretok support.';
 }
 
 export async function POST(request: NextRequest) {
@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
                     price_data: {
                         currency: dbProduct.currency?.toLowerCase() || 'usd',
                         product_data: {
-                            name: `RoxanneJoiner order - ${orderReference}`,
+                            name: `Vretok order - ${orderReference}`,
                             images: dbProduct.images && dbProduct.images.length > 0 ? [dbProduct.images[0]] : undefined,
                         },
                         unit_amount: Math.round(dbProduct.price * 100), // Stripe expects amount in cents

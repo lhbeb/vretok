@@ -253,7 +253,7 @@ export default function EditSellerPage({ params }: { params: Promise<{ id: strin
                 <FormField label="Full Name" required>
                   <input
                     type="text" name="name" value={formData.name} onChange={handleChange} required
-                    placeholder="e.g. Roxanne Joiner"
+                    placeholder="e.g. Vretok"
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
                   />
                 </FormField>
@@ -266,7 +266,7 @@ export default function EditSellerPage({ params }: { params: Promise<{ id: strin
                     <AtSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
                     <input
                       type="text" name="username" value={formData.username} onChange={handleChange} required
-                      placeholder="roxanne-joiner"
+                      placeholder="vretok-official"
                       className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
                     />
                   </div>

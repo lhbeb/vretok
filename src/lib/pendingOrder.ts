@@ -9,7 +9,7 @@ export interface PendingOrder {
 // Stores the order reference at checkout time so the /thankyou page can fire a
 // Purchase event from the actual saved order (not leftover cart state) once the
 // user returns from the external payment provider (Buy Me A Coffee, etc.).
-const PENDING_ORDER_KEY = 'RoxanneJoiner_pending_order';
+const PENDING_ORDER_KEY = 'Vretok_pending_order';
 
 export function setPendingOrder(orderId: string, product: Product): void {
   if (typeof window === 'undefined') return;

@@ -19,8 +19,8 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
           {/* Left Section - Image */}
           <div className="relative min-h-[360px] w-full md:min-h-[400px] md:w-[45%]">
             <Image
-              src="/roxannejoiner-delivery.webp"
-              alt="RoxanneJoiner kayak secured for professional delivery"
+              src="/vretok-delivery.webp"
+              alt="Vretok order prepared for delivery"
               fill
               sizes="(max-width: 768px) 100vw, 45vw"
               className="object-cover object-center"
@@ -35,7 +35,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
             </h2>
 
             <p className="text-base sm:text-lg leading-relaxed font-normal mb-8 text-[#F7F3E8]/90">
-              Planning your next trip on the water? Review the <strong>RoxanneJoiner</strong> shipping policy for delivery options and dispatch details before placing your order.
+              Building your next training look? Review the <strong>Vretok</strong> shipping policy for delivery options and dispatch details before placing your order.
             </p>
             <Link
               href="/shipping-policy"
@@ -105,7 +105,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
       <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 border border-[#123E52]/10">
         <div>
           <p className="text-gray-500 text-sm mb-1">
-            Ready to experience the RoxanneJoiner difference?
+            Ready to experience the Vretok difference?
           </p>
           <p className="text-xl sm:text-2xl md:text-3xl font-bold text-[#123E52]">
             Order today for <span className="text-[#397F86]">fast nationwide delivery</span>
@@ -115,7 +115,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
           href="#products"
           className="bg-[#123E52] hover:bg-[#0C2C3D] text-[#F7F3E8] font-bold py-3.5 px-8 rounded-full text-base sm:text-lg transition-colors whitespace-nowrap shadow-sm"
         >
-          Browse Kayaks
+          Browse Leggings
         </a>
       </div>
     </div>

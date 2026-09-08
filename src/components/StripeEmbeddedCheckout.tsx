@@ -65,7 +65,7 @@ export default function StripeEmbeddedCheckout({
         setStripePromise(loadStripe(data.publishableKey));
       } catch (error) {
         console.error('Failed to load Stripe config:', error);
-        setConfigError('Payment is temporarily unavailable. Please email contact@roxannejoiner.com.');
+        setConfigError('Payment is temporarily unavailable. Please contact Vretok support.');
         setIsLoading(false);
       }
     };

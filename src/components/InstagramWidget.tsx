@@ -15,7 +15,7 @@ const InstagramWidget: React.FC = () => {
             <div className="w-full h-full bg-white rounded-full overflow-hidden">
               <Image
                 src="/icon.png"
-                alt="RoxanneJoiner Profile"
+                alt="Vretok Profile"
                 width={64}
                 height={64}
                 className="object-cover w-full h-full"
@@ -25,11 +25,11 @@ const InstagramWidget: React.FC = () => {
 
           {/* Profile Details */}
           <div>
-            <h3 className="font-bold text-[#123E52] text-lg mb-0.5">RoxanneJoiner</h3>
-            <p className="text-gray-600 text-sm mb-2">RoxanneJoiner Kayaks</p>
+            <h3 className="font-bold text-[#123E52] text-lg mb-0.5">Vretok</h3>
+            <p className="text-gray-600 text-sm mb-2">Vretok Activewear</p>
 
             {/* Statistics */}
-            <p className="text-sm text-gray-600">Stories from the water.</p>
+            <p className="text-sm text-gray-600">Style made for movement.</p>
           </div>
         </div>
 

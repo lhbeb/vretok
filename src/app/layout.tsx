@@ -24,29 +24,29 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "RoxanneJoiner - Kayaks & Paddling Gear",
-  description: "Discover RoxanneJoiner, a kayak brand for life on the water. Explore kayaks and paddling gear for your next adventure.",
-  keywords: "RoxanneJoiner, kayaks, kayaking, paddling, kayak accessories, paddles",
-  authors: [{ name: "RoxanneJoiner" }],
-  creator: "RoxanneJoiner",
-  publisher: "RoxanneJoiner",
+  title: "Vretok - Leggings & Gym Fashion",
+  description: "Discover Vretok performance leggings, matching sets, gym tops, and activewear designed for confident movement.",
+  keywords: "Vretok, performance leggings, gym fashion, activewear, matching sets, sports bras, gym tops",
+  authors: [{ name: "Vretok" }],
+  creator: "Vretok",
+  publisher: "Vretok",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://roxannejoiner.com"),
+  metadataBase: new URL("https://vretok.com"),
   openGraph: {
-    title: "RoxanneJoiner - Kayaks & Paddling Gear",
-    description: "Explore RoxanneJoiner kayaks and paddling accessories.",
-    url: "https://roxannejoiner.com",
-    siteName: "RoxanneJoiner",
+    title: "Vretok - Leggings & Gym Fashion",
+    description: "Explore Vretok leggings and activewear essentials.",
+    url: "https://vretok.com",
+    siteName: "Vretok",
     images: [
       {
-        url: "/roxannejoiner-wave-hero.webp",
+        url: "/vretok-wave-hero.webp",
         width: 1200,
         height: 900,
-        alt: "RoxanneJoiner - Kayaks for Your Next Adventure",
+        alt: "Vretok performance leggings and gym fashion",
       },
     ],
     locale: "en_US",
@@ -54,9 +54,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "RoxanneJoiner - Kayaks & Paddling Gear",
-    description: "Explore RoxanneJoiner kayaks and paddling accessories.",
-    images: ["/roxannejoiner-wave-hero.webp"],
+    title: "Vretok - Leggings & Gym Fashion",
+    description: "Explore Vretok leggings and activewear essentials.",
+    images: ["/vretok-wave-hero.webp"],
   },
   icons: {
     icon: [
@@ -113,25 +113,10 @@ export default function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "Organization",
-                "name": "RoxanneJoiner",
-                "url": "https://roxannejoiner.com",
-                "logo": "https://roxannejoiner.com/mainlogo.svg",
-                "description": "RoxanneJoiner - Kayaks & Paddling Gear. Discover kayaks and paddling essentials.",
-                "telephone": "+18555292501",
-                "contactPoint": {
-                  "@type": "ContactPoint",
-                  "telephone": "+18555292501",
-                  "contactType": "customer service",
-                  "areaServed": "US"
-                },
-                "address": {
-                  "@type": "PostalAddress",
-                  "streetAddress": "141 Elm St #01",
-                  "addressLocality": "Marlborough",
-                  "addressRegion": "MA",
-                  "postalCode": "01752",
-                  "addressCountry": "US"
-                }
+                "name": "Vretok",
+                "url": "https://vretok.com",
+                "logo": "https://vretok.com/mainlogo.svg",
+                "description": "Vretok performance leggings and gym fashion for confident movement."
               })
             }}
           />
@@ -146,14 +131,14 @@ export default function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                "name": "RoxanneJoiner",
-                "url": "https://roxannejoiner.com",
-                "description": "RoxanneJoiner - Kayaks & Paddling Gear.",
+                "name": "Vretok",
+                "url": "https://vretok.com",
+                "description": "Vretok - Leggings & Gym Fashion.",
                 "potentialAction": {
                   "@type": "SearchAction",
                   "target": {
                     "@type": "EntryPoint",
-                    "urlTemplate": "https://roxannejoiner.com/api/products/search?q={search_term_string}"
+                    "urlTemplate": "https://vretok.com/api/products/search?q={search_term_string}"
                   },
                   "query-input": "required name=search_term_string"
                 }

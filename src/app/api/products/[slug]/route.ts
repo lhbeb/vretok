@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getProductBySlug } from '@/lib/data';
-import { isPublicStoreProduct } from '@/lib/kayakCatalog';
+import { isPublicStoreProduct } from '@/lib/leggingCatalog';
 
 export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {

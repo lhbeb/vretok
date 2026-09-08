@@ -146,13 +146,13 @@ const TrackPage = () => {
           <div className="grid lg:grid-cols-[minmax(0,1.1fr)_360px]">
             <section className="px-6 py-8 sm:px-8 sm:py-10 lg:px-10">
               <div className="mb-3 text-sm font-medium text-[#123E52]">
-                RoxanneJoiner order tracking
+                Vretok order tracking
               </div>
               <h1 className="max-w-2xl text-3xl font-semibold text-[#262626] sm:text-4xl">
                 Track your order
               </h1>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[#526B76] sm:text-base">
-                Enter your tracking number below to see the latest carrier updates for your RoxanneJoiner order.
+                Enter your tracking number below to see the latest carrier updates for your Vretok order.
               </p>
 
               <form onSubmit={handleTrack} className="mt-8 rounded-[24px] border border-[#EAF2F2] bg-[#F7F3E8] p-4 sm:p-5">
@@ -210,7 +210,7 @@ const TrackPage = () => {
                 </h2>
                 <div className="mt-4 space-y-4 text-sm leading-7 text-[#526B76]">
                   <p>
-                    Use the exact tracking number from your RoxanneJoiner shipping confirmation email.
+                    Use the exact tracking number from your Vretok shipping confirmation email.
                   </p>
                   <p>
                     Some carriers need a little time before the first update appears after dispatch.

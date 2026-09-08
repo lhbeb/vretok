@@ -74,11 +74,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ open, onClose }) => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search kayaks, paddles, accessories..."
+            placeholder="Search leggings, tops, accessories..."
             className="bg-transparent outline-none border-0 flex-1 min-w-0 text-[#123E52] placeholder-[#123E52]/50 text-base font-medium"
             autoFocus={open}
             onKeyDown={handleKeyDown}
-            aria-label="Search kayaks"
+            aria-label="Search leggings"
           />
           {query.length > 0 && (
             <ArrowRight className="h-5 w-5 text-[#123E52] animate-bounce-x ml-1" aria-label="Press Enter to search" />
@@ -99,11 +99,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ open, onClose }) => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search kayaks..."
+            placeholder="Search leggings..."
             className="bg-transparent outline-none border-0 flex-1 min-w-0 text-[#123E52] placeholder-[#123E52]/50 text-sm font-medium"
             autoFocus={open}
             onKeyDown={handleKeyDown}
-            aria-label="Search kayaks"
+            aria-label="Search leggings"
           />
           {query.length > 0 && (
             <ArrowRight className="h-5 w-5 text-[#123E52] animate-bounce-x ml-1" aria-label="Press Enter to search" />

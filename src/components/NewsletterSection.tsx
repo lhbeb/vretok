@@ -61,11 +61,11 @@ const NewsletterSection = () => {
           </div>
 
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Join the RoxanneJoiner VIP Club
+            Join the Vretok VIP Club
           </h2>
 
           <p className="text-base md:text-lg text-[#F7F3E8]/85 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Get updates on RoxanneJoiner kayaks, paddling gear, and seasonal promotions.
+            Get updates on Vretok leggings, training gear, and seasonal promotions.
           </p>
 
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
@@ -119,7 +119,7 @@ const NewsletterSection = () => {
             {isSuccess && (
               <div className="flex justify-center mt-3">
                 <p className="text-green-200 font-semibold bg-green-900/40 px-4 py-1.5 rounded-full text-sm backdrop-blur-sm border border-green-400/30">
-                  Thanks for subscribing to RoxanneJoiner! Check your email for confirmation.
+                  Thanks for subscribing to Vretok! Check your email for confirmation.
                 </p>
               </div>
             )}

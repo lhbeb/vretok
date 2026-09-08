@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getProductsByCollection } from '@/lib/data';
-import { isPublicStoreProduct } from '@/lib/kayakCatalog';
+import { isPublicStoreProduct } from '@/lib/leggingCatalog';
 
 export async function GET(request: NextRequest) {
   try {

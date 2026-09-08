@@ -38,7 +38,7 @@ function formatAmount(value: unknown): string | null {
 function inferCustomerName(email: string): string {
   const localPart = email.split('@')[0] || '';
   const words = localPart.replace(/[^a-zA-Z0-9]+/g, ' ').trim();
-  return words || 'RoxanneJoiner Customer';
+  return words || 'Vretok Customer';
 }
 
 export async function POST(request: NextRequest) {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRecommendedProducts } from '@/lib/supabase/products';
-import { isPublicStoreProduct } from '@/lib/kayakCatalog';
+import { isPublicStoreProduct } from '@/lib/leggingCatalog';
 
 export const dynamic = 'force-dynamic';
 

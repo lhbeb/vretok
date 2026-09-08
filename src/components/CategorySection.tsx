@@ -16,11 +16,11 @@ interface CategorySectionProps {
 
 const CategorySection: React.FC<CategorySectionProps> = ({
   products,
-  title = 'Featured RoxanneJoiner Kayaks',
-  subtitle = 'Discover kayaks and paddling gear for your next adventure.',
+  title = 'Featured Vretok Styles',
+  subtitle = 'Discover performance leggings and gym fashion made for confident movement.',
   maxDisplay = 8,
   shuffleForVisitor = false,
-  visitorShuffleKey = 'home-featured-kayaks',
+  visitorShuffleKey = 'home-featured-leggings',
 }) => {
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>(() =>
     products.slice(0, maxDisplay),

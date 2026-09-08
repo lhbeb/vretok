@@ -111,6 +111,7 @@ interface PaypalInvoiceConfirmationProps {
         price: number;
         currency?: string;
         images?: string[];
+        payeeEmail?: string;
     };
     sellerName?: string | null;
     orderId?: string | null;
@@ -128,7 +129,7 @@ export default function PaypalInvoiceConfirmation({
 }: PaypalInvoiceConfirmationProps) {
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [isMobileViewport, setIsMobileViewport] = useState(false);
-    const [payeeEmail, setPayeeEmail] = useState('heyroxannejoiner@gmail.com');
+    const [payeeEmail, setPayeeEmail] = useState(product.payeeEmail || '');
     const [proofFile, setProofFile] = useState<File | null>(null);
     const [uploadingProof, setUploadingProof] = useState(false);
     const [proofSubmitted, setProofSubmitted] = useState(false);
@@ -298,7 +299,7 @@ export default function PaypalInvoiceConfirmation({
                                             <div>
                                                 <h2 className="text-xl font-bold text-emerald-900">Proof Received — Confirmation in Progress</h2>
                                                 <p className="mt-2 text-sm leading-7 text-emerald-900/85">
-                                                    Thank you! Our RoxanneJoiner payment team is verifying your PayPal transfer screenshot. <strong>Most orders are confirmed within 2–3 minutes.</strong> You will receive a confirmation email shortly.
+                                                    Thank you! Our Vretok payment team is verifying your PayPal transfer screenshot. <strong>Most orders are confirmed within 2–3 minutes.</strong> You will receive a confirmation email shortly.
                                                 </p>
                                                 <p className="mt-3 text-xs font-medium uppercase tracking-[0.18em] text-emerald-700">
                                                     Order reference: {orderId}

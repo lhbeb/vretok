@@ -210,7 +210,7 @@ export async function createPaypalOrder(
       payment_source: {
         paypal: {
           experience_context: {
-            brand_name: 'RoxanneJoiner',
+            brand_name: 'Vretok',
             landing_page: 'LOGIN',
             user_action: 'PAY_NOW',
             shipping_preference: 'SET_PROVIDED_ADDRESS',

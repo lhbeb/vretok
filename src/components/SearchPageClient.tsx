@@ -11,7 +11,7 @@ interface SearchPageClientProps {
   initialCategory?: string;
 }
 
-const CATALOG_CATEGORIES = ["Kayaks", "Recreational Kayaks", "Fishing Kayaks", "Tandem Kayaks", "Touring Kayaks", "Inflatable Kayaks", "Paddles", "Kayak Accessories"] as const;
+const CATALOG_CATEGORIES = ["Leggings", "Everyday Leggings", "Training Leggings", "Matching Sets", "Seamless Leggings", "Sculpt Leggings", "Gym Tops", "Gym Accessories"] as const;
 
 function getExactCatalogCategory(value: string): string {
   const normalizedValue = value.trim().toLowerCase();
@@ -130,7 +130,7 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
   const searchParams = useSearchParams();
   const queryParam = searchParams.get("query") || initialQuery || "";
   const categoryParam = searchParams.get("category") || initialCategory || "";
-  // Old and cached navbar links used `?query=Kayaks`. Treat known catalog
+  // Old and cached navbar links used `?query=Leggings`. Treat known catalog
   // names as exact categories so accessory copy cannot leak into the results.
   const exactCategory = categoryParam.trim() || getExactCatalogCategory(queryParam);
   const activeTerm = exactCategory || queryParam;

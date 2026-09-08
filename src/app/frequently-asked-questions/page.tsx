@@ -4,11 +4,11 @@ import { ArrowRight, HelpCircle, Plus } from 'lucide-react';
 import { STORE_FAQS } from '@/lib/storeFaqs';
 
 export const metadata: Metadata = {
-  title: 'Frequently Asked Questions | RoxanneJoiner Kayaks',
+  title: 'Frequently Asked Questions | Vretok Leggings',
   description:
-    'Find answers about RoxanneJoiner kayaks, paddling accessories, delivery, returns, and support.',
+    'Find answers about Vretok leggings, activewear, delivery, returns, and support.',
   alternates: {
-    canonical: 'https://roxannejoiner.com/frequently-asked-questions',
+    canonical: 'https://vretok.com/frequently-asked-questions',
   },
 };
 
@@ -42,7 +42,7 @@ export default function FrequentlyAskedQuestionsPage() {
             Frequently Asked Questions
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-[#F7F3E8]/80 sm:text-lg">
-            Straightforward answers about RoxanneJoiner kayaks, product details, delivery, and support.
+            Straightforward answers about Vretok leggings, product details, delivery, and support.
           </p>
         </div>
       </section>
@@ -77,9 +77,9 @@ export default function FrequentlyAskedQuestionsPage() {
 
           <div className="mt-10 flex flex-col items-start justify-between gap-5 rounded-2xl bg-[#123E52] p-6 text-[#F7F3E8] sm:flex-row sm:items-center sm:p-8 shadow-lg">
             <div>
-              <h2 className="text-xl font-bold sm:text-2xl text-white font-heading">Still have questions about our kayaks?</h2>
+              <h2 className="text-xl font-bold sm:text-2xl text-white font-heading">Still have questions about our leggings?</h2>
               <p className="mt-2 text-sm text-[#F7F3E8]/80 sm:text-base">
-                Speak directly with a RoxanneJoiner kayak expert today.
+                Speak directly with the Vretok team about fit, products, or your order.
               </p>
             </div>
             <Link

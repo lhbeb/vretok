@@ -582,7 +582,7 @@ export default function AdminProductsPage() {
       const a = document.createElement('a');
       a.href = url;
       const date = new Date().toISOString().slice(0, 10);
-      a.download = `RoxanneJoiner-all-products-${date}.csv`;
+      a.download = `Vretok-all-products-${date}.csv`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -625,7 +625,7 @@ export default function AdminProductsPage() {
         return;
       }
 
-      const domain = 'https://roxannejoiner.com';
+      const domain = 'https://vretok.com';
 
       // 1:1 Match with Google Merchant Center official CSV template headers
       const columns = [
@@ -674,7 +674,7 @@ export default function AdminProductsPage() {
 
         const condition = (p.condition || 'new').toLowerCase().includes('refurbished') ? 'refurbished'
           : (p.condition || 'new').toLowerCase().includes('used') ? 'used' : 'new';
-        const brand = p.brand || 'RoxanneJoiner';
+        const brand = p.brand || 'Vretok';
 
         return [
           escapeCSV(pSlug),                                // id
@@ -775,7 +775,7 @@ export default function AdminProductsPage() {
       const a = document.createElement('a');
       a.href = url;
       const date = new Date().toISOString().slice(0, 10);
-      a.download = `RoxanneJoiner-affiliate-json-${date}.json`;
+      a.download = `Vretok-affiliate-json-${date}.json`;
       document.body.appendChild(a);
       a.click();
       a.remove();

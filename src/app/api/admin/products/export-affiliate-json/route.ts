@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Content-Disposition': `attachment; filename="RoxanneJoiner-affiliate-json-${date}.json"`,
+        'Content-Disposition': `attachment; filename="Vretok-affiliate-json-${date}.json"`,
       },
     });
   } catch (error: any) {

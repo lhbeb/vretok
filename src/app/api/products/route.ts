@@ -1,4 +1,4 @@
-import { isPublicStoreProduct } from '@/lib/kayakCatalog';
+import { isPublicStoreProduct } from '@/lib/leggingCatalog';
 import { NextResponse } from 'next/server';
 import { getProducts } from '@/lib/data';
 

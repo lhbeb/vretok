@@ -46,10 +46,10 @@ export async function POST(request: NextRequest) {
         <h2 style="color: #0046be;">New Newsletter Subscription</h2>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
-        <p><strong>Source:</strong> RoxanneJoiner Website Newsletter</p>
+        <p><strong>Source:</strong> Vretok Website Newsletter</p>
         <hr style="border: 1px solid #eee; margin: 20px 0;">
         <p style="color: #666; font-size: 14px;">
-          This email was sent from the newsletter subscription form on your RoxanneJoiner website.
+          This email was sent from the newsletter subscription form on your Vretok website.
         </p>
       </div>
     `;
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     const mailOptions = {
       from: emailUser,
       to: 'contacthappydeel@gmail.com',
-      subject: 'New Newsletter Subscription - RoxanneJoiner',
+      subject: 'New Newsletter Subscription - Vretok',
       html: emailContent,
     };
 

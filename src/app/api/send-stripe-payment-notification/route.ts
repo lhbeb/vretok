@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
           <tr>
             <td style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 12px;">
-                This is an automated notification from RoxanneJoiner
+                This is an automated notification from Vretok
               </p>
               <p style="margin: 0; color: #9ca3af; font-size: 11px;">
                 Payment processed at ${new Date().toLocaleString('en-US', {

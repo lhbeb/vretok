@@ -16,14 +16,14 @@ const Footer = () => {
             <Link href="/" className="flex items-center space-x-2 mb-4">
               <Image
                 src="/mainlogo.svg"
-                alt="RoxanneJoiner Logo"
+                alt="Vretok Logo"
                 width={160}
                 height={44}
                 className="h-auto w-36 sm:w-40 text-white"
               />
             </Link>
             <p className="mb-4 text-[#F7F3E8]/90 text-sm leading-relaxed">
-              RoxanneJoiner is a kayak business and brand inspired by life on the water. Discover kayaks and paddling essentials for your next adventure.
+              Vretok creates performance leggings and gym fashion for confident training, recovery, and everyday movement.
             </p>
             <BrandContactDetails />
           </div>
@@ -31,8 +31,8 @@ const Footer = () => {
             <h3 className="text-base font-semibold text-white mb-4 tracking-wide uppercase">Navigation</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/" className="hover:text-white hover:underline transition-colors duration-200">Home</Link></li>
-              <li><Link href="/search" className="hover:text-white hover:underline transition-colors duration-200">Kayaks & Inventory</Link></li>
-              <li><Link href="/#featured" className="hover:text-white hover:underline transition-colors duration-200">Featured Models</Link></li>
+              <li><Link href="/search" className="hover:text-white hover:underline transition-colors duration-200">Shop Activewear</Link></li>
+              <li><Link href="/#featured" className="hover:text-white hover:underline transition-colors duration-200">Featured Styles</Link></li>
               <li><Link href="/track" className="hover:text-white hover:underline transition-colors duration-200">Track Order</Link></li>
               <li><Link href="/contact" className="hover:text-white hover:underline transition-colors duration-200">Contact Us</Link></li>
             </ul>
@@ -43,7 +43,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li><Link href="/privacy-policy" className="hover:text-white hover:underline transition-colors duration-200">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-white hover:underline transition-colors duration-200">Terms of Service</Link></li>
-              <li><Link href="/about" className="hover:text-white hover:underline transition-colors duration-200">About RoxanneJoiner</Link></li>
+              <li><Link href="/about" className="hover:text-white hover:underline transition-colors duration-200">About Vretok</Link></li>
               <li><Link href="/frequently-asked-questions" className="hover:text-white hover:underline transition-colors duration-200">FAQs</Link></li>
               <li><Link href="/return-policy" className="hover:text-white hover:underline transition-colors duration-200">Refund & Return Policy</Link></li>
               <li><Link href="/shipping-policy" className="hover:text-white hover:underline transition-colors duration-200">Shipping & Delivery Policy</Link></li>
@@ -65,7 +65,7 @@ const Footer = () => {
                 className="h-16 w-auto max-w-full object-contain brightness-110 contrast-110"
               />
             </div>
-            <p className="text-center text-xs sm:text-sm text-[#F7F3E8]/70">© {new Date().getFullYear()} RoxanneJoiner. All rights reserved. roxannejoiner.com</p>
+            <p className="text-center text-xs sm:text-sm text-[#F7F3E8]/70">© {new Date().getFullYear()} Vretok. All rights reserved. vretok.com</p>
           </div>
         </div>
       </div>

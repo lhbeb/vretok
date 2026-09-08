@@ -422,7 +422,7 @@ export async function sendStripePaymentSuccessEmail(
 
   // ── Admin notification email ──────────────────────────────────────────────
   await transporter.sendMail({
-    from: `"RoxanneJoiner Payments" <${emailUser}>`,
+    from: `"Vretok Payments" <${emailUser}>`,
     to: adminEmail,
     subject: `💳 Stripe Payment Confirmed — ${order.product_title} — ${currencyUpper} ${amountDisplay}`,
     html: `<!DOCTYPE html>
@@ -514,7 +514,7 @@ export async function sendStripePaymentSuccessEmail(
 
   // ── Customer confirmation email ────────────────────────────────────────────
   await transporter.sendMail({
-    from: `"RoxanneJoiner" <${emailUser}>`,
+    from: `"Vretok" <${emailUser}>`,
     to: order.customer_email,
     subject: `✅ Order Confirmed — ${order.product_title}`,
     html: `<!DOCTYPE html>
@@ -593,7 +593,7 @@ export async function sendStripePaymentSuccessEmail(
           <!-- Help -->
           <div style="background:#f9fafb;border-radius:8px;padding:16px 20px;text-align:center;">
             <p style="margin:0 0 6px;font-size:13px;color:#6b7280;">Questions about your order?</p>
-            <a href="mailto:contact@roxannejoiner.com" style="color:#123E52;font-weight:700;font-size:14px;text-decoration:none;">contact@roxannejoiner.com</a>
+            <a href="mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || emailUser}" style="color:#123E52;font-weight:700;font-size:14px;text-decoration:none;">${process.env.NEXT_PUBLIC_CONTACT_EMAIL || emailUser}</a>
 
           </div>
 
@@ -614,7 +614,7 @@ export async function sendStripePaymentSuccessEmail(
   console.log(`✅ Stripe payment emails sent for order ${order.id} (admin + customer)`);
 
   // Idempotency flag — only set after BOTH emails succeed so failed sends retry
-  // RoxanneJoiner stores notification state in its existing order JSON column.
+  // Vretok stores notification state in its existing order JSON column.
   const { data: latestOrder, error: readError } = await supabaseAdmin
     .from('orders').select('full_order_data').eq('id', order.id).single();
   if (readError) return { success: false, error: 'Unable to read payment notification state' };

@@ -18,8 +18,8 @@ export default function ContactPage() {
 
   const schemaMarkup = {
     '@context': 'https://schema.org', '@type': 'ContactPage',
-    name: 'Contact RoxanneJoiner', url: 'https://roxannejoiner.com/contact',
-    description: 'Contact RoxanneJoiner for kayak questions and order support.',
+    name: 'Contact Vretok', url: 'https://vretok.com/contact',
+    description: 'Contact Vretok for fit, activewear, delivery, and order support.',
   };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -66,9 +66,9 @@ export default function ContactPage() {
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl shadow-sm border border-[#123E52]/10 overflow-hidden">
             <div className="p-6 sm:p-8">
-              <h1 className="text-3xl font-bold text-[#123E52] mb-2 font-heading">Contact RoxanneJoiner</h1>
+              <h1 className="text-3xl font-bold text-[#123E52] mb-2 font-heading">Contact Vretok</h1>
               <p className="text-gray-600 mb-8 text-sm sm:text-base">
-                Have questions about kayaks, paddling accessories, delivery, or your order? Send us a message and our team will get back to you promptly.
+                Have questions about leggings, activewear, delivery, or your order? Send us a message and our team will get back to you promptly.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Contact Form */}
@@ -118,7 +118,7 @@ export default function ContactPage() {
                         disabled={isSending}
                       >
                         <option value="">Select a reason</option>
-                        <option value="kayak-selection">Kayak Selection</option>
+                        <option value="fit-and-sizing">Fit &amp; Sizing</option>
                         <option value="order-inquiry">Order & Delivery Status</option>
                         <option value="track-order">Track My Order</option>
                         <option value="product-support">Product Support</option>
@@ -183,7 +183,7 @@ export default function ContactPage() {
       {/* Success Message */}
       {showSuccess && (
         <div className="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg z-50">
-          Your message has been sent successfully to RoxanneJoiner!
+          Your message has been sent successfully to Vretok!
         </div>
       )}
     </div>

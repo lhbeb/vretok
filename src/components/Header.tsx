@@ -10,8 +10,8 @@ import ClientOnly from './ClientOnly';
 import SearchBar from './SearchBar';
 
 const catalogNavigation = [
-  { label: 'Kayaks', href: '/search?category=Kayaks' },
-  { label: 'Kayak Accessories', href: '/search?category=Kayak%20Accessories' },
+  { label: 'Leggings', href: '/search?category=Leggings' },
+  { label: 'Activewear', href: '/search?category=Activewear' },
   { label: 'Featured', href: '/#featured' },
   { label: 'Track Order', href: '/track' },
   { label: 'FAQs', href: '/frequently-asked-questions' },
@@ -40,8 +40,8 @@ const Header = () => {
   const isCheckoutPage = pathname === '/checkout';
 
   const announcements = [
-    <span key="nav-1">🛶 <span className="font-bold">RoxanneJoiner Kayaks</span> — Find Your Own Water</span>,
-    <span key="nav-2">🌊 <span className="font-bold">Explore Kayaks</span> & <span className="font-bold">Paddling Gear</span></span>,
+    <span key="nav-1">⚡ <span className="font-bold">Vretok Activewear</span> — Own Your Movement</span>,
+    <span key="nav-2">✦ <span className="font-bold">Performance Leggings</span> & <span className="font-bold">Gym Fashion</span></span>,
     "whatsapp-contact" // Special marker for WhatsApp announcement
   ];
 
@@ -145,10 +145,10 @@ const Header = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 hover:opacity-80 transition-opacity flex-wrap justify-center text-[#123E52]"
-                  aria-label="Contact RoxanneJoiner"
+                  aria-label="Contact Vretok"
                 >
                   <Info className="h-4 w-4" />
-                  <span className="whitespace-nowrap">Need help choosing a kayak? <span className="font-bold">Chat with RoxanneJoiner</span></span>
+                  <span className="whitespace-nowrap">Need help finding your fit? <span className="font-bold">Chat with Vretok</span></span>
                   <span className="underline whitespace-nowrap font-bold">Contact us</span>
                 </a>
               </div>
@@ -191,11 +191,11 @@ const Header = () => {
           <div suppressHydrationWarning={true} className="container mx-auto px-4 py-2 sm:py-2.5 lg:py-3">
             <div suppressHydrationWarning={true} className="flex items-center justify-between gap-4 sm:gap-6">
               
-              {/* Logo - RoxanneJoiner Oval SVG */}
+              {/* Logo - Vretok Oval SVG */}
               <Link href="/" className="flex items-center space-x-2 flex-shrink-0 text-white hover:opacity-90 transition-opacity py-1">
                 <Image
                   src="/mainlogo.svg"
-                  alt="RoxanneJoiner Logo"
+                  alt="Vretok Logo"
                   width={180}
                   height={54}
                   priority
@@ -212,7 +212,7 @@ const Header = () => {
                 >
                   <input
                     type="text"
-                    placeholder="Search kayaks, paddles, accessories..."
+                    placeholder="Search leggings, tops, accessories..."
                     className="flex-1 bg-transparent outline-none text-sm text-[#123E52] placeholder-[#123E52]/60 cursor-pointer font-medium"
                     readOnly
                   />
@@ -227,7 +227,7 @@ const Header = () => {
                   <button
                     onClick={() => setIsSearchOpen(true)}
                     className="lg:hidden text-white hover:text-[#F7F3E8] p-2 transition-colors duration-200"
-                    aria-label="Search kayaks"
+                    aria-label="Search leggings"
                   >
                     <Search className="h-5 w-5" />
                   </button>
@@ -237,7 +237,7 @@ const Header = () => {
                 <Link
                   href="/contact"
                   className="hidden sm:flex items-center gap-1 text-white hover:text-[#F7F3E8] px-2.5 py-1.5 rounded-full hover:bg-white/10 transition-colors duration-200 text-sm font-medium"
-                  aria-label="Contact RoxanneJoiner"
+                  aria-label="Contact Vretok"
                 >
                   <Info className="h-4.5 w-4.5" />
                   <span className="hidden xl:inline text-xs">Help</span>
@@ -283,7 +283,7 @@ const Header = () => {
             >
               <input
                 type="text"
-                placeholder="Search kayaks & paddling gear..."
+                placeholder="Search leggings & gym fashion..."
                 className="flex-1 bg-transparent outline-none text-xs sm:text-sm text-[#123E52] placeholder-[#123E52]/60 cursor-pointer"
                 readOnly
               />
@@ -326,7 +326,7 @@ const Header = () => {
                 ))}
                 <div className="border-t border-[#123E52]/10 my-2 pt-2" />
                 <Link href="/#featured" className="py-2.5 px-3 text-[#123E52] hover:bg-[#397F86]/10 rounded-lg font-medium transition-colors" onClick={handleMobileMenuClose}>
-                  Featured Kayaks
+                  Featured Leggings
                 </Link>
                 <Link href="/track" className="py-2.5 px-3 text-[#123E52] hover:bg-[#397F86]/10 rounded-lg font-medium transition-colors" onClick={handleMobileMenuClose}>
                   Track Order

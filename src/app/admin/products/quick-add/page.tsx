@@ -135,7 +135,7 @@ export default function QuickAddProductPage() {
         "/products/example-product/img1.webp"
       ],
       listedBy: "walid",
-      collections: ["kayaks"],
+      collections: ["leggings"],
       rating: 4.5,
       reviewCount: 10,
       inStock: true,

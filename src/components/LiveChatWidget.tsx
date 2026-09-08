@@ -33,7 +33,7 @@ export default function LiveChatWidget() {
       data-color="#397F86"
       data-position="bottom-right"
       data-button-size="60"
-      data-label="Chat with RoxanneJoiner"
+      data-label="Chat with Vretok"
     />
   );
 }

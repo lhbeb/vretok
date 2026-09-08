@@ -1,4 +1,4 @@
-import { isPublicStoreProduct } from '@/lib/kayakCatalog';
+import { isPublicStoreProduct } from '@/lib/leggingCatalog';
 import React, { Suspense } from 'react';
 import Hero from '@/components/Hero';
 import SameDayShipping from '@/components/SameDayShipping';
@@ -13,7 +13,7 @@ import { FEATURED_PRODUCT_LIMIT } from '@/config/products';
 
 export default async function HomePage() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    return <><Hero /><section id="featured" className="mx-auto max-w-4xl px-6 py-16 text-center"><h2 className="mb-4 text-3xl font-bold text-[#123E52]">Our Collection Is Taking Shape</h2><p className="text-gray-600">RoxanneJoiner kayaks and paddling gear are coming soon. Find your inspiration on the water.</p></section></>;
+    return <><Hero /><section id="featured" className="mx-auto max-w-4xl px-6 py-16 text-center"><h2 className="mb-4 text-3xl font-bold text-[#123E52]">Our Collection Is Taking Shape</h2><p className="text-gray-600">Vretok leggings and gym fashion are coming soon. Find your inspiration in motion.</p></section></>;
   }
   try {
     const [featuredRows, productRows] = await Promise.all([
@@ -24,15 +24,15 @@ export default async function HomePage() {
     const products = productRows.filter(isPublicStoreProduct);
     const featuredProducts = featuredRows.filter(isPublicStoreProduct);
 
-    const kayaks = products.filter(p =>
-      p.category?.toLowerCase().includes('kayak') ||
-      p.title?.toLowerCase().includes('kayak')
+    const leggings = products.filter(p =>
+      p.category?.toLowerCase().includes('legging') ||
+      p.title?.toLowerCase().includes('legging')
     );
 
-    const accessoriesAndParts = products.filter((product) =>
-      product.category?.toLowerCase().includes('paddle') ||
-      product.category?.toLowerCase().includes('accessories') ||
-      product.collections?.includes('kayak-accessories')
+    const activewearAndAccessories = products.filter((product) =>
+      /activewear|sports? bra|gym top|training top|shorts?|matching set|accessor/.test(product.category?.toLowerCase() || '') ||
+      product.collections?.includes('activewear') ||
+      product.collections?.includes('gym-accessories')
     );
 
   return (
@@ -46,8 +46,8 @@ export default async function HomePage() {
 
       <CategorySection
         products={featuredProducts.length > 0 ? featuredProducts : products}
-        title="Featured RoxanneJoiner Lineup"
-        subtitle="Explore kayaks and gear for your next day on the water."
+        title="Featured Vretok Lineup"
+        subtitle="Performance-led styles for training, recovery, and everyday movement."
         maxDisplay={FEATURED_PRODUCT_LIMIT}
         shuffleForVisitor
         visitorShuffleKey="home-featured"
@@ -55,29 +55,29 @@ export default async function HomePage() {
 
       <SameDayShipping />
 
-      {kayaks.length > 0 && (
+      {leggings.length > 0 && (
         <Suspense fallback={null}>
           <ProductGrid
-            products={kayaks}
-            sectionId="roxannejoiner-kayaks"
-            title="Explore RoxanneJoiner Kayaks"
+            products={leggings}
+            sectionId="vretok-leggings"
+            title="Explore Vretok Leggings"
             editorialCard={{
-              title: 'Make Time for the Water',
+              title: 'Move With Confidence',
               description:
-                'Discover the RoxanneJoiner kayak collection. Compare available models and find the right fit for your paddling plans.',
+                'Discover performance leggings designed for a secure fit, confident movement, and modern gym style.',
             }}
             randomizeForVisitor
-            visitorShuffleKey="home-kayaks"
+            visitorShuffleKey="home-leggings"
           />
         </Suspense>
       )}
 
-      {accessoriesAndParts.length > 0 && (
+      {activewearAndAccessories.length > 0 && (
         <Suspense fallback={null}>
           <ProductGrid
-            products={accessoriesAndParts}
+            products={activewearAndAccessories}
             sectionId="accessories-parts"
-            title="Accessories & Equipment"
+            title="Activewear & Gym Accessories"
             randomizeForVisitor
             visitorShuffleKey="home-accessories"
           />

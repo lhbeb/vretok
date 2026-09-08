@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllProducts } from '@/lib/data';
 import { formatValidSku, mapConditionToGmc } from '@/lib/conditions';
-import { isPublicStoreProduct } from '@/lib/kayakCatalog';
+import { isPublicStoreProduct } from '@/lib/leggingCatalog';
 import { storePolicy } from '@/config/storePolicy';
 import type { Product } from '@/types/product';
 
-const BASE_URL = 'https://roxannejoiner.com';
+const BASE_URL = 'https://vretok.com';
 const SUPPORTED_COUNTRIES = ['US'] as const;
 const SUPPORTED_CURRENCIES = ['USD'] as const;
 
@@ -119,7 +119,7 @@ export async function GET(request: NextRequest) {
         const price = `${Number(product.price).toFixed(2)} ${productCurrency}`;
         const availability = product.inStock === false ? 'out_of_stock' : 'in_stock';
         const condition = mapConditionToGmc(product.condition);
-        const brand = escapeXml(product.brand || 'RoxanneJoiner');
+        const brand = escapeXml(product.brand || 'Vretok');
         const category = escapeXml(product.category || 'Home & Garden');
         const imageLink = escapeXml(new URL(product.images[0], BASE_URL).toString());
 
@@ -145,9 +145,9 @@ export async function GET(request: NextRequest) {
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
-    <title>RoxanneJoiner Google Merchant Center Feed${targetLabel}${currencyLabel}</title>
+    <title>Vretok Google Merchant Center Feed${targetLabel}${currencyLabel}</title>
     <link>${BASE_URL}</link>
-    <description>Selected RoxanneJoiner products for ${country || 'United States'}${currencyLabel}</description>
+    <description>Selected Vretok products for ${country || 'United States'}${currencyLabel}</description>
     ${itemsXml}
   </channel>
 </rss>`;

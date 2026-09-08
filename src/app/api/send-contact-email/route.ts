@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
     const { name, email, contactReason, subject, message } = await request.json();
 
     // Get domain name from request headers
-    const domain = request.headers.get('origin') || request.headers.get('referer') || 'https://roxannejoiner.com';
+    const domain = request.headers.get('origin') || request.headers.get('referer') || 'https://vretok.com';
 
     // Get email credentials from environment variables
     const emailUser = process.env.EMAIL_USER;
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     // Map contact reason to readable text
     const reasonMap: { [key: string]: string } = {
-      'selling': 'Selling on RoxanneJoiner',
+      'selling': 'Selling on Vretok',
       'order-inquiry': 'Inquiring about an order',
       'track-order': 'Track my order',
       'return-refund': 'Return or refund request',

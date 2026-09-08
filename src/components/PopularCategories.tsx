@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/types/product';
 
-const POPULAR_CATEGORY_NAMES = ['Kayaks', 'Recreational Kayaks', 'Fishing Kayaks', 'Tandem Kayaks', 'Touring Kayaks', 'Inflatable Kayaks', 'Paddles', 'Kayak Accessories'] as const;
+const POPULAR_CATEGORY_NAMES = ['Leggings', 'Everyday Leggings', 'Training Leggings', 'Matching Sets', 'Seamless Leggings', 'Sculpt Leggings', 'Gym Tops', 'Gym Accessories'] as const;
 
 interface PopularCategoriesProps {
   products: Product[];
@@ -32,7 +32,7 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
               id="popular-categories-title"
               className="text-3xl font-bold tracking-tight text-[#123E52] md:text-4xl"
             >
-              Explore Paddling Gear & Categories
+              Explore Activewear Categories
             </h2>
           </div>
 

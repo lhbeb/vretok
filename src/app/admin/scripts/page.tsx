@@ -150,7 +150,7 @@ const SCRIPTS: ScriptCard[] = [
         description:
             'Finds all products listed by a specific admin and assigns them to a public seller. ' +
             'Sets the seller_id field on every matching product. ' +
-            'Enter the seller\'s username (e.g. official-roxannejoiner) or their database ID. ' +
+            'Enter the seller\'s username (e.g. official-vretok) or their database ID. ' +
             'Use Preview first to see how many products will be affected before running.',
         danger: false,
         params: {
@@ -162,7 +162,7 @@ const SCRIPTS: ScriptCard[] = [
             sellerId: 'Seller username or ID',
         },
         paramPlaceholders: {
-            sellerId: 'e.g. official-roxannejoiner',
+            sellerId: 'e.g. official-vretok',
         },
         paramOptions: {
             listedBy: LISTED_BY_ADMINS,
@@ -177,7 +177,7 @@ const SCRIPTS: ScriptCard[] = [
         description:
             'Finds all products that have NO public seller assigned (seller_id is null/empty) and assigns them to the specified public seller. ' +
             'Sets the seller_id field on every matching product. ' +
-            'Enter the seller\'s username (e.g. official-roxannejoiner) or their database ID. ' +
+            'Enter the seller\'s username (e.g. official-vretok) or their database ID. ' +
             'Use Preview first to see how many products will be affected before running.',
         danger: false,
         params: {
@@ -187,7 +187,7 @@ const SCRIPTS: ScriptCard[] = [
             sellerId: 'Assign to Seller username or ID',
         },
         paramPlaceholders: {
-            sellerId: 'e.g. official-roxannejoiner',
+            sellerId: 'e.g. official-vretok',
         },
     },
 ];
