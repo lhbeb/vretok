@@ -5,11 +5,11 @@ import Image from 'next/image';
 import { Mail, MessageSquare, MapPin, Instagram } from 'lucide-react';
 
 const socialIconClass =
-  'inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#397F86]/60 text-[#F7F3E8] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#397F86] hover:bg-[#397F86] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#123E52]';
+  'inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#E11D48]/60 text-[#F8FAFC] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#E11D48] hover:bg-[#E11D48] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#123E52] text-[#F7F3E8]">
+    <footer className="bg-[#0F172A] text-[#F8FAFC]">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <div>
@@ -22,7 +22,7 @@ const Footer = () => {
                 className="h-auto w-36 sm:w-40 text-white"
               />
             </Link>
-            <p className="mb-4 text-[#F7F3E8]/90 text-sm leading-relaxed">
+            <p className="mb-4 text-[#F8FAFC]/90 text-sm leading-relaxed">
               Vretok creates performance leggings and gym fashion for confident training, recovery, and everyday movement.
             </p>
             <BrandContactDetails />
@@ -65,7 +65,7 @@ const Footer = () => {
                 className="h-16 w-auto max-w-full object-contain brightness-110 contrast-110"
               />
             </div>
-            <p className="text-center text-xs sm:text-sm text-[#F7F3E8]/70">© {new Date().getFullYear()} Vretok. All rights reserved. vretok.com</p>
+            <p className="text-center text-xs sm:text-sm text-[#F8FAFC]/70">© {new Date().getFullYear()} Vretok. All rights reserved. vretok.com</p>
           </div>
         </div>
       </div>

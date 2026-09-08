@@ -27,21 +27,21 @@ export default function FrequentlyAskedQuestionsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F7F3E8]/40">
+    <main className="min-h-screen bg-[#F8FAFC]/40">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <section className="bg-[#123E52] px-4 py-14 text-[#F7F3E8] sm:py-20">
+      <section className="bg-[#0F172A] px-4 py-14 text-[#F8FAFC] sm:py-20">
         <div className="container mx-auto max-w-4xl">
-          <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#397F86]/30 border border-[#397F86]/40 text-[#F7F3E8]">
-            <HelpCircle className="h-6 w-6 text-[#397F86]" aria-hidden="true" />
+          <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#E11D48]/30 border border-[#E11D48]/40 text-[#F8FAFC]">
+            <HelpCircle className="h-6 w-6 text-[#E11D48]" aria-hidden="true" />
           </div>
           <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl text-white font-heading">
             Frequently Asked Questions
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-[#F7F3E8]/80 sm:text-lg">
+          <p className="mt-5 max-w-2xl text-base leading-7 text-[#F8FAFC]/80 sm:text-lg">
             Straightforward answers about Vretok leggings, product details, delivery, and support.
           </p>
         </div>
@@ -49,13 +49,13 @@ export default function FrequentlyAskedQuestionsPage() {
 
       <section className="px-4 py-12 sm:py-16" aria-label="Frequently asked questions">
         <div className="container mx-auto max-w-4xl">
-          <div className="divide-y divide-[#123E52]/10 rounded-2xl border border-[#123E52]/10 bg-white px-5 sm:px-8 shadow-sm">
+          <div className="divide-y divide-[#0F172A]/10 rounded-2xl border border-[#0F172A]/10 bg-white px-5 sm:px-8 shadow-sm">
             {STORE_FAQS.map((faq) => (
               <details key={faq.question} className="group py-1">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-5 text-left text-base font-bold text-[#123E52] marker:content-none sm:py-6 sm:text-lg">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-5 text-left text-base font-bold text-[#0F172A] marker:content-none sm:py-6 sm:text-lg">
                   <span>{faq.question}</span>
                   <Plus
-                    className="h-5 w-5 shrink-0 text-[#397F86] transition-transform duration-200 group-open:rotate-45"
+                    className="h-5 w-5 shrink-0 text-[#E11D48] transition-transform duration-200 group-open:rotate-45"
                     aria-hidden="true"
                   />
                 </summary>
@@ -64,7 +64,7 @@ export default function FrequentlyAskedQuestionsPage() {
                   {faq.linkHref && faq.linkLabel && (
                     <Link
                       href={faq.linkHref}
-                      className="mt-3 inline-flex items-center gap-1.5 font-semibold text-[#123E52] hover:text-[#397F86] underline decoration-[#397F86] decoration-2 underline-offset-4"
+                      className="mt-3 inline-flex items-center gap-1.5 font-semibold text-[#0F172A] hover:text-[#E11D48] underline decoration-[#E11D48] decoration-2 underline-offset-4"
                     >
                       {faq.linkLabel}
                       <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -75,16 +75,16 @@ export default function FrequentlyAskedQuestionsPage() {
             ))}
           </div>
 
-          <div className="mt-10 flex flex-col items-start justify-between gap-5 rounded-2xl bg-[#123E52] p-6 text-[#F7F3E8] sm:flex-row sm:items-center sm:p-8 shadow-lg">
+          <div className="mt-10 flex flex-col items-start justify-between gap-5 rounded-2xl bg-[#0F172A] p-6 text-[#F8FAFC] sm:flex-row sm:items-center sm:p-8 shadow-lg">
             <div>
               <h2 className="text-xl font-bold sm:text-2xl text-white font-heading">Still have questions about our leggings?</h2>
-              <p className="mt-2 text-sm text-[#F7F3E8]/80 sm:text-base">
+              <p className="mt-2 text-sm text-[#F8FAFC]/80 sm:text-base">
                 Speak directly with the Vretok team about fit, products, or your order.
               </p>
             </div>
             <Link
               href="/contact"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#F7F3E8] px-6 py-3 text-sm font-bold text-[#123E52] transition-colors hover:bg-white shadow-sm"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#F8FAFC] px-6 py-3 text-sm font-bold text-[#0F172A] transition-colors hover:bg-white shadow-sm"
             >
               Contact Specialists
               <ArrowRight className="h-4 w-4" aria-hidden="true" />

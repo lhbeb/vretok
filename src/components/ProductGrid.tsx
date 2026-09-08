@@ -303,7 +303,7 @@ const ProductGrid = ({
                             setPriceRange((previous) => ({ ...previous, min: event.target.value }))
                           }
                           placeholder="0"
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#123E52]"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F172A]"
                         />
                       </div>
                       <div className="w-full">
@@ -317,7 +317,7 @@ const ProductGrid = ({
                             setPriceRange((previous) => ({ ...previous, max: event.target.value }))
                           }
                           placeholder="150"
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#123E52]"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F172A]"
                         />
                       </div>
                     </div>
@@ -333,7 +333,7 @@ const ProductGrid = ({
                     <span>
                       Brands
                       {selectedBrands.length > 0 ? (
-                        <span className="ml-1 text-[#123E52]">({selectedBrands.length})</span>
+                        <span className="ml-1 text-[#0F172A]">({selectedBrands.length})</span>
                       ) : null}
                     </span>
                     {expandedSections.brands ? (
@@ -361,7 +361,7 @@ const ProductGrid = ({
                                 return previous.filter((value) => value !== brand);
                               });
                             }}
-                            className="h-4 w-4 rounded border-gray-300 text-[#123E52] focus:ring-[#123E52]"
+                            className="h-4 w-4 rounded border-gray-300 text-[#0F172A] focus:ring-[#0F172A]"
                           />
                           {brand}
                         </label>
@@ -370,7 +370,7 @@ const ProductGrid = ({
                       {brandOptions.length > 8 ? (
                         <button
                           type="button"
-                          className="mt-2 text-xs font-semibold uppercase tracking-wide text-[#123E52] hover:underline"
+                          className="mt-2 text-xs font-semibold uppercase tracking-wide text-[#0F172A] hover:underline"
                           onClick={() => setShowAllBrands((previous) => !previous)}
                         >
                           {showAllBrands ? "Show fewer brands" : `Show all ${brandOptions.length}`}
@@ -389,7 +389,7 @@ const ProductGrid = ({
                     <span>
                       Condition
                       {selectedConditions.length > 0 ? (
-                        <span className="ml-1 text-[#123E52]">({selectedConditions.length})</span>
+                        <span className="ml-1 text-[#0F172A]">({selectedConditions.length})</span>
                       ) : null}
                     </span>
                     {expandedSections.conditions ? (
@@ -417,7 +417,7 @@ const ProductGrid = ({
                                 return previous.filter((value) => value !== condition);
                               });
                             }}
-                            className="h-4 w-4 rounded border-gray-300 text-[#123E52] focus:ring-[#123E52]"
+                            className="h-4 w-4 rounded border-gray-300 text-[#0F172A] focus:ring-[#0F172A]"
                           />
                           {condition}
                         </label>
@@ -426,7 +426,7 @@ const ProductGrid = ({
                       {conditionOptions.length > 8 ? (
                         <button
                           type="button"
-                          className="mt-2 text-xs font-semibold uppercase tracking-wide text-[#123E52] hover:underline"
+                          className="mt-2 text-xs font-semibold uppercase tracking-wide text-[#0F172A] hover:underline"
                           onClick={() => setShowAllConditions((previous) => !previous)}
                         >
                           {showAllConditions ? "Show fewer conditions" : `Show all ${conditionOptions.length}`}
@@ -440,7 +440,7 @@ const ProductGrid = ({
                   <div className="md:col-[1/-1]">
                     <button
                       type="button"
-                      className="w-full rounded-xl border border-[#123E52] bg-[#123E52]/5 px-4 py-3 text-sm font-semibold text-[#123E52] transition-colors duration-200 hover:bg-[#123E52]/10"
+                      className="w-full rounded-xl border border-[#0F172A] bg-[#0F172A]/5 px-4 py-3 text-sm font-semibold text-[#0F172A] transition-colors duration-200 hover:bg-[#0F172A]/10"
                       onClick={handleClearFilters}
                     >
                       Clear all filters
@@ -465,7 +465,7 @@ const ProductGrid = ({
                     <SlidersHorizontal className="h-4 w-4" />
                     <span>Filters</span>
                     {activeFilters > 0 ? (
-                      <span className="rounded-full bg-[#123E52] px-2 py-0.5 text-xs font-semibold text-white">
+                      <span className="rounded-full bg-[#0F172A] px-2 py-0.5 text-xs font-semibold text-white">
                         {activeFilters}
                       </span>
                     ) : null}
@@ -475,7 +475,7 @@ const ProductGrid = ({
                     <select
                       value={sortBy}
                       onChange={(event) => setSortBy(event.target.value as SortOption)}
-                      className="appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-[#123E52]"
+                      className="appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F172A]"
                     >
                       <option value="featured">Default</option>
                       <option value="price-high">Price: High to Low</option>
@@ -491,11 +491,11 @@ const ProductGrid = ({
             {activeFilters > 0 ? (
               <div className="mb-6 flex flex-wrap items-center gap-2">
                 {priceRange.min !== "" ? (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#123E52]/10 px-3 py-1.5 text-sm font-medium text-[#123E52]">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0F172A]/10 px-3 py-1.5 text-sm font-medium text-[#0F172A]">
                     Min: ${priceRange.min}
                     <button
                       type="button"
-                      className="rounded-full p-0.5 hover:bg-[#123E52]/20"
+                      className="rounded-full p-0.5 hover:bg-[#0F172A]/20"
                       onClick={() => setPriceRange((previous) => ({ ...previous, min: "" }))}
                     >
                       <X className="h-3 w-3" />
@@ -504,11 +504,11 @@ const ProductGrid = ({
                 ) : null}
 
                 {priceRange.max !== "" ? (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#123E52]/10 px-3 py-1.5 text-sm font-medium text-[#123E52]">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0F172A]/10 px-3 py-1.5 text-sm font-medium text-[#0F172A]">
                     Max: ${priceRange.max}
                     <button
                       type="button"
-                      className="rounded-full p-0.5 hover:bg-[#123E52]/20"
+                      className="rounded-full p-0.5 hover:bg-[#0F172A]/20"
                       onClick={() => setPriceRange((previous) => ({ ...previous, max: "" }))}
                     >
                       <X className="h-3 w-3" />
@@ -519,12 +519,12 @@ const ProductGrid = ({
                 {selectedBrands.map((brand) => (
                   <span
                     key={brand}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#123E52]/10 px-3 py-1.5 text-sm font-medium text-[#123E52]"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[#0F172A]/10 px-3 py-1.5 text-sm font-medium text-[#0F172A]"
                   >
                     {brand}
                     <button
                       type="button"
-                      className="rounded-full p-0.5 hover:bg-[#123E52]/20"
+                      className="rounded-full p-0.5 hover:bg-[#0F172A]/20"
                       onClick={() => handleRemoveBrand(brand)}
                     >
                       <X className="h-3 w-3" />
@@ -535,12 +535,12 @@ const ProductGrid = ({
                 {selectedConditions.map((condition) => (
                   <span
                     key={condition}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#123E52]/10 px-3 py-1.5 text-sm font-medium text-[#123E52]"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[#0F172A]/10 px-3 py-1.5 text-sm font-medium text-[#0F172A]"
                   >
                     {condition}
                     <button
                       type="button"
-                      className="rounded-full p-0.5 hover:bg-[#123E52]/20"
+                      className="rounded-full p-0.5 hover:bg-[#0F172A]/20"
                       onClick={() => handleRemoveCondition(condition)}
                     >
                       <X className="h-3 w-3" />
@@ -586,7 +586,7 @@ const ProductGrid = ({
                         disabled={currentPage === 1}
                         className={`px-3 py-2 rounded-lg transition-colors duration-300 flex items-center gap-1 ${currentPage === 1
                             ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                            : "bg-white text-gray-700 border border-gray-300 hover:bg-[#123E52]/10 hover:text-[#123E52]"
+                            : "bg-white text-gray-700 border border-gray-300 hover:bg-[#0F172A]/10 hover:text-[#0F172A]"
                           }`}
                         aria-label="Previous page"
                       >
@@ -602,7 +602,7 @@ const ProductGrid = ({
                             <button
                               type="button"
                               onClick={() => handlePageChange(1)}
-                              className="px-3 sm:px-4 py-2 rounded-lg transition-colors duration-300 bg-white text-gray-700 border border-gray-300 hover:bg-[#123E52]/10 hover:text-[#123E52]"
+                              className="px-3 sm:px-4 py-2 rounded-lg transition-colors duration-300 bg-white text-gray-700 border border-gray-300 hover:bg-[#0F172A]/10 hover:text-[#0F172A]"
                             >
                               1
                             </button>
@@ -628,8 +628,8 @@ const ProductGrid = ({
                                 type="button"
                                 onClick={() => handlePageChange(i)}
                                 className={`px-3 sm:px-4 py-2 rounded-lg transition-colors duration-300 ${currentPage === i
-                                    ? "bg-[#123E52] text-white font-semibold"
-                                    : "bg-white text-gray-700 border border-gray-300 hover:bg-[#123E52]/10 hover:text-[#123E52]"
+                                    ? "bg-[#0F172A] text-white font-semibold"
+                                    : "bg-white text-gray-700 border border-gray-300 hover:bg-[#0F172A]/10 hover:text-[#0F172A]"
                                   }`}
                               >
                                 {i}
@@ -648,7 +648,7 @@ const ProductGrid = ({
                             <button
                               type="button"
                               onClick={() => handlePageChange(totalPages)}
-                              className="px-3 sm:px-4 py-2 rounded-lg transition-colors duration-300 bg-white text-gray-700 border border-gray-300 hover:bg-[#123E52]/10 hover:text-[#123E52]"
+                              className="px-3 sm:px-4 py-2 rounded-lg transition-colors duration-300 bg-white text-gray-700 border border-gray-300 hover:bg-[#0F172A]/10 hover:text-[#0F172A]"
                             >
                               {totalPages}
                             </button>
@@ -663,7 +663,7 @@ const ProductGrid = ({
                         disabled={currentPage === totalPages}
                         className={`px-3 py-2 rounded-lg transition-colors duration-300 flex items-center gap-1 ${currentPage === totalPages
                             ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                            : "bg-white text-gray-700 border border-gray-300 hover:bg-[#123E52]/10 hover:text-[#123E52]"
+                            : "bg-white text-gray-700 border border-gray-300 hover:bg-[#0F172A]/10 hover:text-[#0F172A]"
                           }`}
                         aria-label="Next page"
                       >

@@ -136,7 +136,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                     Reviews from{' '}
                     <Link
                       href={`/sellers/${sellerUsername}`}
-                      className="text-[#123E52] hover:underline inline-flex items-center gap-1"
+                      className="text-[#0F172A] hover:underline inline-flex items-center gap-1"
                     >
                       {sellerName}
                       <ExternalLink className="h-4 w-4" />
@@ -154,7 +154,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-5 w-5 ${i < Math.floor(averageRating) ? 'text-[#123E52] fill-[#123E52]' : 'text-gray-300'}`}
+                        className={`h-5 w-5 ${i < Math.floor(averageRating) ? 'text-[#0F172A] fill-[#0F172A]' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
@@ -170,7 +170,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                   <span className="text-sm text-gray-600 w-8">{rating}★</span>
                   <div className="flex-grow bg-gray-200 rounded-full h-2">
                     <div
-                      className="bg-[#123E52] rounded-full h-2"
+                      className="bg-[#0F172A] rounded-full h-2"
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
@@ -191,7 +191,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent"
+                className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent"
               >
                 <option value="recent">Most Recent</option>
                 <option value="helpful">Most Helpful</option>
@@ -231,7 +231,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                       <h3 className="font-medium text-[#262626] flex items-center gap-2 flex-wrap sm:flex-nowrap">
                         {review.author}
                         {review.verified && (
-                          <span className="flex items-center text-[#123E52] text-sm">
+                          <span className="flex items-center text-[#0F172A] text-sm">
                             <CheckCircle2 className="h-4 w-4 mr-1" />
                             Verified Purchase
                           </span>
@@ -248,7 +248,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                   {/* Product attribution */}
                   {review.productTitle && (
                     <div
-                      className="inline-block text-xs text-[#123E52]/70 hover:text-[#123E52] hover:underline mb-2 cursor-pointer group"
+                      className="inline-block text-xs text-[#0F172A]/70 hover:text-[#0F172A] hover:underline mb-2 cursor-pointer group"
                       onClick={(e) => e.preventDefault()}
                     >
                       {review.productTitle}
@@ -259,7 +259,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-4 w-4 ${i < review.rating ? 'text-[#123E52] fill-[#123E52]' : 'text-gray-300'}`}
+                        className={`h-4 w-4 ${i < review.rating ? 'text-[#0F172A] fill-[#0F172A]' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
@@ -275,7 +275,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                           <button
                             key={imgIndex}
                             onClick={() => openImageModal(image)}
-                            className="relative group overflow-hidden rounded-lg border border-gray-200 hover:border-[#123E52] transition-colors duration-200"
+                            className="relative group overflow-hidden rounded-lg border border-gray-200 hover:border-[#0F172A] transition-colors duration-200"
                           >
                             <Image
                               src={image}
@@ -301,7 +301,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                       <button
                         onClick={() => handleHelpfulClick(review.id)}
                         className={`flex items-center text-sm px-3 py-1.5 rounded-md transition-colors duration-200 ${helpfulClicks[review.id]
-                          ? 'bg-[#123E52] text-white'
+                          ? 'bg-[#0F172A] text-white'
                           : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                           }`}
                       >

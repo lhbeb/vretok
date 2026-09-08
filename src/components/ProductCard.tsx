@@ -19,31 +19,35 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { slug, title, price, images, inStock } = product;
   const isSoldOut = inStock === false;
-  const [imgLoaded, setImgLoaded] = React.useState(false);
+  const imageSource = (images && images.length > 0 && images[0]) ? images[0] : '/placeholder.svg';
+  const [currentSrc, setCurrentSrc] = React.useState(imageSource);
+
+  React.useEffect(() => {
+    setCurrentSrc((images && images.length > 0 && images[0]) ? images[0] : '/placeholder.svg');
+  }, [images]);
 
   return (
-    <div className={`${cardBackground} rounded-xl border border-[#123E52]/10 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden group`}>
+    <div className={`${cardBackground} rounded-xl border border-[#0F172A]/10 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden group`}>
       <Link href={`/products/${slug}`} className="block">
-        <div className={`relative w-full bg-[#F7F3E8]/40 ${showFullImage ? 'aspect-square' : 'h-48 sm:h-52'}`}>
-          {!imgLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse rounded-t-xl z-10">
-              <div className="h-12 w-12 bg-gray-200 rounded-full" />
-            </div>
-          )}
+        <div className={`relative w-full bg-[#F8FAFC] ${showFullImage ? 'aspect-square' : 'h-48 sm:h-52'}`}>
           <Image
-            src={images[0]}
+            src={currentSrc}
             alt={title}
             fill
-            className={`${showFullImage ? 'object-contain p-3 sm:p-5' : 'object-cover'} rounded-t-xl transition-all duration-300 group-hover:scale-105 ${imgLoaded ? 'opacity-100' : 'opacity-0'} ${isSoldOut ? 'opacity-50' : ''}`}
+            className={`${showFullImage ? 'object-contain p-3 sm:p-5' : 'object-cover'} rounded-t-xl transition-all duration-300 group-hover:scale-105 ${isSoldOut ? 'opacity-50' : ''}`}
             sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             loading="lazy"
             unoptimized
-            onLoad={() => setImgLoaded(true)}
+            onError={() => {
+              if (currentSrc !== '/placeholder.svg') {
+                setCurrentSrc('/placeholder.svg');
+              }
+            }}
           />
           {isSoldOut && (
-            <div className="absolute inset-0 bg-[rgba(35,63,49,0.75)] flex items-center justify-center rounded-t-xl">
-              <div className="bg-[#F7F3E8] rounded-lg px-5 py-2 shadow-md">
-                <span className="sold-out-badge text-[#123E52] text-sm uppercase tracking-wider whitespace-nowrap font-bold">
+            <div className="absolute inset-0 bg-[rgba(15,23,42,0.8)] flex items-center justify-center rounded-t-xl z-10">
+              <div className="bg-[#F8FAFC] rounded-lg px-5 py-2 shadow-md">
+                <span className="sold-out-badge text-[#0F172A] text-sm uppercase tracking-wider whitespace-nowrap font-bold">
                   Sold Out
                 </span>
               </div>
@@ -52,14 +56,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
       </Link>
       <div className="p-4 flex-grow flex flex-col bg-white">
-        <h3 className="text-base sm:text-lg font-medium text-[#123E52] line-clamp-2 mt-1 group-hover:text-[#397F86] transition-colors">
+        <h3 className="text-base sm:text-lg font-medium text-[#0F172A] line-clamp-2 mt-1 group-hover:text-[#E11D48] transition-colors">
           {title}
         </h3>
-        <div className="mt-auto pt-3 flex items-center justify-between gap-2 border-t border-[#123E52]/10">
-          <span className="text-lg sm:text-xl font-bold text-[#123E52]">${new Intl.NumberFormat('en-US').format(price)}</span>
+        <div className="mt-auto pt-3 flex items-center justify-between gap-2 border-t border-[#0F172A]/10">
+          <span className="text-lg sm:text-xl font-bold text-[#0F172A]">${new Intl.NumberFormat('en-US').format(price)}</span>
           <Link
             href={`/products/${slug}`}
-            className="flex items-center text-xs sm:text-sm font-semibold text-[#397F86] hover:text-[#123E52] transition-colors"
+            className="flex items-center text-xs sm:text-sm font-semibold text-[#E11D48] hover:text-[#0F172A] transition-colors"
           >
             <Eye className="h-4 w-4 mr-1" />
             <span>View Details</span>

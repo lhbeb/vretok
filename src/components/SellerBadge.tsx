@@ -53,13 +53,13 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
         className="inline-flex items-center gap-1.5 mt-2 group w-fit"
       >
         <span className="text-[11px] text-gray-400">Brand:</span>
-        <span className="text-[11px] font-medium text-gray-600 group-hover:text-[#123E52] transition-colors">
+        <span className="text-[11px] font-medium text-gray-600 group-hover:text-[#0F172A] transition-colors">
           {displaySeller.name}
         </span>
         {isVretok ? (
-          <ShieldCheck className="w-3 h-3 flex-shrink-0 text-[#397F86]" />
+          <ShieldCheck className="w-3 h-3 flex-shrink-0 text-[#E11D48]" />
         ) : (
-          <Star className="w-3 h-3 flex-shrink-0 text-[#397F86] fill-[#397F86]" />
+          <Star className="w-3 h-3 flex-shrink-0 text-[#E11D48] fill-[#E11D48]" />
         )}
       </Link>
     );
@@ -72,12 +72,12 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
       className="inline-flex items-center gap-2 mt-2 group w-fit"
     >
       {/* Avatar / icon */}
-      <div className="w-5 h-5 rounded-full overflow-hidden bg-[#F7F3E8] flex items-center justify-center flex-shrink-0 ring-1 ring-[#397F86]/30 group-hover:ring-[#123E52]/50 transition-all">
+      <div className="w-5 h-5 rounded-full overflow-hidden bg-[#F8FAFC] flex items-center justify-center flex-shrink-0 ring-1 ring-[#E11D48]/30 group-hover:ring-[#0F172A]/50 transition-all">
         {hasAvatar ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={displaySeller.avatarUrl} alt={displaySeller.name} className="w-full h-full object-cover" />
         ) : isVretok ? (
-          <ShieldCheck className="w-3 h-3 text-[#123E52]" />
+          <ShieldCheck className="w-3 h-3 text-[#0F172A]" />
         ) : (
           <User className="w-3 h-3 text-gray-400" />
         )}
@@ -85,22 +85,22 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
 
       {/* Label + name */}
       <span className="text-sm text-gray-400">Direct Brand:</span>
-      <span className="text-sm font-medium text-gray-700 group-hover:text-[#123E52] transition-colors">
+      <span className="text-sm font-medium text-gray-700 group-hover:text-[#0F172A] transition-colors">
         {displaySeller.name}
       </span>
 
       {/* Verified tick */}
       <div className="relative group flex items-center">
         {isVretok ? (
-          <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0 text-[#397F86]" />
+          <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0 text-[#E11D48]" />
         ) : (
-          <Star className="w-3.5 h-3.5 flex-shrink-0 text-[#397F86] fill-[#397F86] cursor-help" />
+          <Star className="w-3.5 h-3.5 flex-shrink-0 text-[#E11D48] fill-[#E11D48] cursor-help" />
         )}
         
         {/* Tooltip for md size */}
         <div className="absolute top-full mt-3 left-1/2 -translate-x-1/2 w-72 p-4 bg-white text-gray-600 text-sm leading-relaxed rounded-2xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top translate-y-2 group-hover:translate-y-0 text-left">
-          <div className="font-bold mb-1.5 flex items-center gap-1.5 text-[#123E52]">
-            <ShieldCheck className="w-4 h-4 text-[#397F86]" /> Vretok Activewear
+          <div className="font-bold mb-1.5 flex items-center gap-1.5 text-[#0F172A]">
+            <ShieldCheck className="w-4 h-4 text-[#E11D48]" /> Vretok Activewear
           </div>
           Explore Vretok leggings and activewear essentials. Contact our team for help with your order.
         </div>
@@ -110,8 +110,8 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
       {seller && (seller.totalReviews ?? 0) > 0 && (
         <div className="flex items-center text-xs text-gray-500 font-medium ml-1">
           <span className="mr-1.5 opacity-50">•</span>
-          <span className="text-[#123E52] font-bold mr-0.5">{(seller.averageRating ?? 5).toFixed(1)}</span>
-          <Star className="w-3 h-3 text-[#397F86] fill-[#397F86] mr-1" />
+          <span className="text-[#0F172A] font-bold mr-0.5">{(seller.averageRating ?? 5).toFixed(1)}</span>
+          <Star className="w-3 h-3 text-[#E11D48] fill-[#E11D48] mr-1" />
           <span>({seller.totalReviews})</span>
         </div>
       )}

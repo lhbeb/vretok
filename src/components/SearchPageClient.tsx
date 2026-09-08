@@ -202,7 +202,7 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
     return (
       <main className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="h-12 w-12 text-[#123E52] animate-spin mx-auto mb-4" />
+          <Loader2 className="h-12 w-12 text-[#0F172A] animate-spin mx-auto mb-4" />
           <p className="text-gray-600 text-lg">Loading &quot;{activeTerm}&quot;...</p>
           <p className="text-gray-500 text-sm mt-2">Finding products in our database</p>
         </div>
@@ -268,7 +268,7 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
                   className={`px-4 py-2 rounded-lg ${
                     currentPage === 1
                       ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-white text-gray-700 border border-gray-300 hover:bg-[#123E52]/10"
+                      : "bg-white text-gray-700 border border-gray-300 hover:bg-[#0F172A]/10"
                   }`}
                 >
                   Previous
@@ -282,7 +282,7 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
                   className={`px-4 py-2 rounded-lg ${
                     currentPage === totalPages
                       ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-white text-gray-700 border border-gray-300 hover:bg-[#123E52]/10"
+                      : "bg-white text-gray-700 border border-gray-300 hover:bg-[#0F172A]/10"
                   }`}
                 >
                   Next

@@ -94,18 +94,22 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
               href={`/products/${product.slug}`}
               className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all duration-300 transform hover:-translate-y-1"
             >
-              <div className="aspect-square relative overflow-hidden">
+              <div className="aspect-square relative overflow-hidden bg-[#F8FAFC]">
                 <Image
-                  src={product.images[0]}
+                  src={product.images && product.images[0] ? product.images[0] : '/placeholder.svg'}
                   alt={product.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  unoptimized={true}
+                  className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/placeholder.svg';
+                  }}
                 />
               </div>
 
               <div className="p-4 space-y-3">
-                <h3 className="font-semibold text-[#123E52] group-hover:text-[#397F86] transition-colors line-clamp-2 sm:line-clamp-1">
+                <h3 className="font-semibold text-[#0F172A] group-hover:text-[#E11D48] transition-colors line-clamp-2 sm:line-clamp-1">
                   {product.title}
                 </h3>
 
@@ -115,14 +119,14 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
                   </span>
                 </p>
 
-                <div className="text-xl font-bold text-[#123E52]">${new Intl.NumberFormat('en-US').format(product.price)}</div>
+                <div className="text-xl font-bold text-[#0F172A]">${new Intl.NumberFormat('en-US').format(product.price)}</div>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mt-2">
-                  <div className="flex items-center text-sm font-medium text-[#397F86]">
+                  <div className="flex items-center text-sm font-medium text-[#E11D48]">
                     <Eye className="h-4 w-4 mr-1" />
                     <span>View Details</span>
                   </div>
-                  <div className="h-8 w-8 bg-[#123E52] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <ShoppingCart className="h-4 w-4 text-[#F7F3E8]" />
+                  <div className="h-8 w-8 bg-[#0F172A] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <ShoppingCart className="h-4 w-4 text-[#F8FAFC]" />
                   </div>
                 </div>
               </div>

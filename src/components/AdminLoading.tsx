@@ -10,7 +10,7 @@ export default function AdminLoading({ message = 'Loading...' }: AdminLoadingPro
     <div className="min-h-screen flex items-center justify-center bg-gray-50/50">
       <div className="flex flex-col items-center gap-5 p-10 bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100">
         <div className="relative">
-          <OrbitProgress color="#123E52" size="medium" text="" textColor="" />
+          <OrbitProgress color="#0F172A" size="medium" text="" textColor="" />
         </div>
         
         <div className="text-center">

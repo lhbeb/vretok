@@ -55,7 +55,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F3E8]/40 py-12">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC]/40 py-12">
       {/* Schema.org ContactPage & Organization Structured Data */}
       <script
         type="application/ld+json"
@@ -64,9 +64,9 @@ export default function ContactPage() {
 
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-sm border border-[#123E52]/10 overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#0F172A]/10 overflow-hidden">
             <div className="p-6 sm:p-8">
-              <h1 className="text-3xl font-bold text-[#123E52] mb-2 font-heading">Contact Vretok</h1>
+              <h1 className="text-3xl font-bold text-[#0F172A] mb-2 font-heading">Contact Vretok</h1>
               <p className="text-gray-600 mb-8 text-sm sm:text-base">
                 Have questions about leggings, activewear, delivery, or your order? Send us a message and our team will get back to you promptly.
               </p>
@@ -85,7 +85,7 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent text-sm"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent text-sm"
                         disabled={isSending}
                       />
                     </div>
@@ -100,7 +100,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent text-sm"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent text-sm"
                         disabled={isSending}
                       />
                     </div>
@@ -114,7 +114,7 @@ export default function ContactPage() {
                         value={formData.contactReason}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent bg-white text-sm"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent bg-white text-sm"
                         disabled={isSending}
                       >
                         <option value="">Select a reason</option>
@@ -138,7 +138,7 @@ export default function ContactPage() {
                         value={formData.subject}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent text-sm"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent text-sm"
                         disabled={isSending}
                       />
                     </div>
@@ -153,13 +153,13 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         rows={4}
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent text-sm resize-none"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent text-sm resize-none"
                         disabled={isSending}
                       />
                     </div>
                     <button
                       type="submit"
-                      className={`w-full bg-[#123E52] hover:bg-[#0C2C3D] text-[#F7F3E8] font-bold py-3 rounded-full transition-colors duration-200 shadow-sm ${isSending ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      className={`w-full bg-[#0F172A] hover:bg-[#020617] text-[#F8FAFC] font-bold py-3 rounded-full transition-colors duration-200 shadow-sm ${isSending ? 'opacity-60 cursor-not-allowed' : ''}`}
                       disabled={isSending}
                     >
                       {isSending ? 'Sending...' : 'Send Message'}
@@ -171,8 +171,8 @@ export default function ContactPage() {
                 </div>
 
                 {/* Contact Information */}
-                <div className="bg-[#F7F3E8]/50 p-6 rounded-xl border border-[#123E52]/10">
-                  <h2 className="text-xl font-bold text-[#123E52] mb-6 font-heading">Get in Touch</h2>
+                <div className="bg-[#F8FAFC]/50 p-6 rounded-xl border border-[#0F172A]/10">
+                  <h2 className="text-xl font-bold text-[#0F172A] mb-6 font-heading">Get in Touch</h2>
                   <BrandContactDetails />
                 </div>
               </div>

@@ -250,7 +250,7 @@ export default function AdminSidebar() {
         {/* Admin Profile Card */}
         <div className="mx-4 my-4 p-4 bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl border border-gray-100">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#123E52] to-[#123E52] rounded-full flex items-center justify-center ring-2 ring-white shadow-lg">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#0F172A] to-[#0F172A] rounded-full flex items-center justify-center ring-2 ring-white shadow-lg">
               <span className="text-white font-bold text-sm">A</span>
             </div>
             <div className="flex-1 min-w-0">
@@ -284,7 +284,7 @@ export default function AdminSidebar() {
                     className={`
                       flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
                       ${active
-                        ? 'bg-[#0C2C3D] text-white shadow-lg shadow-[#0C2C3D]/30'
+                        ? 'bg-[#020617] text-white shadow-lg shadow-[#020617]/30'
                         : 'text-gray-600 hover:bg-gray-100 hover:text-[#262626]'
                       }
                     `}
@@ -302,7 +302,7 @@ export default function AdminSidebar() {
                       )}
                     </div>
                     {item.badge !== undefined && item.badge > 0 && (
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-semibold min-w-[1.5rem] text-center ${active ? 'bg-[#123E52]/20 text-[#F7F3E8]' : 'bg-red-500 text-white'
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-semibold min-w-[1.5rem] text-center ${active ? 'bg-[#0F172A]/20 text-[#F8FAFC]' : 'bg-red-500 text-white'
                         }`}>
                         {item.badge}
                       </span>
@@ -318,7 +318,7 @@ export default function AdminSidebar() {
                   className={`
                     w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
                     ${moreNavItems.some((i) => isActive(i.path))
-                      ? 'bg-[#0C2C3D] text-white shadow-lg shadow-[#0C2C3D]/30'
+                      ? 'bg-[#020617] text-white shadow-lg shadow-[#020617]/30'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-[#262626]'
                     }
                   `}
@@ -356,7 +356,7 @@ export default function AdminSidebar() {
                           className={`
                             flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
                             ${active
-                              ? 'bg-[#0C2C3D] text-white shadow-lg shadow-[#0C2C3D]/30'
+                              ? 'bg-[#020617] text-white shadow-lg shadow-[#020617]/30'
                               : 'text-gray-600 hover:bg-gray-100 hover:text-[#262626]'
                             }
                           `}
@@ -469,7 +469,7 @@ export default function AdminSidebar() {
                     className={`
                       flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200
                       ${active
-                        ? 'bg-[#0C2C3D] text-white shadow-lg shadow-[#0C2C3D]/30'
+                        ? 'bg-[#020617] text-white shadow-lg shadow-[#020617]/30'
                         : 'text-gray-600 hover:bg-gray-50'
                       }
                     `}

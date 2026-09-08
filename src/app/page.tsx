@@ -13,7 +13,7 @@ import { FEATURED_PRODUCT_LIMIT } from '@/config/products';
 
 export default async function HomePage() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    return <><Hero /><section id="featured" className="mx-auto max-w-4xl px-6 py-16 text-center"><h2 className="mb-4 text-3xl font-bold text-[#123E52]">Our Collection Is Taking Shape</h2><p className="text-gray-600">Vretok leggings and gym fashion are coming soon. Find your inspiration in motion.</p></section></>;
+    return <><Hero /><section id="featured" className="mx-auto max-w-4xl px-6 py-16 text-center"><h2 className="mb-4 text-3xl font-bold text-[#0F172A]">Our Collection Is Taking Shape</h2><p className="text-gray-600">Vretok leggings and gym fashion are coming soon. Find your inspiration in motion.</p></section></>;
   }
   try {
     const [featuredRows, productRows] = await Promise.all([
@@ -97,7 +97,7 @@ export default async function HomePage() {
       <>
         <Hero />
         <div className="container mx-auto px-4 py-16 text-center">
-          <h2 className="text-2xl font-bold text-[#123E52] mb-4">Unable to load products</h2>
+          <h2 className="text-2xl font-bold text-[#0F172A] mb-4">Unable to load products</h2>
           <p className="text-gray-600">Please refresh the page or try again later.</p>
         </div>
       </>

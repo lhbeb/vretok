@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none">
+  <rect width="256" height="256" rx="56" fill="#0F172A"/>
+  <rect x="8" y="8" width="240" height="240" rx="48" stroke="#F43F5E" stroke-width="3" stroke-opacity="0.4"/>
+  <!-- Modern Athletic V Mark -->
+  <g transform="translate(68, 64)">
+    <path d="M10 12 L52 108 L68 108 L110 12 L86 12 L60 76 L34 12 Z" fill="#F43F5E" />
+    <path d="M46 12 L60 48 L74 12 L62 12 L60 18 L58 12 Z" fill="#FFFFFF" opacity="0.9" />
+  </g>
+</svg>

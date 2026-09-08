@@ -76,8 +76,8 @@ function LoginFormInner() {
   return (
     <div className="relative w-full max-w-md">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#123E52] to-[#123E52] rounded-2xl shadow-2xl shadow-[#123E52]/30 mb-4">
-          <Lock className="h-8 w-8 text-[#F7F3E8]" />
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#0F172A] to-[#0F172A] rounded-2xl shadow-2xl shadow-[#0F172A]/30 mb-4">
+          <Lock className="h-8 w-8 text-[#F8FAFC]" />
         </div>
         <h1 className="text-2xl font-bold text-white">Admin Portal</h1>
         <p className="text-gray-400 mt-1">Sign in to access your dashboard</p>
@@ -107,7 +107,7 @@ function LoginFormInner() {
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent transition-all"
+                className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -127,7 +127,7 @@ function LoginFormInner() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
                 required
-                className="w-full pl-12 pr-12 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent transition-all"
+                className="w-full pl-12 pr-12 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent transition-all"
               />
               <button
                 type="button"
@@ -142,10 +142,10 @@ function LoginFormInner() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 bg-[#123E52] text-[#F7F3E8] font-bold rounded-xl hover:bg-[#0C2C3D] focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#123E52]/25"
+            className="w-full py-3.5 bg-[#0F172A] text-[#F8FAFC] font-bold rounded-xl hover:bg-[#020617] focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#0F172A]/25"
           >
             {loading ? (
-              <div className="w-5 h-5 border-2 border-[#F7F3E8]/30 border-t-[#F7F3E8] rounded-full animate-spin"></div>
+              <div className="w-5 h-5 border-2 border-[#F8FAFC]/30 border-t-[#F8FAFC] rounded-full animate-spin"></div>
             ) : (
               <>
                 Sign In
@@ -168,7 +168,7 @@ export default function AdminLoginForm() {
     <Suspense
       fallback={
         <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/10 shadow-2xl flex items-center justify-center min-h-[400px]">
-          <div className="w-10 h-10 border-4 border-[#123E52]/20 border-t-[#123E52] rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#0F172A]/20 border-t-[#0F172A] rounded-full animate-spin"></div>
         </div>
       }
     >

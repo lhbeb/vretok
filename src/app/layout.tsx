@@ -99,7 +99,7 @@ export default function RootLayout({
 
 
       </head>
-      <body suppressHydrationWarning className={`${dmSans.variable} font-sans antialiased text-[#123E52] bg-[#F7F3E8]`}>
+      <body suppressHydrationWarning className={`${dmSans.variable} font-sans antialiased text-[#0F172A] bg-[#F8FAFC]`}>
         <GlobalErrorReporter />
         <PublicRouteOnly>
           <VisitNotifier />
@@ -169,14 +169,14 @@ export default function RootLayout({
 
           {/* Checkout page - navbar only, no distractions */}
           <CheckoutRouteOnly>
-            <div className="min-h-screen flex flex-col bg-[#F7F3E8]">
+            <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
               <Suspense fallback={null}>
                 <ClientHeader />
               </Suspense>
               <main className="flex-grow">
                 {children}
               </main>
-              <nav aria-label="Checkout policies" className="border-t border-[#123E52]/10 bg-white px-4 py-5 text-center text-sm text-[#123E52]">
+              <nav aria-label="Checkout policies" className="border-t border-[#0F172A]/10 bg-white px-4 py-5 text-center text-sm text-[#0F172A]">
                 <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
                   <a href="/shipping-policy" className="underline underline-offset-4">Shipping</a>
                   <a href="/return-policy" className="underline underline-offset-4">Returns</a>

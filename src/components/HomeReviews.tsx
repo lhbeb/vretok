@@ -286,7 +286,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
               <p className="text-gray-600 mb-6">Share your experience and help other customers choose with confidence.</p>
               <button
                 onClick={() => setShowReviewForm(true)}
-                className="bg-[#123E52] hover:bg-[#0C2C3D] text-[#F7F3E8] px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                className="bg-[#0F172A] hover:bg-[#020617] text-[#F8FAFC] px-6 py-3 rounded-lg font-medium transition-colors duration-200"
               >
                 Write a Review
               </button>
@@ -307,16 +307,16 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 {/* Rating Summary */}
                 <div>
-                  <h2 className="text-2xl font-bold text-[#123E52] mb-1">What Vretok Customers Say</h2>
+                  <h2 className="text-2xl font-bold text-[#0F172A] mb-1">What Vretok Customers Say</h2>
                   <p className="text-sm text-gray-600 mb-3">Real feedback on our products, service, and shopping experience.</p>
                   <div className="flex items-center gap-4">
-                    <div className="text-4xl font-bold text-[#123E52]">{reviewStats.averageRating.toFixed(1)}</div>
+                    <div className="text-4xl font-bold text-[#0F172A]">{reviewStats.averageRating.toFixed(1)}</div>
                     <div>
                       <div className="flex">
                         {[...Array(5)].map((_, i) => (
                           <Star 
                             key={i}
-                            className={`h-5 w-5 ${i < Math.floor(reviewStats.averageRating) ? 'text-[#397F86] fill-[#397F86]' : 'text-gray-300'}`}
+                            className={`h-5 w-5 ${i < Math.floor(reviewStats.averageRating) ? 'text-[#E11D48] fill-[#E11D48]' : 'text-gray-300'}`}
                           />
                         ))}
                       </div>
@@ -329,7 +329,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                 <div className="flex items-center">
                   <button
                     onClick={() => setShowReviewForm(true)}
-                    className="bg-[#123E52] hover:bg-[#0C2C3D] text-[#F7F3E8] px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                    className="bg-[#0F172A] hover:bg-[#020617] text-[#F8FAFC] px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
                   >
                     <Send className="h-4 w-4" />
                     Write a Review
@@ -347,7 +347,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                 const previewImages = reviewImages.slice(0, 4);
 
                 return (
-                  <div key={`${review.id}-${index}`} className="bg-[#F7F3E8]/40 rounded-lg p-5 border border-[#123E52]/10">
+                  <div key={`${review.id}-${index}`} className="bg-[#F8FAFC]/40 rounded-lg p-5 border border-[#0F172A]/10">
                   <div className="flex items-start gap-3 mb-3">
                     <Image 
                       src={getReviewAvatarSrc(review)}
@@ -360,10 +360,10 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                     <div className="flex-grow min-w-0">
                       <div className="flex items-start justify-between gap-2 mb-1">
                         <div className="min-w-0 flex-1">
-                          <h3 className="font-medium text-[#123E52] flex items-center gap-2 flex-wrap">
+                          <h3 className="font-medium text-[#0F172A] flex items-center gap-2 flex-wrap">
                             {review.author}
                               {review.verified && (
-                              <span className="flex items-center text-[#397F86] text-xs whitespace-nowrap font-medium">
+                              <span className="flex items-center text-[#E11D48] text-xs whitespace-nowrap font-medium">
                                 <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
                                 Verified Owner
                               </span>
@@ -378,7 +378,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                           onClick={() => handleLike(review.id)}
                           className={`flex items-center gap-1.5 px-2 py-1 rounded-md transition-colors duration-200 text-xs flex-shrink-0 ${
                             liked[review.id] 
-                              ? 'bg-[#123E52] text-[#F7F3E8]'
+                              ? 'bg-[#0F172A] text-[#F8FAFC]'
                               : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-300'
                           }`}
                           aria-pressed={liked[review.id]}
@@ -394,7 +394,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
 
                   {review.productTitle && review.productSlug && (
                     <div className="mb-2">
-                      <span className="text-xs text-[#397F86] hover:text-[#123E52] hover:underline cursor-default inline-flex items-center gap-1 font-medium">
+                      <span className="text-xs text-[#E11D48] hover:text-[#0F172A] hover:underline cursor-default inline-flex items-center gap-1 font-medium">
                         {review.productTitle}
                       </span>
                     </div>
@@ -405,14 +405,14 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                       {[...Array(5)].map((_, i) => (
                         <Star 
                           key={i}
-                          className={`h-3.5 w-3.5 ${i < review.rating ? 'text-[#397F86] fill-[#397F86]' : 'text-gray-300'}`}
+                          className={`h-3.5 w-3.5 ${i < review.rating ? 'text-[#E11D48] fill-[#E11D48]' : 'text-gray-300'}`}
                         />
                       ))}
                     </div>
                   </div>
 
                   {review.title && (
-                    <h4 className="font-medium text-[#123E52] mb-2 text-sm">{review.title}</h4>
+                    <h4 className="font-medium text-[#0F172A] mb-2 text-sm">{review.title}</h4>
                   )}
                   <p className="text-gray-600 text-sm line-clamp-4 mb-3">{review.content}</p>
                   
@@ -423,7 +423,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                         <button
                           key={imgIndex}
                           onClick={() => setSelectedImage(img)}
-                          className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-200 group cursor-pointer hover:ring-2 ring-[#123E52] transition-all duration-200"
+                          className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-200 group cursor-pointer hover:ring-2 ring-[#0F172A] transition-all duration-200"
                         >
                           <Image
                             src={img}
@@ -499,7 +499,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent"
                     placeholder="Enter your name"
                   />
                 </div>
@@ -512,7 +512,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                     type="text"
                     value={formData.orderId}
                     onChange={(e) => setFormData({ ...formData, orderId: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent"
                     placeholder="Enter your order ID (optional)"
                   />
                 </div>
@@ -544,7 +544,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                     required
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent"
                     placeholder="Summarize your experience"
                   />
                 </div>
@@ -558,7 +558,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                     rows={4}
                     value={formData.content}
                     onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent resize-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent resize-none"
                     placeholder="Share your detailed experience..."
                   />
                 </div>
@@ -568,7 +568,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                     Upload Photos (Optional)
                   </label>
                   <div className="space-y-3">
-                    <label className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#397F86] hover:bg-[#397F86]/10 transition-colors duration-200">
+                    <label className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#E11D48] hover:bg-[#E11D48]/10 transition-colors duration-200">
                       <Upload className="h-5 w-5 text-gray-500" />
                       <span className="text-sm text-gray-600">Choose photos to upload</span>
                       <input
@@ -643,7 +643,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                     className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                       isSubmitting 
                         ? 'bg-gray-400 cursor-not-allowed text-white' 
-                        : 'bg-[#123E52] hover:bg-[#0C2C3D] text-[#F7F3E8]'
+                        : 'bg-[#0F172A] hover:bg-[#020617] text-[#F8FAFC]'
                     }`}
                   >
                     {isSubmitting ? 'Submitting...' : 'Submit Review'}

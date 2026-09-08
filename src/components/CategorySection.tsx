@@ -50,7 +50,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
       <div className="container mx-auto px-4">
         <div className="w-full max-w-7xl mx-auto">
           <div className="mb-10 text-left">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#123E52] mb-2 font-heading">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A] mb-2 font-heading">
               {title}
             </h2>
             <p className="max-w-2xl text-base sm:text-lg text-gray-600">
@@ -63,7 +63,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
               <ProductCard
                 key={product.id}
                 product={product}
-                cardBackground="bg-[#F7F3E8]/40"
+                cardBackground="bg-[#F8FAFC]/40"
                 showFullImage
               />
             ))}

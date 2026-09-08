@@ -530,14 +530,14 @@ export async function sendStripePaymentSuccessEmail(
       <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);max-width:600px;width:100%;">
 
         <!-- Header -->
-        <tr><td style="background:linear-gradient(135deg,#123E52 0%,#397F86 100%);padding:36px 32px;text-align:center;">
+        <tr><td style="background:linear-gradient(135deg,#0F172A 0%,#E11D48 100%);padding:36px 32px;text-align:center;">
           <h1 style="margin:0;color:#fff;font-size:26px;font-weight:700;letter-spacing:-0.5px;">Thank You for Your Order!</h1>
           <p style="margin:8px 0 0;color:#c7d2fe;font-size:15px;">Your payment was successful. Here's your confirmation.</p>
         </td></tr>
 
         <!-- Amount Badge -->
         <tr><td style="background:#eef2ff;padding:20px 32px;text-align:center;border-bottom:1px solid #c7d2fe;">
-          <span style="font-size:32px;font-weight:800;color:#123E52;">${currencyUpper} ${amountDisplay}</span>
+          <span style="font-size:32px;font-weight:800;color:#0F172A;">${currencyUpper} ${amountDisplay}</span>
           <span style="display:block;color:#6b7280;font-size:13px;margin-top:4px;">Order #${order.id.slice(0, 8).toUpperCase()}</span>
         </td></tr>
 
@@ -593,7 +593,7 @@ export async function sendStripePaymentSuccessEmail(
           <!-- Help -->
           <div style="background:#f9fafb;border-radius:8px;padding:16px 20px;text-align:center;">
             <p style="margin:0 0 6px;font-size:13px;color:#6b7280;">Questions about your order?</p>
-            <a href="mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || emailUser}" style="color:#123E52;font-weight:700;font-size:14px;text-decoration:none;">${process.env.NEXT_PUBLIC_CONTACT_EMAIL || emailUser}</a>
+            <a href="mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || emailUser}" style="color:#0F172A;font-weight:700;font-size:14px;text-decoration:none;">${process.env.NEXT_PUBLIC_CONTACT_EMAIL || emailUser}</a>
 
           </div>
 
@@ -601,7 +601,7 @@ export async function sendStripePaymentSuccessEmail(
 
         <!-- Footer -->
         <tr><td style="background:#f9fafb;padding:16px 32px;text-align:center;border-top:1px solid #e5e7eb;">
-          <p style="margin:0;color:#9ca3af;font-size:12px;">This is an automated confirmation from <a href="${baseUrl}" style="color:#123E52;text-decoration:none;font-weight:600;">${baseUrl.replace('https://', '')}</a></p>
+          <p style="margin:0;color:#9ca3af;font-size:12px;">This is an automated confirmation from <a href="${baseUrl}" style="color:#0F172A;text-decoration:none;font-weight:600;">${baseUrl.replace('https://', '')}</a></p>
         </td></tr>
 
       </table>

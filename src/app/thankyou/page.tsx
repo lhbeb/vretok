@@ -208,8 +208,8 @@ function ThankYouContent() {
           </div>
 
           {/* Contact Info */}
-          <div className="bg-[#F7F3E8] border border-[#397F86]/30 rounded-xl p-6 mb-8">
-            <h3 className="font-semibold text-[#123E52] mb-2">Need Help?</h3>
+          <div className="bg-[#F8FAFC] border border-[#E11D48]/30 rounded-xl p-6 mb-8">
+            <h3 className="font-semibold text-[#0F172A] mb-2">Need Help?</h3>
             <p className="text-sm text-gray-600 mb-3">
               If you have any questions about your Vretok order, don&apos;t hesitate to reach out:
             </p>
@@ -220,7 +220,7 @@ function ThankYouContent() {
           <div className="flex justify-center">
             <Link
               href="/"
-              className="inline-flex items-center justify-center px-6 py-3 bg-[#123E52] hover:bg-[#0C2C3D] text-[#F7F3E8] font-bold rounded-full transition-colors duration-200 shadow-sm"
+              className="inline-flex items-center justify-center px-6 py-3 bg-[#0F172A] hover:bg-[#020617] text-[#F8FAFC] font-bold rounded-full transition-colors duration-200 shadow-sm"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Continue Shopping

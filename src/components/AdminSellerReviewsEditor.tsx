@@ -125,7 +125,7 @@ export default function AdminSellerReviewsEditor({ reviews, onChange }: Props) {
           <button
             type="button"
             onClick={addReview}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#123E52] text-white text-xs font-medium rounded-xl hover:bg-[#0C2C3D] transition-all shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#0F172A] text-white text-xs font-medium rounded-xl hover:bg-[#020617] transition-all shadow-sm"
           >
             <Plus className="h-3.5 w-3.5" />
             Add Review
@@ -210,7 +210,7 @@ export default function AdminSellerReviewsEditor({ reviews, onChange }: Props) {
                           value={review.author || ''}
                           onChange={(e) => updateReview(review.id, 'author', e.target.value)}
                           placeholder="e.g. John Doe"
-                          className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm"
                         />
                       </div>
                       <div>
@@ -222,7 +222,7 @@ export default function AdminSellerReviewsEditor({ reviews, onChange }: Props) {
                           type="date"
                           value={toInputDate(review.date)}
                           onChange={(e) => updateReview(review.id, 'date', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm"
                         />
                       </div>
                     </div>
@@ -238,7 +238,7 @@ export default function AdminSellerReviewsEditor({ reviews, onChange }: Props) {
                           value={review.productTitle || ''}
                           onChange={(e) => updateReview(review.id, 'productTitle', e.target.value)}
                           placeholder="e.g. Vintage Camera"
-                          className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm"
                         />
                       </div>
                       <div>
@@ -273,7 +273,7 @@ export default function AdminSellerReviewsEditor({ reviews, onChange }: Props) {
                         value={review.title || ''}
                         onChange={(e) => updateReview(review.id, 'title', e.target.value)}
                         placeholder="e.g. Great quality!"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
+                        className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm"
                       />
                     </div>
 
@@ -285,7 +285,7 @@ export default function AdminSellerReviewsEditor({ reviews, onChange }: Props) {
                         onChange={(e) => updateReview(review.id, 'content', e.target.value)}
                         rows={3}
                         placeholder="The actual review text..."
-                        className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm resize-y"
+                        className="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm resize-y"
                       />
                     </div>
 
@@ -300,7 +300,7 @@ export default function AdminSellerReviewsEditor({ reviews, onChange }: Props) {
                         <button
                           type="button"
                           onClick={() => addImageSlot(review.id)}
-                          className="inline-flex items-center gap-1 text-xs font-medium text-[#123E52] hover:text-[#0C2C3D] transition-colors"
+                          className="inline-flex items-center gap-1 text-xs font-medium text-[#0F172A] hover:text-[#020617] transition-colors"
                         >
                           <Plus className="h-3.5 w-3.5" />
                           Add Image
@@ -340,7 +340,7 @@ export default function AdminSellerReviewsEditor({ reviews, onChange }: Props) {
                                   className={`relative flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-colors ${
                                     isUploading
                                       ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                      : 'bg-[#123E52]/8 text-[#123E52] hover:bg-[#123E52]/15'
+                                      : 'bg-[#0F172A]/8 text-[#0F172A] hover:bg-[#0F172A]/15'
                                   }`}
                                 >
                                   <Upload className="h-3.5 w-3.5" />

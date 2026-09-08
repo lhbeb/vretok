@@ -9,18 +9,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#123E52', // Deep Forest Green - main brand color
-        secondary: '#397F86', // Sage Green - secondary accent
-        accent: '#397F86', // Sage Green accent
-        cream: '#F7F3E8', // Warm cream background
-        'brand-dark': '#123E52', // Deep Forest Green
-        'brand-sage': '#397F86', // Sage Green
-        'brand-cream': '#F7F3E8', // Cream
-        text: '#123E52', // Deep Forest Green text / dark neutral
-        'text-gray': '#526B76', // Muted green-gray text
-        'bg-light': '#F7F3E8', // Warm cream light background
-        'border-gray': '#DDDCD3', // Warm light border
-        'nav-gray': '#397F86', // Navigation bar sage green
+        primary: '#0F172A', // Deep Obsidian Black - main brand color
+        secondary: '#E11D48', // Electric Rose / Sculpt Coral - activewear accent
+        accent: '#F43F5E', // Vibrant Rose accent
+        cream: '#F8FAFC', // Crisp studio white surface
+        'brand-dark': '#0F172A', // Deep Obsidian
+        'brand-sage': '#E11D48', // Active Rose accent
+        'brand-cream': '#F8FAFC', // Studio White
+        text: '#0F172A', // Obsidian text / dark neutral
+        'text-gray': '#64748B', // Muted slate text
+        'bg-light': '#F8FAFC', // Clean light background
+        'border-gray': '#E2E8F0', // Clean architectural border
+        'nav-gray': '#0F172A', // Navigation bar obsidian
       },
       fontFamily: {
         sans: ['var(--font-dm-sans)', 'sans-serif'],

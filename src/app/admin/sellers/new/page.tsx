@@ -140,7 +140,7 @@ export default function NewSellerPage() {
             <button
               onClick={handleSubmit}
               disabled={saving}
-              className="inline-flex items-center gap-2 px-5 py-2 bg-[#123E52] text-white text-sm font-medium rounded-xl hover:bg-[#0C2C3D] disabled:opacity-50 shadow-sm transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2 bg-[#0F172A] text-white text-sm font-medium rounded-xl hover:bg-[#020617] disabled:opacity-50 shadow-sm transition-all"
             >
               {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
               {saving ? 'Creating…' : 'Create Seller'}
@@ -161,8 +161,8 @@ export default function NewSellerPage() {
         {/* ── Section 1: Identity ─────────────────────────────────────────── */}
         <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#123E52]/8 flex items-center justify-center">
-              <User className="h-4 w-4 text-[#123E52]" />
+            <div className="w-8 h-8 rounded-xl bg-[#0F172A]/8 flex items-center justify-center">
+              <User className="h-4 w-4 text-[#0F172A]" />
             </div>
             <div>
               <h2 className="font-semibold text-[#262626] text-sm">Seller Identity</h2>
@@ -176,16 +176,16 @@ export default function NewSellerPage() {
               {/* Avatar picker */}
               <div className="flex-shrink-0">
                 <div className="relative group w-20 h-20">
-                  <div className="w-20 h-20 rounded-2xl overflow-hidden bg-gradient-to-br from-[#123E52]/10 to-[#123E52]/5 border-2 border-gray-200 flex items-center justify-center">
+                  <div className="w-20 h-20 rounded-2xl overflow-hidden bg-gradient-to-br from-[#0F172A]/10 to-[#0F172A]/5 border-2 border-gray-200 flex items-center justify-center">
                     {formData.avatar_url ? (
                       <Image src={formData.avatar_url} alt="Avatar preview" width={80} height={80} unoptimized={true} className="w-full h-full object-cover" />
                     ) : (
-                      <span className="text-2xl font-bold text-[#123E52]/30">{avatarInitials}</span>
+                      <span className="text-2xl font-bold text-[#0F172A]/30">{avatarInitials}</span>
                     )}
                   </div>
                   {uploadingAvatar && (
                     <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded-2xl">
-                      <Loader2 className="h-5 w-5 animate-spin text-[#123E52]" />
+                      <Loader2 className="h-5 w-5 animate-spin text-[#0F172A]" />
                     </div>
                   )}
                   {/* Hover overlay */}
@@ -214,7 +214,7 @@ export default function NewSellerPage() {
                   <input
                     type="text" name="name" value={formData.name} onChange={handleChange} required
                     placeholder="e.g. Vretok"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm"
                   />
                 </FormField>
                 <FormField
@@ -227,7 +227,7 @@ export default function NewSellerPage() {
                     <input
                       type="text" name="username" value={formData.username} onChange={handleChange} required
                       placeholder="vretok-official"
-                      className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
+                      className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm"
                     />
                   </div>
                 </FormField>
@@ -241,7 +241,7 @@ export default function NewSellerPage() {
                 <textarea
                   name="bio" value={formData.bio} onChange={handleChange} rows={3}
                   placeholder="A short biography about this seller…"
-                  className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm resize-y"
+                  className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm resize-y"
                 />
               </div>
             </FormField>
@@ -251,8 +251,8 @@ export default function NewSellerPage() {
         {/* ── Section 2: Details ───────────────────────────────────────────── */}
         <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#123E52]/8 flex items-center justify-center">
-              <Globe className="h-4 w-4 text-[#123E52]" />
+            <div className="w-8 h-8 rounded-xl bg-[#0F172A]/8 flex items-center justify-center">
+              <Globe className="h-4 w-4 text-[#0F172A]" />
             </div>
             <div>
               <h2 className="font-semibold text-[#262626] text-sm">Location & History</h2>
@@ -268,7 +268,7 @@ export default function NewSellerPage() {
                   <input
                     type="text" name="location" value={formData.location} onChange={handleChange}
                     placeholder="e.g. New York, NY"
-                    className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
+                    className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm"
                   />
                 </div>
               </FormField>
@@ -278,7 +278,7 @@ export default function NewSellerPage() {
                   <input
                     type="text" name="member_since" value={formData.member_since} onChange={handleChange}
                     placeholder="e.g. 2022 or March 2022"
-                    className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#123E52] focus:border-[#123E52] outline-none transition-all text-sm"
+                    className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] outline-none transition-all text-sm"
                   />
                 </div>
               </FormField>
@@ -297,7 +297,7 @@ export default function NewSellerPage() {
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#123E52] text-white font-medium rounded-xl hover:bg-[#0C2C3D] disabled:opacity-50 shadow-sm transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#0F172A] text-white font-medium rounded-xl hover:bg-[#020617] disabled:opacity-50 shadow-sm transition-all"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             {saving ? 'Creating…' : 'Create Seller'}

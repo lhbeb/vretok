@@ -306,7 +306,7 @@ export default function PaymentSettingsPage() {
                                 <select
                                     value={mode}
                                     onChange={(e) => setMode(e.target.value)}
-                                    className="w-full sm:w-1/2 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent text-sm"
+                                    className="w-full sm:w-1/2 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent text-sm"
                                 >
                                     <option value="test">Test Mode</option>
                                     <option value="live">Live Mode</option>
@@ -321,7 +321,7 @@ export default function PaymentSettingsPage() {
                                     value={publishableKey}
                                     onChange={(e) => setPublishableKey(e.target.value)}
                                     placeholder="pk_..."
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent text-sm font-mono"
+                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent text-sm font-mono"
                                     required
                                 />
                                 <p className="text-xs text-gray-500 mt-1.5 ml-1">Publicly exposed key used for frontend integrations.</p>
@@ -335,7 +335,7 @@ export default function PaymentSettingsPage() {
                                         value={secretKey}
                                         onChange={(e) => setSecretKey(e.target.value)}
                                         placeholder="sk_..."
-                                        className="w-full px-4 py-2.5 pr-12 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent text-sm font-mono"
+                                        className="w-full px-4 py-2.5 pr-12 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent text-sm font-mono"
                                         required
                                     />
                                     <button
@@ -356,7 +356,7 @@ export default function PaymentSettingsPage() {
                                 <button
                                     type="submit"
                                     disabled={isSaving}
-                                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#123E52] text-white rounded-xl hover:bg-[#0C2C3D] transition-colors text-sm font-medium shadow-lg shadow-[#123E52]/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0F172A] text-white rounded-xl hover:bg-[#020617] transition-colors text-sm font-medium shadow-lg shadow-[#0F172A]/25 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {isSaving ? (
                                         <>
@@ -399,7 +399,7 @@ export default function PaymentSettingsPage() {
                                     value={paypalEmail}
                                     onChange={(e) => setPaypalEmail(e.target.value)}
                                     placeholder="e.g. me@paypal.com"
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#123E52] focus:border-transparent text-sm"
+                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-transparent text-sm"
                                     required
                                 />
                                 <p className="text-xs text-gray-500 mt-1.5 ml-1">Enter the PayPal email that should receive buyer payments through the PayPal Standard redirect flow.</p>

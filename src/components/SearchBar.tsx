@@ -65,25 +65,25 @@ const SearchBar: React.FC<SearchBarProps> = ({ open, onClose }) => {
       {/* Centered search bar (desktop) */}
       <div className="hidden md:flex fixed left-0 right-0 top-[100px] z-50 justify-center items-start pointer-events-none">
         <div
-          className="w-full max-w-2xl bg-white shadow-2xl rounded-full border border-[#123E52]/20 px-6 py-3.5 flex items-center gap-3 pointer-events-auto animate-scale-fade-in"
+          className="w-full max-w-2xl bg-white shadow-2xl rounded-full border border-[#0F172A]/20 px-6 py-3.5 flex items-center gap-3 pointer-events-auto animate-scale-fade-in"
           style={{ boxShadow: "0 12px 40px 0 rgba(35, 63, 49, 0.2)" }}
         >
-          <Search className="h-5 w-5 text-[#123E52]/70" />
+          <Search className="h-5 w-5 text-[#0F172A]/70" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search leggings, tops, accessories..."
-            className="bg-transparent outline-none border-0 flex-1 min-w-0 text-[#123E52] placeholder-[#123E52]/50 text-base font-medium"
+            className="bg-transparent outline-none border-0 flex-1 min-w-0 text-[#0F172A] placeholder-[#0F172A]/50 text-base font-medium"
             autoFocus={open}
             onKeyDown={handleKeyDown}
             aria-label="Search leggings"
           />
           {query.length > 0 && (
-            <ArrowRight className="h-5 w-5 text-[#123E52] animate-bounce-x ml-1" aria-label="Press Enter to search" />
+            <ArrowRight className="h-5 w-5 text-[#0F172A] animate-bounce-x ml-1" aria-label="Press Enter to search" />
           )}
-          <button type="button" onClick={onClose} className="text-gray-400 hover:text-[#123E52] p-1" aria-label="Close search">
+          <button type="button" onClick={onClose} className="text-gray-400 hover:text-[#0F172A] p-1" aria-label="Close search">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -91,24 +91,24 @@ const SearchBar: React.FC<SearchBarProps> = ({ open, onClose }) => {
       {/* Mobile search bar */}
       <div className="md:hidden fixed left-4 right-4 top-4 z-50 animate-scale-fade-in">
         <div
-          className="w-full bg-white shadow-2xl rounded-full border border-[#123E52]/20 px-4 py-3 flex items-center gap-3"
+          className="w-full bg-white shadow-2xl rounded-full border border-[#0F172A]/20 px-4 py-3 flex items-center gap-3"
         >
-          <Search className="h-5 w-5 text-[#123E52]/70" />
+          <Search className="h-5 w-5 text-[#0F172A]/70" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search leggings..."
-            className="bg-transparent outline-none border-0 flex-1 min-w-0 text-[#123E52] placeholder-[#123E52]/50 text-sm font-medium"
+            className="bg-transparent outline-none border-0 flex-1 min-w-0 text-[#0F172A] placeholder-[#0F172A]/50 text-sm font-medium"
             autoFocus={open}
             onKeyDown={handleKeyDown}
             aria-label="Search leggings"
           />
           {query.length > 0 && (
-            <ArrowRight className="h-5 w-5 text-[#123E52] animate-bounce-x ml-1" aria-label="Press Enter to search" />
+            <ArrowRight className="h-5 w-5 text-[#0F172A] animate-bounce-x ml-1" aria-label="Press Enter to search" />
           )}
-          <button type="button" onClick={onClose} className="text-gray-400 hover:text-[#123E52] p-1" aria-label="Close search">
+          <button type="button" onClick={onClose} className="text-gray-400 hover:text-[#0F172A] p-1" aria-label="Close search">
             <X className="h-5 w-5" />
           </button>
         </div>

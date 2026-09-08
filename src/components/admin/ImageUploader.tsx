@@ -529,10 +529,10 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
               ${
                 dragActiveThumbnail
                   ? 'border-[#0046be] bg-blue-50'
-                  : 'border-[#123E52]/30 hover:border-[#123E52]/50'
+                  : 'border-[#0F172A]/30 hover:border-[#0F172A]/50'
               }
               ${uploading ? 'opacity-50 pointer-events-none' : 'cursor-pointer'}
-              bg-[#123E52]/5
+              bg-[#0F172A]/5
             `}
             onClick={() => !uploading && thumbnailInputRef.current?.click()}
           >
@@ -552,7 +552,7 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
               </div>
             ) : (
               <div className="space-y-2">
-                <Upload className="h-10 w-10 mx-auto text-[#123E52]" />
+                <Upload className="h-10 w-10 mx-auto text-[#0F172A]" />
                 <div>
                   <p className="text-sm font-medium text-gray-700">
                     Drag thumbnail image here or click to select
@@ -569,7 +569,7 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
           {(thumbnail || pendingThumbnail) && (
             <div className="mt-4">
               <div className="inline-block relative group">
-                <div className="relative w-32 h-32 rounded-lg overflow-hidden border-2 border-[#123E52] bg-gray-100">
+                <div className="relative w-32 h-32 rounded-lg overflow-hidden border-2 border-[#0F172A] bg-gray-100">
                   {pendingThumbnail ? (
                     <Image
                       src={pendingThumbnail.preview}
@@ -600,11 +600,11 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
                     </button>
                   </div>
                   {pendingThumbnail && (
-                    <div className="absolute top-1 right-1 bg-[#123E52] text-white text-xs px-2 py-0.5 rounded">
+                    <div className="absolute top-1 right-1 bg-[#0F172A] text-white text-xs px-2 py-0.5 rounded">
                       Pending
                     </div>
                   )}
-                  <div className="absolute bottom-1 left-1 bg-[#123E52] text-white text-xs px-2 py-0.5 rounded font-semibold">
+                  <div className="absolute bottom-1 left-1 bg-[#0F172A] text-white text-xs px-2 py-0.5 rounded font-semibold">
                     Thumbnail
                   </div>
                 </div>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" fill="none">
+  <rect width="400" height="400" fill="#F8FAFC"/>
+  <circle cx="200" cy="200" r="140" fill="#E2E8F0" opacity="0.4"/>
+  <!-- Athletic V Mark -->
+  <g transform="translate(150, 130)">
+    <path d="M10 10 L48 95 L62 95 L100 10 L80 10 L55 68 L30 10 Z" fill="#F43F5E" opacity="0.8" />
+    <polygon points="55,75 48,58 62,58" fill="#0F172A" />
+  </g>
+  <text x="200" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#0F172A" text-anchor="middle" letter-spacing="4">VRETOK</text>
+  <text x="200" y="290" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle" letter-spacing="2">ACTIVEWEAR</text>
+</svg>

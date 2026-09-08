@@ -6,7 +6,7 @@ import { Instagram, ExternalLink } from 'lucide-react';
 const InstagramWidget: React.FC = () => {
   if (!brand.instagram) return null;
   return (
-    <div className="bg-[#F7F3E8]/40 rounded-xl shadow-sm border border-[#123E52]/10 p-6">
+    <div className="bg-[#F8FAFC]/40 rounded-xl shadow-sm border border-[#0F172A]/10 p-6">
       <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-6">
         {/* Profile Info */}
         <div className="flex items-center space-x-4">
@@ -25,7 +25,7 @@ const InstagramWidget: React.FC = () => {
 
           {/* Profile Details */}
           <div>
-            <h3 className="font-bold text-[#123E52] text-lg mb-0.5">Vretok</h3>
+            <h3 className="font-bold text-[#0F172A] text-lg mb-0.5">Vretok</h3>
             <p className="text-gray-600 text-sm mb-2">Vretok Activewear</p>
 
             {/* Statistics */}
@@ -39,9 +39,9 @@ const InstagramWidget: React.FC = () => {
             href={brand.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-5 py-2.5 bg-[#123E52] hover:bg-[#0C2C3D] text-[#F7F3E8] text-sm font-medium rounded-full transition-all duration-200 shadow-sm"
+            className="inline-flex items-center justify-center px-5 py-2.5 bg-[#0F172A] hover:bg-[#020617] text-[#F8FAFC] text-sm font-medium rounded-full transition-all duration-200 shadow-sm"
           >
-            <Instagram className="h-4 w-4 mr-2 text-[#397F86]" />
+            <Instagram className="h-4 w-4 mr-2 text-[#E11D48]" />
             <span>Follow</span>
             <ExternalLink className="h-3.5 w-3.5 ml-1.5 opacity-70" />
           </a>

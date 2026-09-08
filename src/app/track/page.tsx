@@ -140,22 +140,22 @@ const TrackPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F3E8] py-10 sm:py-14">
+    <div className="min-h-screen bg-[#F8FAFC] py-10 sm:py-14">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-[#D3E2E4] bg-white">
           <div className="grid lg:grid-cols-[minmax(0,1.1fr)_360px]">
             <section className="px-6 py-8 sm:px-8 sm:py-10 lg:px-10">
-              <div className="mb-3 text-sm font-medium text-[#123E52]">
+              <div className="mb-3 text-sm font-medium text-[#0F172A]">
                 Vretok order tracking
               </div>
               <h1 className="max-w-2xl text-3xl font-semibold text-[#262626] sm:text-4xl">
                 Track your order
               </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#526B76] sm:text-base">
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#64748B] sm:text-base">
                 Enter your tracking number below to see the latest carrier updates for your Vretok order.
               </p>
 
-              <form onSubmit={handleTrack} className="mt-8 rounded-[24px] border border-[#EAF2F2] bg-[#F7F3E8] p-4 sm:p-5">
+              <form onSubmit={handleTrack} className="mt-8 rounded-[24px] border border-[#EAF2F2] bg-[#F8FAFC] p-4 sm:p-5">
                 <label htmlFor="trackingNumber" className="mb-3 block text-sm font-medium text-[#262626]">
                   Tracking number
                 </label>
@@ -173,12 +173,12 @@ const TrackPage = () => {
                     placeholder="Enter your tracking number"
                     maxLength={50}
                     autoComplete="off"
-                    className="h-14 flex-1 rounded-2xl border border-[#D3E2E4] bg-white px-4 text-sm font-medium text-[#262626] outline-none transition focus:border-[#123E52]/35 focus:ring-2 focus:ring-[#123E52]/10"
+                    className="h-14 flex-1 rounded-2xl border border-[#D3E2E4] bg-white px-4 text-sm font-medium text-[#262626] outline-none transition focus:border-[#0F172A]/35 focus:ring-2 focus:ring-[#0F172A]/10"
                   />
                   <button
                     type="submit"
                     disabled={!isScriptReady || isSubmitting}
-                    className="inline-flex h-14 items-center justify-center rounded-2xl bg-[#123E52] px-6 text-sm font-semibold text-[#F7F3E8] transition hover:bg-[#0C2C3D] disabled:cursor-not-allowed disabled:bg-[#D7DEF0] disabled:text-[#6E7AA1]"
+                    className="inline-flex h-14 items-center justify-center rounded-2xl bg-[#0F172A] px-6 text-sm font-semibold text-[#F8FAFC] transition hover:bg-[#020617] disabled:cursor-not-allowed disabled:bg-[#D7DEF0] disabled:text-[#6E7AA1]"
                   >
                     {isSubmitting ? "Loading..." : "Track Order"}
                   </button>
@@ -198,17 +198,17 @@ const TrackPage = () => {
               <div className="mt-8 overflow-hidden rounded-[24px] border border-[#EAF2F2] bg-white p-2">
                 <div
                   id="YQContainer"
-                  className="min-h-[560px] rounded-[24px] bg-[#F7F3E8]"
+                  className="min-h-[560px] rounded-[24px] bg-[#F8FAFC]"
                 />
               </div>
             </section>
 
-            <aside className="border-t border-[#D3E2E4] bg-[#F7F3E8] px-6 py-8 lg:border-l lg:border-t-0">
+            <aside className="border-t border-[#D3E2E4] bg-[#F8FAFC] px-6 py-8 lg:border-l lg:border-t-0">
               <div className="rounded-[24px] border border-[#DCE5F5] bg-white p-6">
                 <h2 className="text-xl font-semibold text-[#262626]">
                   Before you search
                 </h2>
-                <div className="mt-4 space-y-4 text-sm leading-7 text-[#526B76]">
+                <div className="mt-4 space-y-4 text-sm leading-7 text-[#64748B]">
                   <p>
                     Use the exact tracking number from your Vretok shipping confirmation email.
                   </p>
@@ -223,12 +223,12 @@ const TrackPage = () => {
 
               <div className="mt-6 rounded-[24px] border border-[#DCE5F5] bg-white p-6">
                 <h3 className="text-lg font-semibold text-[#262626]">Need help with your order?</h3>
-                <p className="mt-3 text-sm leading-7 text-[#526B76]">
+                <p className="mt-3 text-sm leading-7 text-[#64748B]">
                   Reach out to our team with your order number and tracking number, and we’ll help you from there.
                 </p>
                 <a
                   href="/contact"
-                  className="mt-5 inline-flex items-center justify-center rounded-full bg-[#123E52] px-5 py-3 text-sm font-semibold text-[#F7F3E8] transition hover:bg-[#0C2C3D]"
+                  className="mt-5 inline-flex items-center justify-center rounded-full bg-[#0F172A] px-5 py-3 text-sm font-semibold text-[#F8FAFC] transition hover:bg-[#020617]"
                 >
                   Contact Support
                 </a>

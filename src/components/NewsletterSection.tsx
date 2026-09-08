@@ -51,12 +51,12 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section className="bg-[#123E52] py-16 px-4">
+    <section className="bg-[#0F172A] py-16 px-4">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center">
           <div className="flex justify-center mb-6">
-            <div className="bg-[#397F86]/30 border border-[#397F86]/40 backdrop-blur-sm rounded-full p-3.5">
-              <Mail className="h-7 w-7 text-[#F7F3E8]" />
+            <div className="bg-[#E11D48]/30 border border-[#E11D48]/40 backdrop-blur-sm rounded-full p-3.5">
+              <Mail className="h-7 w-7 text-[#F8FAFC]" />
             </div>
           </div>
 
@@ -64,7 +64,7 @@ const NewsletterSection = () => {
             Join the Vretok VIP Club
           </h2>
 
-          <p className="text-base md:text-lg text-[#F7F3E8]/85 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-[#F8FAFC]/85 mb-8 max-w-2xl mx-auto leading-relaxed">
             Get updates on Vretok leggings, training gear, and seasonal promotions.
           </p>
 
@@ -79,7 +79,7 @@ const NewsletterSection = () => {
                     if (error) setError('');
                   }}
                   placeholder="Your email address"
-                  className="w-full px-4 py-3 rounded-full border-0 bg-[#F7F3E8] text-[#123E52] placeholder-[#123E52]/60 focus:outline-none focus:ring-2 focus:ring-[#397F86] transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-full border-0 bg-[#F8FAFC] text-[#0F172A] placeholder-[#0F172A]/60 focus:outline-none focus:ring-2 focus:ring-[#E11D48] transition-all duration-200"
                   disabled={isSubmitting || isSuccess}
                 />
               </div>
@@ -87,7 +87,7 @@ const NewsletterSection = () => {
               <button
                 type="submit"
                 disabled={isSubmitting || isSuccess}
-                className="bg-[#397F86] hover:bg-[#306E76] text-white disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-full font-bold transition-all duration-200 flex items-center justify-center gap-2 min-w-[140px] shadow-md"
+                className="bg-[#E11D48] hover:bg-[#BE123C] text-white disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-full font-bold transition-all duration-200 flex items-center justify-center gap-2 min-w-[140px] shadow-md"
               >
                 {isSubmitting ? (
                   <>
@@ -125,7 +125,7 @@ const NewsletterSection = () => {
             )}
           </form>
 
-          <p className="text-[#F7F3E8]/60 text-xs sm:text-sm mt-6">
+          <p className="text-[#F8FAFC]/60 text-xs sm:text-sm mt-6">
             We value your privacy. Unsubscribe with one click anytime.
           </p>
         </div>

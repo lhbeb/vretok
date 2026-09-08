@@ -24,13 +24,13 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
   if (categories.length === 0) return null;
 
   return (
-    <section className="bg-[#F7F3E8] py-14 md:py-20" aria-labelledby="popular-categories-title">
+    <section className="bg-[#F8FAFC] py-14 md:py-20" aria-labelledby="popular-categories-title">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 md:mb-10">
             <h2
               id="popular-categories-title"
-              className="text-3xl font-bold tracking-tight text-[#123E52] md:text-4xl"
+              className="text-3xl font-bold tracking-tight text-[#0F172A] md:text-4xl"
             >
               Explore Activewear Categories
             </h2>
@@ -41,20 +41,21 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
               <Link
                 key={category.name}
                 href={`/search?category=${encodeURIComponent(category.name)}`}
-                className="relative overflow-hidden rounded-2xl border border-[#123E52]/15 bg-white shadow-sm transition-all duration-200 hover:border-[#397F86] hover:shadow-md group"
+                className="relative overflow-hidden rounded-2xl border border-[#0F172A]/15 bg-white shadow-sm transition-all duration-200 hover:border-[#E11D48] hover:shadow-md group"
                 aria-label={`Shop ${category.name}`}
               >
-                <div className="relative aspect-square overflow-hidden bg-[#F7F3E8]/40 p-3 sm:p-5">
+                <div className="relative aspect-square overflow-hidden bg-[#F8FAFC] p-3 sm:p-5">
                   <Image
                     src={category.image!}
                     alt={`${category.name} collection`}
                     fill
+                    unoptimized={true}
                     sizes="(max-width: 1023px) 50vw, 20vw"
                     className="object-contain p-5 sm:p-7 group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
 
-                <div className="flex min-h-20 items-center bg-[#123E52] px-4 py-4 text-[#F7F3E8] sm:px-5 group-hover:bg-[#0C2C3D] transition-colors">
+                <div className="flex min-h-20 items-center bg-[#0F172A] px-4 py-4 text-[#F8FAFC] sm:px-5 group-hover:bg-[#020617] transition-colors">
                   <div className="min-w-0">
                     <h3 className="text-sm font-bold leading-tight sm:text-base text-white">
                       {category.name}
