@@ -14,7 +14,7 @@ const Hero = () => {
 
     const words = [
       'Squat-Proof Leggings',
-      'High-Performance Activewear',
+      'Performance Activewear',
       'Seamless Gym Sets',
       'Premium Workout Fits'
     ];
@@ -94,7 +94,7 @@ const Hero = () => {
           <h1 className="text-3xl font-bold leading-tight text-[#F8FAFC] md:text-4xl lg:text-5xl">
             <span
               ref={typingTextRef}
-              className="mb-1 block h-[1.2em] text-[#F43F5E]"
+              className="mb-1 block min-h-[1.2em] text-[#F43F5E]"
             >
               {placeholder}
             </span>
