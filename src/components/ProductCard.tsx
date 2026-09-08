@@ -95,7 +95,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               onClick={handleAddToCart}
               className={`w-full flex items-center justify-center gap-2 rounded-full py-2.5 text-sm font-bold shadow-lg transition-colors duration-200 ${
                 added 
-                  ? 'bg-emerald-600 text-white' 
+                  ? 'bg-[#0F172A] text-white' 
                   : 'bg-white/95 text-[#0F172A] hover:bg-[#0F172A] hover:text-white backdrop-blur-sm'
               }`}
             >
