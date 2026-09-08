@@ -182,7 +182,7 @@ const Header = () => {
         className={`transition-all duration-300 ${isSticky ? 'fixed top-0 left-0 right-0 z-50 shadow-md' : 'relative'}`}
       >
         <div suppressHydrationWarning={true} className="bg-[#0F172A] text-white">
-          <div suppressHydrationWarning={true} className="container mx-auto px-4 py-2 sm:py-2.5 lg:py-3">
+          <div suppressHydrationWarning={true} className="container mx-auto px-4 py-3 sm:py-4 lg:py-5">
             <div suppressHydrationWarning={true} className="flex items-center justify-between gap-4 sm:gap-6">
 
               {/* Logo */}
@@ -190,10 +190,10 @@ const Header = () => {
                 <Image
                   src="/logosvg.svg"
                   alt="Vretok Logo"
-                  width={180}
-                  height={54}
+                  width={144}
+                  height={43}
                   priority
-                  className="w-44 sm:w-48 md:w-52 lg:w-56 h-auto text-white"
+                  className="w-36 sm:w-40 md:w-44 lg:w-48 h-auto text-white"
                 />
               </Link>
 
