@@ -73,11 +73,26 @@ export default function AdminSidebar() {
   const [ordersCount, setOrdersCount] = useState<number>(0);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [isSpecialAdmin, setIsSpecialAdmin] = useState(false);
+  const [adminEmail, setAdminEmail] = useState('');
 
   useEffect(() => {
     // First try the dedicated non-HttpOnly cookie
     const cookies = document.cookie.split(';');
     const roleCookie = cookies.find(c => c.trim().startsWith('admin_role='));
+    const emailCookie = cookies.find(c => c.trim().startsWith('admin_email='));
+    
+    let email = '';
+    if (emailCookie) {
+      email = decodeURIComponent(emailCookie.split('=')[1]?.trim() || '');
+      setAdminEmail(email);
+    }
+    
+    const checkSpecialAdmin = (emailToCheck: string) => {
+      if (emailToCheck.toLowerCase() === 'yassir@vretok.shop') {
+        setIsSpecialAdmin(true);
+      }
+    };
 
     if (roleCookie) {
       const role = roleCookie.split('=')[1]?.trim();
@@ -86,6 +101,7 @@ export default function AdminSidebar() {
       } else if (role === 'admin') {
         setIsAdmin(true);
       }
+      if (email) checkSpecialAdmin(email);
       return; // Cookie worked, skip JWT
     }
 
@@ -100,6 +116,10 @@ export default function AdminSidebar() {
           setIsSuperAdmin(true);
         } else if (payload.role === 'admin') {
           setIsAdmin(true);
+        }
+        if (payload.email) {
+          setAdminEmail(payload.email);
+          checkSpecialAdmin(payload.email);
         }
       } catch (e) {
         console.error("Failed to parse admin token role.");
@@ -212,6 +232,21 @@ export default function AdminSidebar() {
 
   if (!mounted) return null;
 
+  // Filter items for special admin (yassir)
+  const filteredMainNavItems = getMainNavItems(ordersCount).filter(item => {
+    if (isSpecialAdmin) {
+      return item.path === '/admin/products' || item.path === '/admin/orders';
+    }
+    return true;
+  });
+
+  const filteredMoreNavItems = moreNavItems.filter(item => {
+    if (isSpecialAdmin) {
+      return item.path === '/admin/payment-settings';
+    }
+    return true;
+  });
+
   return (
     <>
       {/* Mobile Menu Button */}
@@ -272,7 +307,7 @@ export default function AdminSidebar() {
               Main Menu
             </p>
             <div className="space-y-1">
-              {getMainNavItems(ordersCount).map((item) => {
+              {filteredMainNavItems.map((item) => {
                 const Icon = item.icon;
                 const active = isActive(item.path);
 
@@ -317,7 +352,7 @@ export default function AdminSidebar() {
                   onClick={() => setMoreOpen((o) => !o)}
                   className={`
                     w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
-                    ${moreNavItems.some((i) => isActive(i.path))
+                    ${filteredMoreNavItems.some((i) => isActive(i.path))
                       ? 'bg-[#020617] text-white shadow-lg shadow-[#020617]/30'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-[#262626]'
                     }
@@ -325,7 +360,7 @@ export default function AdminSidebar() {
                 >
                   <MoreHorizontal
                     className={`h-5 w-5 flex-shrink-0 ${
-                      moreNavItems.some((i) => isActive(i.path)) ? 'text-white' : 'text-gray-400'
+                      filteredMoreNavItems.some((i) => isActive(i.path)) ? 'text-white' : 'text-gray-400'
                     }`}
                   />
                   <span className="flex-1 text-left font-medium text-sm">More</span>
@@ -333,7 +368,7 @@ export default function AdminSidebar() {
                     className={`h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
                       moreOpen ? 'rotate-180' : ''
                     } ${
-                      moreNavItems.some((i) => isActive(i.path)) ? 'text-white' : 'text-gray-400'
+                      filteredMoreNavItems.some((i) => isActive(i.path)) ? 'text-white' : 'text-gray-400'
                     }`}
                   />
                 </button>
@@ -345,7 +380,7 @@ export default function AdminSidebar() {
                   }`}
                 >
                   <div className="pl-3 space-y-1 border-l-2 border-gray-100 ml-4">
-                    {moreNavItems.map((item) => {
+                    {filteredMoreNavItems.map((item) => {
                       const Icon = item.icon;
                       const active = isActive(item.path);
                       return (

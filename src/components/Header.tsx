@@ -91,10 +91,17 @@ const Header = () => {
         setCartCount(getCartCount());
       }
     };
+    
+    const handleOpenCart = () => {
+      setIsCartOpen(true);
+    };
+
     updateCartCount();
     window.addEventListener('cartUpdated', updateCartCount);
+    window.addEventListener('openCart', handleOpenCart);
     return () => {
       window.removeEventListener('cartUpdated', updateCartCount);
+      window.removeEventListener('openCart', handleOpenCart);
     };
   }, []);
 

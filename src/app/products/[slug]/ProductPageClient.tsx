@@ -260,37 +260,12 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
       // Small delay to ensure localStorage is updated
       await new Promise(resolve => setTimeout(resolve, 100));
 
-      debugNavigation('handleAddToCart', 'Attempting navigation to /checkout');
+      debugLog('handleAddToCart', 'Opening cart drawer', 'log');
 
-      // Redirect to checkout - client-side navigation only
+      // Open cart drawer instead of redirecting
       if (typeof window !== 'undefined') {
-        try {
-          // Use Next.js router for client-side navigation
-          debugLog('handleAddToCart', 'Using router.push', 'log');
-          router.push('/checkout');
-          debugLog('handleAddToCart', 'router.push called successfully', 'log');
-
-          // Small delay before scroll
-          setTimeout(() => {
-            try {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            } catch (scrollError) {
-              debugError('handleAddToCart: scroll failed', scrollError);
-            }
-          }, 50);
-        } catch (navError) {
-          debugError('handleAddToCart: router.push failed', navError);
-          // Fallback: direct navigation
-          try {
-            debugLog('handleAddToCart', 'Using window.location.href as fallback', 'warn');
-            window.location.href = '/checkout';
-          } catch (fallbackError) {
-            debugError('handleAddToCart: fallback navigation failed', fallbackError);
-            setIsAddingToCart(false);
-            alert('Failed to navigate to checkout. Please try again.');
-            return;
-          }
-        }
+        window.dispatchEvent(new Event('openCart'));
+        setIsAddingToCart(false);
       }
 
       debugLog('handleAddToCart', 'SUCCESS - Navigation completed', 'log');

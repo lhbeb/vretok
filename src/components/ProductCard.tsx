@@ -35,6 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     addToCart(product);
     setAdded(true);
+    window.dispatchEvent(new Event('openCart'));
     setTimeout(() => setAdded(false), 2000);
   };
 
