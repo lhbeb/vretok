@@ -13,7 +13,7 @@ interface SellerBadgeProps {
 export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps) {
   const [seller, setSeller] = useState<Seller | null>(null);
   const [loading, setLoading] = useState(!!sellerId);
-  const fallbackAvatarUrl = '/mainlogo.svg';
+  const fallbackAvatarUrl = '/profile-picture.png';
 
   useEffect(() => {
     if (!sellerId) { setLoading(false); return; }
