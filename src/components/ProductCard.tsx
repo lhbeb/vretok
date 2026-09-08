@@ -122,7 +122,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </Link>
         </h3>
         <p className="mt-2 text-base font-semibold text-[#0F172A] sm:text-lg">
-          ${new Intl.NumberFormat('en-US').format(price)}
+          £{new Intl.NumberFormat('en-US').format(price)}
         </p>
       </div>
     </article>

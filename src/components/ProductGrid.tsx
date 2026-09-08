@@ -492,7 +492,7 @@ const ProductGrid = ({
               <div className="mb-6 flex flex-wrap items-center gap-2">
                 {priceRange.min !== "" ? (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0F172A]/10 px-3 py-1.5 text-sm font-medium text-[#0F172A]">
-                    Min: ${priceRange.min}
+                    Min: £{priceRange.min}
                     <button
                       type="button"
                       className="rounded-full p-0.5 hover:bg-[#0F172A]/20"
@@ -505,7 +505,7 @@ const ProductGrid = ({
 
                 {priceRange.max !== "" ? (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0F172A]/10 px-3 py-1.5 text-sm font-medium text-[#0F172A]">
-                    Max: ${priceRange.max}
+                    Max: £{priceRange.max}
                     <button
                       type="button"
                       className="rounded-full p-0.5 hover:bg-[#0F172A]/20"

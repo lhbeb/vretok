@@ -148,7 +148,7 @@ export default function StripeEmbeddedCheckout({
   };
 
   const formattedPrice = product.price !== undefined
-    ? `$${product.price.toFixed(2)}`
+    ? `£${product.price.toFixed(2)}`
     : null;
   const currencyCode = product.currency || 'GBP';
 

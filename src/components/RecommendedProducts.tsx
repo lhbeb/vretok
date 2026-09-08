@@ -112,7 +112,7 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
                   {product.title}
                 </h3>
 
-                <div className="text-base font-semibold text-[#0F172A] sm:text-lg">${new Intl.NumberFormat('en-US').format(product.price)}</div>
+                <div className="text-base font-semibold text-[#0F172A] sm:text-lg">£{new Intl.NumberFormat('en-US').format(product.price)}</div>
               </div>
             </Link>
           ))}

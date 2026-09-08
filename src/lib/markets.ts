@@ -22,7 +22,7 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     label: 'United States',
     flag: '🇺🇸',
     currencyCode: 'GBP',
-    currencySymbol: '$',
+    currencySymbol: '£',
     locale: 'en-US',
     shipsFrom: 'United States',
     shipsFromFlag: '🇺🇸',
@@ -54,7 +54,7 @@ export function getDeliveryRange(market: MarketConfig): string {
 }
 
 export const MARKET_OPTIONS = [
-  { value: 'us', label: '🇺🇸 United States (USD)' },
+  { value: 'us', label: '🇺🇸 United States (GBP)' },
 ] as const;
 
 export const MARKET_CURRENCY_MAP: Record<string, string> = { us: 'GBP' };
