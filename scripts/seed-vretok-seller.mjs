@@ -19,15 +19,13 @@ const seller = {
 const reviews = [
   {
     id: crypto.randomUUID(),
-    author: 'Mia Thornton',
+    author: 'Vretok Customer',
     rating: 5,
     date: '2026-08-14',
-    title: 'They made getting started feel easy',
-    content: 'Vretok reached out to me on Instagram. The team was so kind, explained the ambassador journey clearly, and helped me choose my first six pieces.',
-    helpful: 47,
+    title: 'Literally no faults at all',
+    content: 'Just tried it on and I absolutely love it. Literally no faults at all — 10/10.',
+    helpful: 0,
     verified: true,
-    location: 'Austin, TX',
-    purchaseDate: '2026-07-28',
   },
   {
     id: crypto.randomUUID(),
