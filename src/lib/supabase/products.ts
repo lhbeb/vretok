@@ -177,7 +177,7 @@ export async function getRecommendedProducts(
 
     const { data: currentProduct, error: currentProductError } = await supabaseAdmin
       .from('products')
-      .select('slug, category, listed_by, collections')
+      .select('slug, category, collections')
       .eq('slug', normalizedSlug)
       .single();
 
@@ -188,44 +188,38 @@ export async function getRecommendedProducts(
       return [];
     }
 
+    const currentCollections = Array.isArray(currentProduct.collections)
+      ? currentProduct.collections.filter(Boolean)
+      : [];
     const category = String(currentProduct.category || '').trim();
-    const listedBy = String(currentProduct.listed_by || '').trim();
-    if (!category || !listedBy) return [];
 
-    const { data, error } = await supabaseAdmin
+    if (currentCollections.length === 0 && !category) return [];
+
+    let query = supabaseAdmin
       .from('products')
       .select('*')
-      .eq('category', category)
-      .eq('listed_by', listedBy)
-      .neq('slug', normalizedSlug)
-      .order('created_at', { ascending: false });
+      .neq('slug', normalizedSlug);
+
+    if (currentCollections.length > 0) {
+      query = query.overlaps('collections', currentCollections);
+    } else {
+      query = query.eq('category', category);
+    }
+
+    const { data, error } = await query
+      .order('created_at', { ascending: false })
+      .limit(20);
 
     if (error) {
       console.error('Error fetching recommended products:', error);
       return [];
     }
 
-    const currentCollections = Array.isArray(currentProduct.collections)
-      ? currentProduct.collections
-      : [];
     const safeLimit = Math.min(Math.max(Math.trunc(limit) || 4, 1), 12);
 
     return (data || [])
       .map(transformProduct)
-      .filter(product =>
-        product.published !== false
-        && product.category === category
-        && product.listedBy === listedBy
-      )
-      .sort((a, b) => {
-        const aSharesCollection = Number(
-          currentCollections.some(collection => a.collections?.includes(collection)),
-        );
-        const bSharesCollection = Number(
-          currentCollections.some(collection => b.collections?.includes(collection)),
-        );
-        return bSharesCollection - aSharesCollection;
-      })
+      .filter(product => product.published !== false)
       .slice(0, safeLimit);
   } catch (error) {
     console.error('Error loading recommended products:', error);
