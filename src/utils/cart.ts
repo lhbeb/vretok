@@ -68,8 +68,8 @@ export function getCartItems(): CartItem[] {
  * Adds a product. If already present, does nothing (one-per-product rule).
  * Returns 'added' | 'already_in_cart'.
  */
-export function addToCart(product: Product): 'added' | 'already_in_cart' {
-  debugCart('addToCart called', { slug: product?.slug });
+export function addToCart(product: Product, qty: number = 1): 'added' | 'updated' | 'already_in_cart' {
+  debugCart('addToCart called', { slug: product?.slug, qty });
 
   if (typeof window === 'undefined' || !product) {
     debugError('addToCart: invalid call', new Error('window undefined or product null'));
@@ -80,21 +80,24 @@ export function addToCart(product: Product): 'added' | 'already_in_cart' {
     const items = readCart();
     const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
 
-    if (totalQuantity >= 6) {
-      alert('You can only have up to 6 items per checkout.');
+    if (totalQuantity + qty > 6) {
+      alert(`You can only have up to 6 items per checkout. You currently have ${totalQuantity} items in your cart.`);
       return 'already_in_cart';
     }
 
-    const existing = items.find(i => i.product.slug === product.slug);
+    const existingIndex = items.findIndex(i => i.product.slug === product.slug);
 
-    if (existing) {
-      debugCart('addToCart: already in cart', { slug: product.slug });
-      return 'already_in_cart';
+    if (existingIndex >= 0) {
+      // If already in cart, update the quantity
+      items[existingIndex].quantity += qty;
+      writeCart(items);
+      debugCart('addToCart: UPDATED', { slug: product.slug, newQty: items[existingIndex].quantity });
+      return 'updated';
     }
 
     const newItem: CartItem = {
       product: buildCleanProduct(product),
-      quantity: 1,
+      quantity: qty,
       addedAt: new Date().toISOString(),
     };
 

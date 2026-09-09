@@ -48,6 +48,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedSizeRange, setSelectedSizeRange] = useState<'mens' | 'womens' | null>(null);
   const [sizeError, setSizeError] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(1);
   const sizeSelectorRef = useRef<HTMLDivElement | null>(null);
 
   const parsedMensSizes = useMemo(() => {
@@ -220,7 +221,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
       addToCart({
         ...product,
         selectedSize: sizeValue || undefined
-      } as any);
+      } as any, quantity);
 
       // Meta Pixel AddToCart Event
       trackPixelEvent('AddToCart', {
@@ -619,6 +620,35 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                   </div>
                 </div>
               )}
+
+              {/* Quantity Selector Section */}
+              <div className="mt-6 border-t border-gray-100 pt-6">
+                <label className="text-sm font-bold text-[#0F172A] uppercase tracking-wide flex items-center gap-1.5 font-heading mb-3">
+                  Quantity
+                </label>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center border border-gray-200 rounded-md">
+                    <button
+                      type="button"
+                      onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                      className="px-4 py-2 text-gray-500 hover:text-[#0F172A] hover:bg-gray-50 transition-colors"
+                    >
+                      -
+                    </button>
+                    <span className="w-12 text-center font-semibold text-[#0F172A]">
+                      {quantity}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setQuantity(q => Math.min(6, q + 1))}
+                      className="px-4 py-2 text-gray-500 hover:text-[#0F172A] hover:bg-gray-50 transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <span className="text-sm text-gray-400">Max 6 per order</span>
+                </div>
+              </div>
 
               {/* Mobile Sticky Buttons */}
               <div className="lg:mt-8 lg:space-y-3 fixed bottom-0 left-0 right-0 z-50 lg:relative lg:z-auto bg-white border-t border-gray-200 lg:border-0 lg:bg-transparent px-4 py-3 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:space-y-3 space-y-2">
