@@ -8,7 +8,7 @@ import type { Review } from '@/types/product';
 import { lockScroll, unlockScroll } from '@/utils/scrollUtils';
 
 interface ProductReviewsProps {
-  reviews: Review[];
+  reviews?: Review[];
   averageRating: number;
   totalReviews: number;
   /** If reviews were inherited from the seller, pass their name and username */

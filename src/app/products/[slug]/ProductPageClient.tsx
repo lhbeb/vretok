@@ -434,7 +434,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
     );
   }
 
-  const { slug, title, description, price, original_price, images, condition, reviews } = product || {};
+  const { slug, title, description, price, original_price, images, condition, reviews = [] } = product || {};
 
   // Safety checks
   if (!slug || !title || !images || images.length === 0) {
@@ -907,10 +907,10 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
           <div className="mt-8">
             <SameDayShipping fullWidth={true} contained={true} />
           </div>
-          {(reviews.length > 0 || (product.reviewCount || 0) > 0) && (
+          {((reviews?.length || 0) > 0 || (product.reviewCount || 0) > 0) && (
             <div className="mt-16">
               <ProductReviews
-                reviews={reviews}
+                reviews={reviews || []}
                 averageRating={product.rating}
                 totalReviews={product.reviewCount}
                 sellerName={(product.meta as any)?._sellerName}
