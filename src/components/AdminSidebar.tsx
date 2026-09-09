@@ -23,6 +23,7 @@ import {
   User,
   AlertTriangle,
   CreditCard,
+  Repeat2,
   ChevronDown,
   MoreHorizontal
 } from 'lucide-react';
@@ -43,6 +44,7 @@ const getMainNavItems = (ordersCount: number): NavItem[] => [
   { name: 'Products', path: '/admin/products', icon: Package, description: 'Manage inventory' },
   { name: 'Sellers', path: '/admin/sellers', icon: User, description: 'Manage sellers profiles' },
   { name: 'Orders', path: '/admin/orders', icon: ShoppingCart, description: 'View all orders', badge: ordersCount > 0 ? ordersCount : undefined },
+  { name: 'Subscription Manager', path: '/admin/subscription-manager', icon: Repeat2, description: 'Subscribers & Stripe payments' },
   { name: 'Analytics', path: '/admin/analytics', icon: BarChart2, description: 'Traffic & visitors' },
   { name: 'Mail Project', path: '/admin/mail-project', icon: Mail, description: 'Send & manage emails' },
   { name: 'Price Monitor', path: '/admin/price-monitor', icon: TrendingDown, description: 'Track product prices' },
