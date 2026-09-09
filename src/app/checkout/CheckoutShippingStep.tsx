@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { FormEventHandler, MouseEvent, ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown, CircleAlert, Mail, Store, Trash, User } from 'lucide-react';
+import { ArrowLeft, ChevronDown, CircleAlert, CreditCard, Mail, Store, Trash, User } from 'lucide-react';
 import CheckoutNotifier from '@/components/CheckoutNotifier';
 import CountrySelect from '@/components/CountrySelect';
 import type { CartItem } from '@/utils/cart';
@@ -25,6 +25,8 @@ interface CheckoutShippingStepProps {
   appliedPromo?: string;
   promoError?: string;
   onApplyPromo?: () => void;
+  savePaymentMethod: boolean;
+  onSavePaymentMethodChange: (value: boolean) => void;
 }
 
 interface MobileCheckoutCTAProps {
@@ -403,6 +405,38 @@ function SecureCheckoutInfo({ mobile = false }: { mobile?: boolean }) {
   );
 }
 
+function SavedPaymentConsent({
+  checked,
+  onChange,
+  mobile = false,
+}: {
+  checked: boolean;
+  onChange: (value: boolean) => void;
+  mobile?: boolean;
+}) {
+  const id = mobile ? 'save-payment-method-mobile' : 'save-payment-method-desktop';
+  return (
+    <label htmlFor={id} className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 text-left">
+      <input
+        id={id}
+        type="checkbox"
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+        className="mt-1 h-4 w-4 shrink-0 accent-[#E11D48]"
+      />
+      <span>
+        <span className="flex items-center gap-2 text-sm font-semibold text-[#262626]">
+          <CreditCard className="h-4 w-4 text-[#E11D48]" />
+          Save my card for authorised future purchases
+        </span>
+        <span className="mt-1 block text-xs leading-5 text-gray-500">
+          Vretok may use this saved card only after I approve a specific future order and amount. I can ask Vretok to remove it at any time.
+        </span>
+      </span>
+    </label>
+  );
+}
+
 function formatPriceString(amount: number, currency: string = 'GBP') {
   let symbol = '$';
   if (currency === 'GBP') symbol = '£';
@@ -431,6 +465,8 @@ export default function CheckoutShippingStep({
   appliedPromo = '',
   promoError = '',
   onApplyPromo,
+  savePaymentMethod,
+  onSavePaymentMethodChange,
 }: CheckoutShippingStepProps) {
   const [showMobileOrderSummary, setShowMobileOrderSummary] = useState(false);
   
@@ -545,6 +581,7 @@ export default function CheckoutShippingStep({
                   <h2 className="text-xl lg:text-2xl font-bold text-[#262626] mb-6 lg:mb-8 text-left">Delivery Address</h2>
                   <form onSubmit={onSubmit} className="space-y-6">
                     <AddressFields form={form} />
+                    <SavedPaymentConsent checked={savePaymentMethod} onChange={onSavePaymentMethodChange} />
                     <div className="hidden lg:block mt-8">
                       <ContinueButton isSendingEmail={isSendingEmail} isRedirecting={isRedirecting} />
                     </div>
@@ -672,6 +709,7 @@ export default function CheckoutShippingStep({
               <h2 className="text-xl font-bold text-[#262626] mb-6">Delivery Address</h2>
               <form onSubmit={onSubmit} className="space-y-6">
                 <AddressFields form={form} mobile />
+                <SavedPaymentConsent checked={savePaymentMethod} onChange={onSavePaymentMethodChange} mobile />
 
                 {checkoutError && (
                   <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">

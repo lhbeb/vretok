@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         });
         
         const body = await request.json();
-        const { orderId, cartItems, shippingData, promoCode } = body;
+        const { orderId, cartItems, shippingData, promoCode, savePaymentMethod } = body;
 
         if (!orderId || !cartItems || !Array.isArray(cartItems) || cartItems.length === 0 || !shippingData) {
             return NextResponse.json(
@@ -181,6 +181,17 @@ export async function POST(request: NextRequest) {
             postal_code: shippingData.zipCode,
         };
         const orderReference = order.order_number ? `#${order.order_number}` : orderId;
+        const consentedToSave = savePaymentMethod === true;
+        const consentTimestamp = consentedToSave ? new Date().toISOString() : '';
+
+        let existingCustomerId: string | undefined;
+        if (consentedToSave) {
+            const matchingCustomers = await stripe.customers.list({
+                email: shippingData.email,
+                limit: 1,
+            });
+            existingCustomerId = matchingCustomers.data[0]?.id;
+        }
 
         const session = await stripe.checkout.sessions.create({
             ui_mode: 'embedded',
@@ -188,11 +199,21 @@ export async function POST(request: NextRequest) {
             line_items,
             mode: 'payment',
             return_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
-            customer_email: shippingData.email,
+            ...(existingCustomerId
+                ? { customer: existingCustomerId }
+                : { customer_email: shippingData.email }),
+            ...(consentedToSave && !existingCustomerId ? { customer_creation: 'always' as const } : {}),
             payment_intent_data: {
+                ...(consentedToSave ? { setup_future_usage: 'off_session' as const } : {}),
                 shipping: {
                     name: shippingData.fullName || shippingData.email,
                     address: shippingAddress,
+                },
+                metadata: {
+                    future_charge_consent: consentedToSave ? 'granted' : 'not_granted',
+                    future_charge_consent_at: consentTimestamp,
+                    future_charge_consent_version: 'authorised-future-order-v1',
+                    order_id: orderId,
                 },
             },
             expires_at: Math.floor(Date.now() / 1000) + (30 * 60), // 30 minutes
@@ -203,7 +224,10 @@ export async function POST(request: NextRequest) {
                 shipping_city: shippingData.city,
                 shipping_state: shippingData.state,
                 shipping_zip: shippingData.zipCode,
-                multi_cart: 'true'
+                multi_cart: 'true',
+                future_charge_consent: consentedToSave ? 'granted' : 'not_granted',
+                future_charge_consent_at: consentTimestamp,
+                future_charge_consent_version: 'authorised-future-order-v1',
             },
         });
 

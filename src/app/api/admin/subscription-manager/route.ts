@@ -86,11 +86,22 @@ export async function GET(request: NextRequest) {
       stripe.invoices.list({ limit: 100, expand: ['data.customer'] }),
     ]);
 
+    const paymentMethodsByCustomer = new Map<string, ReturnType<typeof paymentMethodSummary>>();
+    for (const payment of paymentList.data) {
+      const customerId = customerSummary(payment.customer).id;
+      const method = paymentMethodSummary(payment.payment_method);
+      if (customerId && method && !paymentMethodsByCustomer.has(customerId)) {
+        paymentMethodsByCustomer.set(customerId, method);
+      }
+    }
+
     const customers = customerList.data.map((customer) => ({
       ...customerSummary(customer),
       created: customer.created,
       currency: customer.currency || null,
-      defaultPaymentMethod: paymentMethodSummary(customer.invoice_settings.default_payment_method),
+      defaultPaymentMethod: paymentMethodSummary(customer.invoice_settings.default_payment_method)
+        || paymentMethodsByCustomer.get(customer.id)
+        || null,
     }));
     const customerPaymentMethods = new Map(customers.map((customer) => [customer.id, customer.defaultPaymentMethod]));
 
@@ -210,6 +221,20 @@ export async function POST(request: NextRequest) {
     const methodCustomerId = typeof method.customer === 'string' ? method.customer : method.customer?.id;
     if (methodCustomerId !== customerId || method.type !== 'card') {
       return NextResponse.json({ error: 'The selected saved card does not belong to this customer.' }, { status: 400 });
+    }
+
+    const priorPayments = await stripe.paymentIntents.list({ customer: customerId, limit: 100 });
+    const hasRecordedConsent = priorPayments.data.some((priorPayment) => {
+      const priorMethodId = typeof priorPayment.payment_method === 'string'
+        ? priorPayment.payment_method
+        : priorPayment.payment_method?.id;
+      return priorMethodId === methodId && priorPayment.metadata.future_charge_consent === 'granted';
+    });
+    if (!hasRecordedConsent) {
+      return NextResponse.json(
+        { error: 'No recorded customer consent exists for future charges on this saved card.' },
+        { status: 400 },
+      );
     }
 
     const payment = await stripe.paymentIntents.create({

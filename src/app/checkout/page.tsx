@@ -24,6 +24,7 @@ const CheckoutPage: React.FC = () => {
   const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState('');
   const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [savePaymentMethod, setSavePaymentMethod] = useState(false);
 
   const [promoCodeInput, setPromoCodeInput] = useState('');
   const [appliedPromo, setAppliedPromo] = useState('');
@@ -237,7 +238,8 @@ const CheckoutPage: React.FC = () => {
             orderId, 
             cartItems, 
             shippingData: form.shippingData,
-            promoCode: isFreeOrder ? 'FREE100' : undefined
+            promoCode: isFreeOrder ? 'FREE100' : undefined,
+            savePaymentMethod,
           }),
         });
         const data = await response.json();
@@ -321,6 +323,8 @@ const CheckoutPage: React.FC = () => {
       appliedPromo={appliedPromo}
       promoError={promoError}
       onApplyPromo={handleApplyPromo}
+      savePaymentMethod={savePaymentMethod}
+      onSavePaymentMethodChange={setSavePaymentMethod}
     />
   );
 };
