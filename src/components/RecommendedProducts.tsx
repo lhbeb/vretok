@@ -91,7 +91,7 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
             <Link
               key={product.id}
               href={`/products/${product.slug}`}
-              className="group overflow-hidden bg-white"
+              className="group overflow-hidden bg-transparent"
             >
               <div className="relative aspect-[3/4] overflow-hidden bg-[#F4F4F5]">
                 <Image
