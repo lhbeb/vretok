@@ -22,8 +22,8 @@ const reviews = [
     author: 'Mia Thornton',
     rating: 5,
     date: '2026-08-14',
-    title: 'Finally found my go-to activewear brand',
-    content: "I've tried a dozen activewear brands and Vretok is hands-down the best. The leggings have zero see-through issues, the waistband stays put during squats, and the fabric feels premium without the crazy price tag. I bought three pairs within a week.",
+    title: 'They made getting started feel easy',
+    content: 'Vretok reached out to me on Instagram. The team was so kind, explained the ambassador journey clearly, and helped me choose my first six pieces.',
     helpful: 47,
     verified: true,
     location: 'Austin, TX',
@@ -34,8 +34,8 @@ const reviews = [
     author: 'Jade Okonkwo',
     rating: 5,
     date: '2026-08-02',
-    title: 'Best sports bra I have ever owned',
-    content: "The sports bra fits like a dream — high support without feeling like a cage. I wore it through a 90-minute HIIT class and stayed comfortable the whole time. The stitching is really clean and it washed perfectly without losing shape.",
+    title: 'Exactly the push I needed',
+    content: 'I wanted to start posting gym content but had no idea where to begin. The six-item promo gave me a real starting point, and the team answered every question.',
     helpful: 31,
     verified: true,
     location: 'London, UK',
@@ -46,8 +46,8 @@ const reviews = [
     author: 'Carlos Reyes',
     rating: 5,
     date: '2026-07-21',
-    title: 'Great gym shorts for men — lightweight and durable',
-    content: "Ordered the iron shorts for leg day and I'm genuinely impressed. They don't ride up, the pockets are deep enough for my phone, and the quick-dry fabric actually works. Will be ordering more colors.",
+    title: 'Helpful from the first message',
+    content: 'We connected on Instagram and the whole conversation felt genuine. They guided me through the promo code and sizing without any pressure.',
     helpful: 22,
     verified: true,
     location: 'Miami, FL',
@@ -58,8 +58,8 @@ const reviews = [
     author: 'Priya Nair',
     rating: 4,
     date: '2026-07-10',
-    title: 'Lovely quality, sizing runs slightly small',
-    content: "The fabric and construction are excellent — really soft and squat-proof. I'd say size up if you're between sizes because mine was a tiny bit snug on the hips. That said, I love the color and the fit is flattering. Four stars but would absolutely order again.",
+    title: 'A really generous start',
+    content: 'The six free pieces helped me build a few gym looks for my first videos. Delivery took a little longer than expected, but the team kept me updated.',
     helpful: 18,
     verified: true,
     location: 'Toronto, CA',
@@ -70,8 +70,8 @@ const reviews = [
     author: 'Sophie Lane',
     rating: 5,
     date: '2026-06-30',
-    title: 'Obsessed with Vretok leggings',
-    content: "Discovered Vretok through a friend and I'm so glad I did. I own the 24-inch motion leggings in three colorways now. They hold everything in place, the material is thick without being hot, and they photograph beautifully for the gym. Shipping was also super fast.",
+    title: 'So supportive on Instagram',
+    content: 'Their message came at the perfect time. They walked me through becoming an ambassador and made my first order simple from start to finish.',
     helpful: 54,
     verified: true,
     location: 'Sydney, AU',
@@ -82,8 +82,8 @@ const reviews = [
     author: 'Lena Fischer',
     rating: 5,
     date: '2026-06-18',
-    title: 'Fantastic for yoga and Pilates',
-    content: "I was skeptical ordering activewear online but Vretok exceeded my expectations. The leggings are buttery soft and move with you in every direction. The high waist gives great core support during Pilates without digging in. 100% recommend.",
+    title: 'My first ambassador package',
+    content: 'I used the code for six pieces and finally had enough outfits to start filming consistently. Everything fit well and looked great on camera.',
     helpful: 29,
     verified: true,
     location: 'Berlin, DE',
@@ -94,8 +94,8 @@ const reviews = [
     author: 'Aisha Kamara',
     rating: 5,
     date: '2026-06-05',
-    title: 'Great brand, great customer service',
-    content: "Had a small issue with my order and the Vretok team sorted it out within hours. The activewear itself is top quality — I've been wearing the biker shorts all summer and they still look brand new. This brand really cares about their customers.",
+    title: 'Such a kind team',
+    content: 'I had loads of questions before joining. They replied patiently on Instagram and helped me feel confident about starting my fitness page.',
     helpful: 36,
     verified: true,
     location: 'Manchester, UK',
@@ -106,8 +106,8 @@ const reviews = [
     author: 'Taylor Brooks',
     rating: 4,
     date: '2026-05-27',
-    title: 'Great everyday workout wear',
-    content: "Good quality activewear at a fair price. The shorts are comfortable for running and the waistband doesn't roll. My only minor gripe is delivery took a bit longer than expected, but the product was worth the wait.",
+    title: 'Worth the wait',
+    content: 'The team helped me pick my sizes and the clothes feel great for training. Shipping was a little slow, but they stayed in touch the whole time.',
     helpful: 11,
     verified: true,
     location: 'Chicago, IL',
@@ -118,8 +118,8 @@ const reviews = [
     author: 'Nina Vasquez',
     rating: 5,
     date: '2026-05-15',
-    title: 'My whole gym wardrobe is now Vretok',
-    content: "Started with one pair of leggings and now I've replaced my entire gym wardrobe. The consistency in sizing and quality across all their pieces is impressive. Everything washes well, keeps its shape, and the colors stay vibrant. A brand I genuinely trust.",
+    title: 'It gave me a real beginning',
+    content: 'Six outfits was such a generous way to begin. It helped me stop overthinking and finally start my gym and content creation journey.',
     helpful: 63,
     verified: true,
     location: 'Barcelona, ES',
@@ -130,8 +130,8 @@ const reviews = [
     author: 'Marcus Hill',
     rating: 5,
     date: '2026-05-03',
-    title: 'Solid men\'s activewear — finally',
-    content: "Most activewear brands focus on women so finding Vretok's men's range was a relief. The cargo shorts and training shorts are well-made, comfortable, and actually look stylish at the gym. The fabric doesn't cling awkwardly and has great stretch. Highly recommend.",
+    title: 'Friendly and straightforward',
+    content: 'Vretok contacted me on Instagram and explained everything clearly. The promo was easy to use, and the team helped me choose pieces I would actually wear.',
     helpful: 28,
     verified: true,
     location: 'New York, NY',
@@ -140,6 +140,7 @@ const reviews = [
 ];
 
 async function main() {
+  const reviewsOnly = process.argv.includes('--reviews-only');
   console.log('🏃 Setting up Vretok seller in Supabase...\n');
 
   // ── Step 1: Check if seller already exists ─────────────────────────────
@@ -153,9 +154,12 @@ async function main() {
 
   if (existing) {
     console.log(`⚠️  Seller "vretok" already exists (id: ${existing.id}) — updating profile...`);
+    const updatePayload = reviewsOnly
+      ? { reviews: JSON.stringify(reviews) }
+      : { ...seller, reviews: JSON.stringify(reviews) };
     const { data, error } = await sb
       .from('sellers')
-      .update({ ...seller, reviews: JSON.stringify(reviews) })
+      .update(updatePayload)
       .eq('id', existing.id)
       .select('id')
       .single();
@@ -177,6 +181,11 @@ async function main() {
   }
 
   console.log(`\n📝 ${reviews.length} reviews stored on seller profile.`);
+
+  if (reviewsOnly) {
+    console.log('✅ Review copy updated without changing products or seller profile details.');
+    return;
+  }
 
   // ── Step 3: Assign seller to all products ──────────────────────────────
   console.log('\n🔗 Assigning seller to all products...');
