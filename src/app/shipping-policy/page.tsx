@@ -31,13 +31,13 @@ export default function ShippingPolicyPage() {
         <section className="rounded-3xl bg-[#0F172A] p-8 text-white shadow-lg sm:p-12">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#9BD4D3]">Vretok delivery</p>
           <h1 className="text-4xl font-bold sm:text-5xl">Shipping Policy</h1>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/85">Vretok offers standard worldwide shipping for a flat £29.99 GBP per order. This page explains our handling, transit, and delivery terms.</p>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/85">Vretok offers standard worldwide shipping. Shipping is calculated at the end of the checkout. This page explains our handling, transit, and delivery terms.</p>
         </section>
 
         <section className="mt-8 grid gap-5 md:grid-cols-3">
           <article className="rounded-2xl border border-[#0F172A]/10 bg-white p-6"><Clock className="h-6 w-6 text-[#E11D48]" /><h2 className="mt-4 text-xl font-bold text-[#0F172A]">Handling</h2><p className="mt-2 text-gray-700">Orders normally leave our fulfillment process within {storePolicy.handlingDays.min}–{storePolicy.handlingDays.max} business days after payment is confirmed.</p></article>
           <article className="rounded-2xl border border-[#0F172A]/10 bg-white p-6"><Truck className="h-6 w-6 text-[#E11D48]" /><h2 className="mt-4 text-xl font-bold text-[#0F172A]">Transit</h2><p className="mt-2 text-gray-700">Standard transit is estimated at {storePolicy.transitDays.min}–{storePolicy.transitDays.max} business days after dispatch.</p></article>
-          <article className="rounded-2xl border border-[#0F172A]/10 bg-white p-6"><PackageCheck className="h-6 w-6 text-[#E11D48]" /><h2 className="mt-4 text-xl font-bold text-[#0F172A]">Shipping cost</h2><p className="mt-2 text-gray-700">Standard worldwide shipping costs £29.99 GBP per order.</p></article>
+          <article className="rounded-2xl border border-[#0F172A]/10 bg-white p-6"><PackageCheck className="h-6 w-6 text-[#E11D48]" /><h2 className="mt-4 text-xl font-bold text-[#0F172A]">Shipping cost</h2><p className="mt-2 text-gray-700">Shipping is calculated at the end of the checkout.</p></article>
         </section>
 
         <section className="mt-8 space-y-7 rounded-3xl border border-[#0F172A]/10 bg-white p-7 text-gray-700 sm:p-10">

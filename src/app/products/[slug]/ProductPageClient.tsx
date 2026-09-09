@@ -45,9 +45,10 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
   const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
   const [isConditionTooltipVisible, setIsConditionTooltipVisible] = useState(false);
   const [conditionTooltipStyle, setConditionTooltipStyle] = useState<CSSProperties>({});
-  const [selectedSize, setSelectedSize] = useState<string>('');
-  const [selectedSizeRange, setSelectedSizeRange] = useState<'mens' | 'womens' | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSizeRange, setSelectedSizeRange] = useState<'mens' | 'womens'>('mens');
   const [sizeError, setSizeError] = useState<boolean>(false);
+  const [cartError, setCartError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const sizeSelectorRef = useRef<HTMLDivElement | null>(null);
 
@@ -207,6 +208,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
 
     debugLog('handleAddToCart', { productId: product.id, productSlug: product.slug, selectedSize, selectedSizeRange }, 'log');
     setIsAddingToCart(true);
+    setCartError(null);
 
     try {
       if (typeof window === 'undefined') {
@@ -261,11 +263,15 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
       }
 
       debugLog('handleAddToCart', 'SUCCESS - Navigation completed', 'log');
-    } catch (error) {
+    } catch (error: any) {
       debugError('handleAddToCart: CRITICAL ERROR', error);
       setIsAddingToCart(false);
-      alert('Failed to add product to cart. Please check the console for details.');
-      throw error; // Re-throw for better error tracking
+      if (error.message && error.message.includes('You can only have up to 6 items')) {
+        setCartError(error.message);
+      } else {
+        alert('Failed to add product to cart. Please check the console for details.');
+      }
+      return;
     }
   };
 
@@ -294,6 +300,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
     }
 
     setIsBuyingNow(true);
+    setCartError(null);
 
     // Use a small delay to ensure the UI updates
     await new Promise(resolve => setTimeout(resolve, 100));
@@ -325,10 +332,15 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
           goToCheckout();
         }, true);
       }, 200);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error in buy now:', error);
       setIsBuyingNow(false);
-      alert('Failed to proceed to checkout. Please try again.');
+      if (error.message && error.message.includes('You can only have up to 6 items')) {
+        setCartError(error.message);
+      } else {
+        alert('Failed to proceed to checkout. Please try again.');
+      }
+      return;
     }
   };
 
@@ -650,8 +662,31 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 </div>
               </div>
 
+              {/* Cart Limit Error UI */}
+              {cartError && (
+                <div className="mt-4 bg-red-50 border-2 border-red-200 rounded-xl py-3 px-4 flex items-start gap-3">
+                  <div className="text-red-500 mt-0.5 flex-shrink-0">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                  </div>
+                  <p className="text-sm text-red-800 font-medium">{cartError}</p>
+                </div>
+              )}
+
+              {/* Urgency / Scarcity Banner */}
+              {product && product.inStock !== false && (
+                <div className="mt-5 flex items-center justify-center gap-2.5 bg-red-50 border border-red-100 text-red-600 py-2.5 px-4 rounded-xl font-medium text-sm animate-pulse shadow-sm">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
+                  </span>
+                  <span className="font-bold">High Demand:</span> Selling fast!
+                </div>
+              )}
+
               {/* Mobile Sticky Buttons */}
-              <div className="lg:mt-8 lg:space-y-3 fixed bottom-0 left-0 right-0 z-50 lg:relative lg:z-auto bg-white border-t border-gray-200 lg:border-0 lg:bg-transparent px-4 py-3 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:space-y-3 space-y-2">
+              <div className="lg:mt-6 lg:space-y-3 fixed bottom-0 left-0 right-0 z-50 lg:relative lg:z-auto bg-white border-t border-gray-200 lg:border-0 lg:bg-transparent px-4 py-3 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:space-y-3 space-y-2">
                 {product && product.inStock === false ? (
                   /* Sold Out / Offer Expired Message */
                   <div className="w-full bg-gray-100 rounded-lg py-3 px-4 text-center">
@@ -676,7 +711,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                           <path d="M13.3334 14.666V7.33268H11.3334C10.9652 7.33268 10.6667 7.0342 10.6667 6.66602C10.6667 6.29783 10.9652 5.99935 11.3334 5.99935H14C14.3682 5.99935 14.6667 6.29783 14.6667 6.66602V15.3327C14.6667 15.7009 14.3682 15.9993 14 15.9993H2.00004C1.63185 15.9993 1.33337 15.7009 1.33337 15.3327V6.66602C1.33337 6.29783 1.63185 5.99935 2.00004 5.99935H4.66671C5.0349 5.99935 5.33337 6.29783 5.33337 6.66602C5.33337 7.0342 5.0349 7.33268 4.66671 7.33268H2.66671V14.666H13.3334Z"></path>
                         </svg>
                       </button>
-                      <button onClick={handleAddToCart} disabled={isAddingToCart || isBuyingNow} className="flex-1 lg:w-full bg-[#E11D48] hover:bg-[#BE123C] text-white py-3.5 lg:py-4 px-6 rounded-xl font-bold shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base">
+                      <button onClick={handleAddToCart} disabled={isAddingToCart || isBuyingNow} className="flex-1 lg:w-full bg-[#E11D48] hover:bg-[#BE123C] text-white py-3.5 lg:py-4 px-6 rounded-xl font-bold shadow-lg shadow-[#E11D48]/30 hover:shadow-xl hover:shadow-[#E11D48]/40 transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base relative overflow-hidden transform hover:-translate-y-0.5 active:translate-y-0">
                         {isAddingToCart ? <><div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#F8FAFC] mr-2"></div>Adding to Cart...</> : <><ShoppingCart className="h-5 w-5 mr-2 text-white/90" />Add to Cart</>}
                       </button>
                     </div>
@@ -731,6 +766,35 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                       </button>
                     )}
                   </>
+                )}
+
+                {/* Trust Badges & Micro-copy */}
+                {product && product.inStock !== false && (
+                  <div className="mt-5 flex flex-col items-center gap-3.5 px-2 lg:px-0 pb-2">
+                    <div className="flex items-center justify-center gap-2 text-xs font-bold text-[#0F172A] uppercase tracking-wider">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                      Secured Payment Options
+                    </div>
+                    <div className="flex flex-wrap items-center justify-center gap-2 opacity-80 grayscale hover:grayscale-0 transition-all duration-300">
+                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/visa-319d545c6fd255c9aad5eeaad21fd6f7f7b4f5976d92386451a61dcce11c28f2.svg" alt="Visa" width={38} height={24} className="h-6 w-auto" />
+                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/master-173035bc8124581983d4efa50cf8626e8553c2b311353fbf67485f9c1a2b88d1.svg" alt="Mastercard" width={38} height={24} className="h-6 w-auto" />
+                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/american_express-2264c9b8b57b23b0b083182844cb09a341a978ca073ce54b51512dc04b5f4c8f.svg" alt="Amex" width={38} height={24} className="h-6 w-auto" />
+                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/paypal-49e4c1e03244b6d2de0d270ca0d22dd15da6e92cc7266e93eb43762df5aa355d.svg" alt="PayPal" width={38} height={24} className="h-6 w-auto" />
+                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/apple_pay-f6db0077dc7c325b436fcbc102862cf140e673f848bb2560f78ccab7f1ef2e86.svg" alt="Apple Pay" width={38} height={24} className="h-6 w-auto" />
+                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/google_pay-c66a29c63facf2053bf6935298a7122cf2fe2b7c413b59df5aeb00109b0b4a44.svg" alt="Google Pay" width={38} height={24} className="h-6 w-auto" />
+                    </div>
+                    <div className="mt-1 flex flex-col items-center gap-1.5 text-xs text-gray-500 font-medium w-full max-w-sm mx-auto">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-green-500 font-bold">✓</span> Safe & Secure Checkout
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-green-500 font-bold">✓</span> Free Shipping
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-green-500 font-bold">✓</span> 30-Day Money-Back Guarantee
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
