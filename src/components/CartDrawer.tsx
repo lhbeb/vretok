@@ -178,7 +178,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             <h2 className="text-base font-bold text-[#0F172A]">
               Your Cart{items.length > 0 && (
                 <span className="ml-2 text-sm font-semibold text-gray-400">
-                  ({items.length} {items.length === 1 ? 'item' : 'items'})
+                  ({totalQuantity} {totalQuantity === 1 ? 'item' : 'items'})
                 </span>
               )}
             </h2>
@@ -241,55 +241,55 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   return (
                   <li
                     key={lineId}
-                    className={`flex gap-4 rounded-xl border border-gray-100 bg-gray-50/50 p-3 transition-all duration-300 ${
+                    className={`flex gap-3 rounded-xl border border-gray-100 bg-gray-50/50 p-2.5 sm:p-3 transition-all duration-300 ${
                       removingLineId === lineId ? 'scale-95 opacity-0' : 'opacity-100'
                     }`}
                   >
                     <Link
                       href={`/products/${item.product.slug}`}
                       onClick={onClose}
-                      className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100"
+                      className="relative h-[90px] w-[76px] flex-shrink-0 overflow-hidden rounded-md bg-gray-100"
                     >
                       {item.product.images?.[0] ? (
                         <Image
                           src={item.product.images[0]}
                           alt={item.product.title}
                           fill
-                          className="object-cover"
+                          className="object-cover object-top"
                           unoptimized
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center">
-                          <ShoppingBag className="h-8 w-8 text-gray-300" />
+                          <ShoppingBag className="h-6 w-6 text-gray-300" />
                         </div>
                       )}
                     </Link>
 
-                    <div className="flex min-w-0 flex-1 flex-col justify-between">
+                    <div className="flex min-w-0 flex-1 flex-col py-0.5">
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex min-w-0 flex-col gap-1">
+                        <div className="flex min-w-0 flex-col">
                           <Link
                             href={`/products/${item.product.slug}`}
                             onClick={onClose}
-                            className="line-clamp-2 text-sm font-semibold text-[#0F172A] leading-snug hover:text-[#E11D48] transition-colors"
+                            className="line-clamp-1 text-sm font-medium text-[#0F172A] hover:text-[#E11D48] transition-colors"
                           >
                             {item.product.title}
                           </Link>
                           {sizeOptions.length > 0 ? (
-                            <div>
+                            <div className="mt-1">
                               <button
                                 type="button"
                                 onClick={() => setEditingSizeLineId(isEditingSize ? null : lineId)}
-                                className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-semibold text-[#0F172A] transition-colors hover:border-[#E11D48] hover:text-[#E11D48]"
+                                className="inline-flex items-center gap-1 rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-500 border border-transparent hover:border-gray-200 transition-colors hover:text-[#0F172A]"
                                 aria-expanded={isEditingSize}
                                 aria-label={`Change size for ${item.product.title}. Current size: ${formatSizeDisplay(item.product.selectedSize) || 'not selected'}`}
                               >
-                                Size: {formatSizeDisplay(item.product.selectedSize) || 'Choose'}
+                                Size: <span className="font-semibold text-[#0F172A]">{formatSizeDisplay(item.product.selectedSize) || 'Choose'}</span>
                                 <ChevronDown className={`h-3 w-3 transition-transform ${isEditingSize ? 'rotate-180' : ''}`} />
                               </button>
 
                               {isEditingSize && (
-                                <div className="mt-2 flex flex-wrap gap-1.5" aria-label="Available sizes">
+                                <div className="mt-1.5 flex flex-wrap gap-1" aria-label="Available sizes">
                                   {sizeOptions.map(option => {
                                     const isSelected = item.product.selectedSize === option.value;
                                     return (
@@ -297,7 +297,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                                         key={option.value}
                                         type="button"
                                         onClick={() => handleSizeChange(lineId, option.value)}
-                                        className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] font-semibold transition-colors ${
+                                        className={`inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[10px] font-semibold transition-colors ${
                                           isSelected
                                             ? 'border-[#E11D48] bg-[#E11D48] text-white'
                                             : 'border-gray-200 bg-white text-gray-700 hover:border-[#E11D48] hover:text-[#E11D48]'
@@ -312,41 +312,48 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                               )}
                             </div>
                           ) : item.product.selectedSize ? (
-                            <span className="text-xs font-medium text-gray-500">Size: {formatSizeDisplay(item.product.selectedSize)}</span>
+                            <span className="mt-0.5 text-xs font-medium text-gray-500">Size: <span className="font-semibold text-[#0F172A]">{formatSizeDisplay(item.product.selectedSize)}</span></span>
                           ) : null}
                         </div>
                         <button
                           onClick={() => handleRemove(lineId)}
-                          className="flex-shrink-0 rounded-full p-1 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                          className="flex-shrink-0 p-1 text-gray-400 transition-colors hover:text-red-500"
                           aria-label={`Remove ${item.product.title}`}
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       </div>
 
-                      <div className="mt-2 flex items-center justify-between">
-                        <div className="inline-flex items-center rounded-full border border-gray-200 bg-white" aria-label={`Quantity for ${item.product.title}, size ${formatSizeDisplay(item.product.selectedSize) || 'standard'}`}>
-                          <button
-                            type="button"
-                            onClick={() => updateCartQty(lineId, item.quantity - 1)}
-                            className="rounded-l-full p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-[#0F172A]"
-                            aria-label={`Decrease quantity for ${item.product.title}`}
-                          >
-                            <Minus className="h-3 w-3" />
-                          </button>
-                          <span className="min-w-8 px-1 text-center text-xs font-semibold text-[#0F172A]">
-                            {item.quantity}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => updateCartQty(lineId, item.quantity + 1)}
-                            className="rounded-r-full p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-[#0F172A]"
-                            aria-label={`Increase quantity for ${item.product.title}`}
-                          >
-                            <Plus className="h-3 w-3" />
-                          </button>
+                      <div className="mt-auto flex items-end justify-between pt-2">
+                        <div className="flex flex-col gap-1">
+                          {item.quantity > 1 && (
+                            <span className="text-[10px] text-gray-500 font-medium">
+                              {fmt(item.product.price)} × {item.quantity}
+                            </span>
+                          )}
+                          <div className="inline-flex items-center rounded-lg border border-gray-200 bg-white shadow-sm h-[28px]" aria-label={`Quantity for ${item.product.title}`}>
+                            <button
+                              type="button"
+                              onClick={() => updateCartQty(lineId, item.quantity - 1)}
+                              className="h-full px-2.5 text-gray-500 transition-colors hover:bg-gray-50 hover:text-[#0F172A] rounded-l-lg"
+                              aria-label={`Decrease quantity for ${item.product.title}`}
+                            >
+                              <Minus className="h-3 w-3" />
+                            </button>
+                            <span className="min-w-[1.5rem] text-center text-xs font-bold text-[#0F172A]">
+                              {item.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => updateCartQty(lineId, item.quantity + 1)}
+                              className="h-full px-2.5 text-gray-500 transition-colors hover:bg-gray-50 hover:text-[#0F172A] rounded-r-lg"
+                              aria-label={`Increase quantity for ${item.product.title}`}
+                            >
+                              <Plus className="h-3 w-3" />
+                            </button>
+                          </div>
                         </div>
-                        <span className="text-sm font-bold text-[#0F172A]">
+                        <span className="text-sm font-bold text-[#0F172A] leading-none mb-1">
                           {fmt(item.product.price * item.quantity)}
                         </span>
                       </div>
@@ -369,47 +376,63 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               )}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600">Subtotal ({totalQuantity} {totalQuantity === 1 ? 'item' : 'items'})</span>
-                <div className="flex items-center gap-2">
-                  {isFreeOrder && <span className="text-gray-400 line-through text-xs">{fmt(rawSubtotal, currency)}</span>}
-                  <span className="font-semibold text-[#0F172A]">{isFreeOrder ? fmt(0, 'GBP') : fmt(rawSubtotal, currency)}</span>
-                </div>
+                <span className="font-semibold text-[#0F172A]">{fmt(rawSubtotal, currency)}</span>
               </div>
               {isFreeOrder && (
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-[#E11D48] font-semibold">Promo (FREE100)</span>
-                  <span className="font-semibold text-[#E11D48]">-{fmt(rawSubtotal, currency)}</span>
+                <div className="mt-2 rounded-lg bg-green-50/80 border border-green-100 p-3">
+                  <div className="flex items-center gap-1.5 text-green-700 font-bold text-sm mb-1">
+                    <span>🎉</span> Discount applied
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-green-700/80 font-medium">You saved</span>
+                    <span className="font-bold text-green-700">-{fmt(rawSubtotal, currency)}</span>
+                  </div>
                 </div>
               )}
-              <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center justify-between text-sm mt-3">
                 <span className="text-gray-600">Shipping</span>
                 <span className="text-gray-500">
                   Calculated at checkout
                 </span>
               </div>
-              <div className="border-t border-gray-100" />
+              <div className="border-t border-gray-100 mt-3 pt-3" />
               <div className="flex items-center justify-between">
                 <span className="text-base font-bold text-[#0F172A]">Total</span>
                 <span className="text-xl font-extrabold text-[#0F172A]">{fmt(finalTotal, displayCurrency)}</span>
               </div>
 
-              <button
-                onClick={handleCheckout}
-                className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-[#E11D48] py-4 text-base font-bold text-white transition-all hover:bg-[#BE123C] active:scale-[0.98] shadow-lg shadow-[#E11D48]/20"
-              >
-                Proceed to Checkout
-                <ArrowRight className="h-5 w-5" />
-              </button>
+              <div className="mt-4 flex flex-col gap-2">
+                <button
+                  onClick={handleCheckout}
+                  className="flex w-full flex-col items-center justify-center gap-0.5 rounded-xl bg-[#E11D48] py-3.5 text-white transition-all hover:bg-[#BE123C] active:scale-[0.98] shadow-lg shadow-[#E11D48]/20"
+                >
+                  <div className="flex items-center gap-2 text-base font-bold">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                    Secure Checkout <ArrowRight className="h-4 w-4 ml-0.5" />
+                  </div>
+                </button>
+                <div className="text-center">
+                  <span className="text-[11px] font-medium text-gray-500 tracking-wide">Secure payment · Easy returns</span>
+                </div>
+              </div>
 
-              <div className="flex items-center justify-between pt-1">
+              <div className="flex items-center justify-center pt-3 pb-1">
                 <button
                   onClick={onClose}
-                  className="text-xs text-gray-500 underline-offset-2 hover:underline transition-colors"
+                  className="text-xs font-medium text-gray-500 hover:text-[#0F172A] transition-colors flex items-center gap-1"
                 >
-                  Continue Shopping
+                  <ArrowRight className="h-3 w-3 rotate-180" /> Continue Shopping
                 </button>
+              </div>
+
+              <div className="mt-2 flex flex-col items-center gap-3">
+                <div className="flex items-center gap-1.5 text-xs text-gray-400 font-medium">
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                  Secure Checkout vretok
+                </div>
                 <button
                   onClick={() => clearCart()}
-                  className="text-xs text-red-400 underline-offset-2 hover:text-red-600 hover:underline transition-colors"
+                  className="text-[10px] text-gray-300 hover:text-gray-400 transition-colors"
                 >
                   Clear cart
                 </button>
