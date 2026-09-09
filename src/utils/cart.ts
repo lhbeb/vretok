@@ -78,6 +78,13 @@ export function addToCart(product: Product): 'added' | 'already_in_cart' {
 
   try {
     const items = readCart();
+    const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
+
+    if (totalQuantity >= 6) {
+      alert('You can only have up to 6 items per checkout.');
+      return 'already_in_cart';
+    }
+
     const existing = items.find(i => i.product.slug === product.slug);
 
     if (existing) {
@@ -112,10 +119,22 @@ export function updateCartQty(slug: string, qty: number): void {
     removeFromCart(slug);
     return;
   }
-  const items = readCart().map(i =>
+  const items = readCart();
+  
+  // Enforce limit of 6 total items
+  const currentTotal = items.reduce((acc, i) => acc + i.quantity, 0);
+  const itemToUpdate = items.find(i => i.product.slug === slug);
+  const currentQty = itemToUpdate ? itemToUpdate.quantity : 0;
+  
+  if (qty > currentQty && (currentTotal + (qty - currentQty)) > 6) {
+    alert('You can only have up to 6 items per checkout.');
+    return;
+  }
+
+  const newItems = items.map(i =>
     i.product.slug === slug ? { ...i, quantity: qty } : i
   );
-  writeCart(items);
+  writeCart(newItems);
 }
 
 /** Update the selected clothing size for an item. */

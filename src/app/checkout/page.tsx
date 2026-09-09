@@ -37,11 +37,15 @@ const CheckoutPage: React.FC = () => {
 
     const loadCartAndPromo = () => {
       try {
-        const savedPromo = localStorage.getItem('vretok_promo_code');
-        if (savedPromo) {
-          setAppliedPromo(savedPromo);
-          setPromoCodeInput(savedPromo);
+        // Auto-apply promo code if not set
+        let savedPromo = localStorage.getItem('vretok_promo_code');
+        if (!savedPromo || savedPromo !== 'FREE100') {
+          savedPromo = 'FREE100';
+          localStorage.setItem('vretok_promo_code', savedPromo);
         }
+        
+        setAppliedPromo(savedPromo);
+        setPromoCodeInput(savedPromo);
 
         const items = getCartItems();
         if (!items || items.length === 0) {
@@ -163,6 +167,16 @@ const CheckoutPage: React.FC = () => {
 
     if (!cartItems.length) {
       alert('Your cart is empty.');
+      return;
+    }
+
+    if (totalQuantity > 6) {
+      alert('You can only have up to 6 items per checkout.');
+      return;
+    }
+
+    if (appliedPromo !== 'FREE100') {
+      alert('Please apply the FREE100 promo code to proceed.');
       return;
     }
 
