@@ -459,10 +459,16 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
       <main className="flex-grow bg-gray-100 pt-4 pb-24 lg:py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:items-start">
-            <div className="relative lg:sticky lg:top-0 lg:self-start">
-              <div onClick={() => handleImageClick(activeImage)} className="cursor-zoom-in relative group aspect-[4/3] w-full">
+            <div className="relative lg:sticky lg:top-0 lg:self-start -mx-4 md:mx-0">
+              <div 
+                onClick={() => handleImageClick(activeImage)} 
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                className="cursor-zoom-in relative group aspect-[4/5] md:aspect-square lg:aspect-[4/5] w-full"
+              >
                 {images && images.length > 0 && images[activeImage] ? (
-                  <div className="relative w-full h-full bg-[#F8FAFC] rounded-md overflow-hidden">
+                  <div className="relative w-full h-full bg-[#F8FAFC] rounded-none md:rounded-md overflow-hidden">
                     <Image
                       key={images[activeImage]}
                       src={images[activeImage]}
@@ -483,18 +489,26 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     <span className="text-gray-400 font-medium">No image available</span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-200 rounded-md flex items-center justify-center pointer-events-none">
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-200 rounded-none md:rounded-md flex items-center justify-center pointer-events-none">
                   <ZoomIn className="h-12 w-12 text-white opacity-0 group-hover:opacity-75 transition-opacity" />
                 </div>
+                {images && images.length > 1 && (
+                  <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm text-[#0F172A] text-xs font-bold px-3 py-1.5 rounded-full shadow-sm pointer-events-none">
+                    {activeImage + 1} / {images.length}
+                  </div>
+                )}
               </div>
               {images && images.length > 1 && (
-                <div className="mt-4 flex justify-center space-x-2 overflow-x-auto py-2">
+                <div 
+                  className="mt-4 flex space-x-2 overflow-x-auto py-2 px-4 md:px-0 snap-x"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
                   {images.map((image, idx) => (
                     image ? (
                       <button
                         key={idx}
                         onClick={() => setActiveImage(idx)}
-                        className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden bg-[#F8FAFC] ${activeImage === idx ? 'ring-2 ring-[#0F172A]' : 'ring-1 ring-gray-200'}`}
+                        className={`relative flex-shrink-0 w-16 h-20 md:w-20 md:h-24 rounded-md overflow-hidden snap-start bg-[#F8FAFC] ${activeImage === idx ? 'ring-2 ring-[#0F172A]' : 'ring-1 ring-gray-200'}`}
                       >
                         <Image
                           src={image}
@@ -526,13 +540,46 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
             </div>
 
             <div className="lg:pr-4">
-              <h1 className="text-3xl font-medium text-[#0F172A] mb-1 font-heading">{title}</h1>
-              <SellerBadge sellerId={product?.sellerId} size="md" />
+              <h1 className="text-3xl font-medium text-[#0F172A] mb-0.5 font-heading leading-tight">{title}</h1>
+              
+              {/* Product Rating */}
+              {product && (product.reviewCount ?? 0) > 0 && (
+                <div className="flex items-center mb-2 text-[#0F172A]">
+                  <div className="flex mr-1.5">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className={`w-4 h-4 ${i < Math.round(product.rating ?? 5) ? 'text-[#0F172A] fill-[#0F172A]' : 'text-gray-300 fill-gray-300'}`} viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="font-bold text-sm mr-1">{(product.rating ?? 5).toFixed(1)}</span>
+                  <span className="text-sm text-gray-500">({product.reviewCount})</span>
+                </div>
+              )}
+
+              {/* Price Stack */}
+              <div className="mb-5 flex flex-col items-start gap-1">
+                <span className="text-4xl font-bold text-[#0F172A] leading-none">
+                  {formatMarketPrice(price, getMarket(product?.meta?.targetMarket))}
+                </span>
+                {original_price && original_price > price && (
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-lg text-gray-400 line-through font-medium">
+                      {formatMarketPrice(original_price, getMarket(product?.meta?.targetMarket))}
+                    </span>
+                    <span className="text-sm font-bold text-[#E11D48]">
+                      Save {formatMarketPrice(original_price - price, getMarket(product?.meta?.targetMarket))}
+                    </span>
+                    <span className="inline-flex items-center rounded border border-[#E11D48]/20 bg-[#FFE4EC] px-1.5 py-0.5 text-[10px] font-bold text-[#BE123C]">
+                      {Math.round((1 - price / original_price) * 100)}% OFF
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Condition */}
               {condition && (
-                <div className="mt-3 w-fit max-w-full">
-                  <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500">
-                    Condition
-                  </p>
+                <div className="mb-4 w-fit max-w-full">
                   <div
                     ref={conditionTriggerRef}
                     className="group relative inline-flex max-w-full flex-col"
@@ -543,13 +590,18 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     onBlur={() => setIsConditionTooltipVisible(false)}
                     onClick={() => setIsConditionTooltipVisible((current) => !current)}
                   >
-                    <div className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-[#0F172A]/15 bg-white px-3 py-1 text-sm font-medium text-[#0F172A] transition-colors group-hover:border-[#3B82F6] group-hover:bg-[#F8FAFC]/50 group-focus-within:border-[#3B82F6]">
+                    <div className="inline-flex max-w-full items-center gap-1.5 text-sm font-medium text-gray-600 cursor-pointer">
+                      <span className="flex items-center justify-center w-4 h-4 rounded-full bg-green-100 text-green-700">
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </span>
                       <span className="truncate">{getConditionDisplayLabel(condition)}</span>
-                      <Info className="h-4 w-4 flex-shrink-0 text-[#3B82F6] transition-colors group-hover:text-[#0F172A] group-focus-within:text-[#0F172A]" />
+                      <Info className="h-3.5 w-3.5 flex-shrink-0 text-gray-400" />
                     </div>
                     {getConditionTooltip(condition) && isConditionTooltipVisible && (
                       <div
-                        className="pointer-events-none z-[70] w-72 max-w-[calc(100vw-2rem)] rounded-xl border border-[#0F172A]/10 bg-[#0F172A] px-3 py-2 text-xs leading-5 text-[#F8FAFC] shadow-xl"
+                        className="pointer-events-none z-[70] w-72 max-w-[calc(100vw-2rem)] rounded-xl border border-[#0F172A]/10 bg-[#0F172A] px-3 py-2 text-xs leading-5 text-[#F8FAFC] shadow-xl mt-2"
                         style={conditionTooltipStyle}
                       >
                         {getConditionTooltip(condition)}
@@ -559,42 +611,21 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                   </div>
                 </div>
               )}
+
+              {/* Expired Warning */}
               {product && product.inStock === false && product.checkoutLink === '#' && (
-                <div className="mt-4 bg-amber-50 border-2 border-amber-200 rounded-xl py-3 px-4">
+                <div className="mb-4 bg-amber-50 border-2 border-amber-200 rounded-xl py-3 px-4">
                   <p className="text-sm text-amber-800 font-medium">
                     ⚠️ This offer has expired and the product is no longer available for purchase.
                   </p>
                 </div>
               )}
-              <div className="mt-4 flex flex-wrap items-baseline gap-3">
-                <span className="text-4xl font-bold text-[#0F172A]">
-                  {formatMarketPrice(price, getMarket(product?.meta?.targetMarket))}
-                </span>
-                {original_price && original_price > price && (
-                  <>
-                    <span className="text-xl text-gray-400 line-through font-medium">
-                      {formatMarketPrice(original_price, getMarket(product?.meta?.targetMarket))}
-                    </span>
-                    <span className="inline-flex items-center rounded-full border border-[#E11D48]/25 bg-[#FFE4EC] px-2.5 py-0.5 text-xs font-bold text-[#BE123C]">
-                      {Math.round((1 - price / original_price) * 100)}% OFF
-                    </span>
-                  </>
-                )}
-              </div>
 
               <ClientOnly>
                 {viewedCount !== null && viewedCount > 0 && (
-                  <div className="mt-6 bg-[#F8FAFC] border border-[#3B82F6]/30 rounded-xl p-3 sm:p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center text-[#0F172A]">
-                        <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5 text-[#3B82F6]" />
-                        <span className="text-xs sm:text-sm font-medium">{viewedCount.toLocaleString()} viewed in the last 24 hours</span>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-2 h-2 bg-[#3B82F6] rounded-full animate-pulse mr-2"></div>
-                        <span className="text-xs text-[#0F172A] font-medium hidden sm:inline">Live activity</span>
-                      </div>
-                    </div>
+                  <div className="mb-6 flex items-center text-sm font-medium text-gray-600">
+                    <span className="mr-1.5 text-lg">🔥</span>
+                    <span><strong className="text-[#0F172A]">{viewedCount.toLocaleString()} people</strong> viewed this in the last 24 hours</span>
                   </div>
                 )}
               </ClientOnly>
@@ -605,8 +636,11 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 <div ref={sizeSelectorRef} className="mt-6 border-t border-gray-100 pt-6">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-bold text-[#0F172A] uppercase tracking-wide flex items-center gap-1.5 font-heading">
-                      <Ruler className="h-4 w-4 text-[#3B82F6]" /> Select Size <span className="text-blue-500 font-bold">*</span>
+                      Select your size <span className="text-[#E11D48] font-bold">*</span>
                     </label>
+                    <button type="button" className="text-xs font-semibold text-[#64748B] hover:text-[#0F172A] flex items-center gap-1.5 transition-colors group">
+                      <span className="underline underline-offset-4 decoration-1 decoration-[#64748B]/30 group-hover:decoration-[#0F172A]">Size guide</span>
+                    </button>
                   </div>
 
                   {/* Sizing Grid */}
@@ -633,34 +667,6 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 </div>
               )}
 
-              {/* Quantity Selector Section */}
-              <div className="mt-6 border-t border-gray-100 pt-6">
-                <label className="text-sm font-bold text-[#0F172A] uppercase tracking-wide flex items-center gap-1.5 font-heading mb-3">
-                  Quantity
-                </label>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center border border-gray-200 rounded-md">
-                    <button
-                      type="button"
-                      onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                      className="px-4 py-2 text-gray-500 hover:text-[#0F172A] hover:bg-gray-50 transition-colors"
-                    >
-                      -
-                    </button>
-                    <span className="w-12 text-center font-semibold text-[#0F172A]">
-                      {quantity}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setQuantity(q => Math.min(6, q + 1))}
-                      className="px-4 py-2 text-gray-500 hover:text-[#0F172A] hover:bg-gray-50 transition-colors"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <span className="text-sm text-gray-400">Max 6 per order</span>
-                </div>
-              </div>
 
               {/* Cart Limit Error UI */}
               {cartError && (
@@ -702,8 +708,23 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                           <path d="M13.3334 14.666V7.33268H11.3334C10.9652 7.33268 10.6667 7.0342 10.6667 6.66602C10.6667 6.29783 10.9652 5.99935 11.3334 5.99935H14C14.3682 5.99935 14.6667 6.29783 14.6667 6.66602V15.3327C14.6667 15.7009 14.3682 15.9993 14 15.9993H2.00004C1.63185 15.9993 1.33337 15.7009 1.33337 15.3327V6.66602C1.33337 6.29783 1.63185 5.99935 2.00004 5.99935H4.66671C5.0349 5.99935 5.33337 6.29783 5.33337 6.66602C5.33337 7.0342 5.0349 7.33268 4.66671 7.33268H2.66671V14.666H13.3334Z"></path>
                         </svg>
                       </button>
-                      <button onClick={handleAddToCart} disabled={isAddingToCart || isBuyingNow} className="flex-1 lg:w-full bg-[#E11D48] hover:bg-[#BE123C] text-white py-3.5 lg:py-4 px-6 rounded-xl font-bold shadow-lg shadow-[#E11D48]/30 hover:shadow-xl hover:shadow-[#E11D48]/40 transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base relative overflow-hidden transform hover:-translate-y-0.5 active:translate-y-0">
-                        {isAddingToCart ? <><div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#F8FAFC] mr-2"></div>Adding to Cart...</> : <><ShoppingCart className="h-5 w-5 mr-2 text-white/90" />Add to Cart</>}
+                      <button onClick={handleAddToCart} disabled={isAddingToCart || isBuyingNow} className="flex-1 lg:w-full bg-[#E11D48] hover:bg-[#BE123C] text-white py-3.5 lg:py-4 px-6 rounded-xl font-bold shadow-lg shadow-[#E11D48]/30 hover:shadow-xl hover:shadow-[#E11D48]/40 transition-all duration-300 flex items-center justify-between lg:justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base relative overflow-hidden transform hover:-translate-y-0.5 active:translate-y-0">
+                        {isAddingToCart ? (
+                          <div className="flex items-center justify-center w-full">
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#F8FAFC] mr-2"></div>
+                            <span>Adding to Cart...</span>
+                          </div>
+                        ) : (
+                          <>
+                            <span className="text-base sm:text-lg tracking-wide lg:hidden">
+                              {formatMarketPrice(price, getMarket(product?.meta?.targetMarket))}
+                            </span>
+                            <div className="flex items-center">
+                              <ShoppingCart className="h-5 w-5 mr-2 text-white/90" />
+                              <span>Add to Cart</span>
+                            </div>
+                          </>
+                        )}
                       </button>
                     </div>
                     {(product.checkoutFlow === 'paypal-invoice' || product.checkoutFlow === 'paypal-unclaimed' || product.checkoutFlow === 'paypal-direct' || product.checkoutFlow === 'paypal-api') ? (
@@ -760,6 +781,12 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 )}
 
 
+              </div>
+
+              {/* Seller Information */}
+              <div className="mt-8 border-t border-gray-100 pt-6">
+                <h3 className="text-sm font-bold text-[#0F172A] uppercase tracking-wide font-heading mb-1">About the Seller</h3>
+                <SellerBadge sellerId={product?.sellerId} size="md" />
               </div>
 
               <div className="mt-8">
