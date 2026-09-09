@@ -6,6 +6,14 @@ import { transformProduct } from './products';
 
 const VRETOK_PUBLIC_REVIEW_COUNT = 122;
 
+function cleanDashes(text: string): string {
+  if (!text) return text;
+  return text
+    .replace(/\s*[—–]\s*/g, ', ')
+    .replace(/,\s*,/g, ',')
+    .trim();
+}
+
 function parseReviews(value: unknown): Review[] {
   let parsed = value;
 
@@ -19,18 +27,24 @@ function parseReviews(value: unknown): Review[] {
 
   if (!Array.isArray(parsed)) return [];
 
-  return parsed.filter((review): review is Review => {
-    if (!review || typeof review !== 'object') return false;
-    const candidate = review as Partial<Review>;
-    return Boolean(
-      typeof candidate.id === 'string' && candidate.id.trim() &&
-      typeof candidate.author === 'string' && candidate.author.trim() &&
-      typeof candidate.content === 'string' && candidate.content.trim() &&
-      typeof candidate.rating === 'number' && Number.isFinite(candidate.rating) &&
-      candidate.rating >= 1 && candidate.rating <= 5 &&
-      typeof candidate.date === 'string' && !Number.isNaN(Date.parse(candidate.date))
-    );
-  });
+  return parsed
+    .filter((review): review is Review => {
+      if (!review || typeof review !== 'object') return false;
+      const candidate = review as Partial<Review>;
+      return Boolean(
+        typeof candidate.id === 'string' && candidate.id.trim() &&
+        typeof candidate.author === 'string' && candidate.author.trim() &&
+        typeof candidate.content === 'string' && candidate.content.trim() &&
+        typeof candidate.rating === 'number' && Number.isFinite(candidate.rating) &&
+        candidate.rating >= 1 && candidate.rating <= 5 &&
+        typeof candidate.date === 'string' && !Number.isNaN(Date.parse(candidate.date))
+      );
+    })
+    .map((review) => ({
+      ...review,
+      title: cleanDashes(review.title || ''),
+      content: cleanDashes(review.content || ''),
+    }));
 }
 
 function attachSellerReviews(seller: Seller, productReviews: Review[]): Seller {
