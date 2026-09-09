@@ -207,7 +207,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
         <div className="divide-y divide-gray-200">
           {reviews.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-gray-600 text-base">This seller has <span className="font-bold text-[#0F172A]">{totalReviews}</span> positive ratings, but no written reviews yet.</p>
+              <p className="text-gray-500 text-sm">No written reviews yet.</p>
             </div>
           ) : (
             sortedReviews.map((review, index) => (

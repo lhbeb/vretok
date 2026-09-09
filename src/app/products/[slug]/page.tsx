@@ -90,18 +90,34 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     const inStock = p.inStock !== false;
 
     // Fallback to seller reviews if the product doesn't have individual reviews
-    if ((!p.reviews || p.reviews.length === 0) && p.sellerId) {
-      const { getSellerReviews } = await import('@/lib/supabase/sellers');
-      const sellerReviewsData = await getSellerReviews(p.sellerId);
+    if (!p.reviews || p.reviews.length === 0) {
+      const { getSellerReviews, getSellerByUsername } = await import('@/lib/supabase/sellers');
+      let sellerReviewsData = p.sellerId ? await getSellerReviews(p.sellerId) : null;
+
+      // If no seller-specific reviews, fallback to default store seller
+      if (!sellerReviewsData || !sellerReviewsData.reviews || sellerReviewsData.reviews.length === 0) {
+        const defaultSeller = await getSellerByUsername('vretok');
+        if (defaultSeller && defaultSeller.reviews && defaultSeller.reviews.length > 0) {
+          sellerReviewsData = {
+            reviews: defaultSeller.reviews,
+            averageRating: defaultSeller.averageRating || 4.9,
+            totalReviews: defaultSeller.totalReviews || defaultSeller.reviews.length,
+            sellerName: defaultSeller.name,
+            sellerUsername: defaultSeller.username,
+          };
+        }
+      }
+
       if (sellerReviewsData && sellerReviewsData.reviews && sellerReviewsData.reviews.length > 0) {
         p.reviews = sellerReviewsData.reviews;
-        p.rating = sellerReviewsData.averageRating;
-        p.reviewCount = sellerReviewsData.totalReviews;
+        if (!p.rating) p.rating = sellerReviewsData.averageRating;
+        if (!p.reviewCount) p.reviewCount = sellerReviewsData.totalReviews;
         
-        // Also ensure seller details are in meta so ProductReviews can show them
+        // Also ensure seller details are in meta so ProductReviews can link to seller
         if (!p.meta) p.meta = {};
         const metaAny = p.meta as any;
-        if (!metaAny._sellerName) metaAny._sellerName = 'Seller';
+        if (!metaAny._sellerName && sellerReviewsData.sellerName) metaAny._sellerName = sellerReviewsData.sellerName;
+        if (!metaAny._sellerUsername && sellerReviewsData.sellerUsername) metaAny._sellerUsername = sellerReviewsData.sellerUsername;
       }
     }
 

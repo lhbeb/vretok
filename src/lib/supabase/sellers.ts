@@ -84,34 +84,54 @@ export async function getSellerReviews(sellerId: string): Promise<{
   reviews: Review[];
   averageRating: number;
   totalReviews: number;
+  sellerName?: string;
+  sellerUsername?: string;
 }> {
   try {
-    const { data, error } = await supabaseAdmin
+    // 1. Fetch seller row to include native seller reviews
+    const { data: sellerRow } = await supabaseAdmin
+      .from('sellers')
+      .select('name, username, reviews')
+      .eq('id', sellerId)
+      .single();
+
+    const nativeReviews = sellerRow ? parseReviews(sellerRow.reviews) : [];
+
+    // 2. Fetch any product reviews for this seller
+    const { data: productsData } = await supabaseAdmin
       .from('products')
       .select('reviews, rating, review_count')
       .eq('seller_id', sellerId);
 
-    if (error || !data) {
-      return { reviews: [], averageRating: 0, totalReviews: 0 };
+    const allReviews: Review[] = [...nativeReviews];
+    if (productsData) {
+      for (const product of productsData) {
+        const productReviews = parseReviews(product.reviews);
+        allReviews.push(...productReviews);
+      }
     }
 
-    // Collect all reviews from all products
-    const allReviews: Review[] = [];
-    for (const product of data) {
-      const productReviews = parseReviews(product.reviews);
-      allReviews.push(...productReviews);
-    }
+    // Deduplicate by ID and sort by date (newest first)
+    const uniqueReviews = Array.from(
+      new Map(allReviews.map((r) => [r.id, r])).values()
+    ).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    // Sort by date (newest first)
-    allReviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // Compute average rating and count
+    const totalReviews = sellerRow?.username === 'vretok' && uniqueReviews.length > 0
+      ? VRETOK_PUBLIC_REVIEW_COUNT
+      : uniqueReviews.length;
 
-    // Compute average rating
-    const totalReviews = allReviews.length;
-    const averageRating = totalReviews > 0
-      ? Math.round((allReviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews) * 10) / 10
+    const averageRating = uniqueReviews.length > 0
+      ? Math.round((uniqueReviews.reduce((sum, r) => sum + r.rating, 0) / uniqueReviews.length) * 10) / 10
       : 0;
 
-    return { reviews: allReviews, averageRating, totalReviews };
+    return {
+      reviews: uniqueReviews,
+      averageRating,
+      totalReviews,
+      sellerName: sellerRow?.name,
+      sellerUsername: sellerRow?.username,
+    };
   } catch {
     return { reviews: [], averageRating: 0, totalReviews: 0 };
   }
