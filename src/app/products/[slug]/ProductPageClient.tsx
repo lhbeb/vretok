@@ -492,6 +492,17 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-200 rounded-none md:rounded-md flex items-center justify-center pointer-events-none">
                   <ZoomIn className="h-12 w-12 text-white opacity-0 group-hover:opacity-75 transition-opacity" />
                 </div>
+                {/* Share Button over Image */}
+                <button
+                  onClick={handleShare}
+                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2.5 rounded-full shadow-sm hover:bg-[#0F172A] hover:text-[#F8FAFC] transition-colors duration-200 z-10 group/share"
+                  aria-label="Share product"
+                >
+                  <svg className="h-5 w-5 text-[#0F172A] group-hover/share:text-[#F8FAFC]" fill="currentColor" fillRule="nonzero" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.86197 3.52794L7.52828 0.861631L7.53151 0.858423C7.59476 0.795922 7.6674 0.748648 7.74485 0.716601C7.82346 0.684006 7.90965 0.666016 8.00004 0.666016C8.18414 0.666016 8.3508 0.740635 8.47145 0.861278L11.1381 3.52794C11.3985 3.78829 11.3985 4.2104 11.1381 4.47075C10.8778 4.7311 10.4557 4.7311 10.1953 4.47075L8.66671 2.94216V10.666C8.66671 11.0342 8.36823 11.3327 8.00004 11.3327C7.63185 11.3327 7.33337 11.0342 7.33337 10.666V2.94216L5.80478 4.47075C5.54443 4.7311 5.12232 4.7311 4.86197 4.47075C4.60162 4.2104 4.60162 3.78829 4.86197 3.52794Z"></path>
+                    <path d="M13.3334 14.666V7.33268H11.3334C10.9652 7.33268 10.6667 7.0342 10.6667 6.66602C10.6667 6.29783 10.9652 5.99935 11.3334 5.99935H14C14.3682 5.99935 14.6667 6.29783 14.6667 6.66602V15.3327C14.6667 15.7009 14.3682 15.9993 14 15.9993H2.00004C1.63185 15.9993 1.33337 15.7009 1.33337 15.3327V6.66602C1.33337 6.29783 1.63185 5.99935 2.00004 5.99935H4.66671C5.0349 5.99935 5.33337 6.29783 5.33337 6.66602C5.33337 7.0342 5.0349 7.33268 4.66671 7.33268H2.66671V14.666H13.3334Z"></path>
+                  </svg>
+                </button>
                 {images && images.length > 1 && (
                   <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm text-[#0F172A] text-xs font-bold px-3 py-1.5 rounded-full shadow-sm pointer-events-none">
                     {activeImage + 1} / {images.length}
@@ -696,18 +707,6 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 ) : (
                   <>
                     <div className="flex gap-3 lg:flex-col lg:gap-3">
-                      {/* Share Button - Mobile Only */}
-                      <button
-                        onClick={handleShare}
-                        className="lg:hidden flex-shrink-0 w-14 h-14 bg-gray-100 hover:bg-[#F8FAFC] rounded-xl flex items-center justify-center transition-colors duration-200 group border border-transparent hover:border-[#E11D48]/30"
-                        style={{ color: '#0F172A' }}
-                        aria-label="Share product"
-                      >
-                        <svg className="h-6 w-6 group-hover:opacity-80 transition-opacity text-[#0F172A]" fill="currentColor" fillRule="nonzero" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M4.86197 3.52794L7.52828 0.861631L7.53151 0.858423C7.59476 0.795922 7.6674 0.748648 7.74485 0.716601C7.82346 0.684006 7.90965 0.666016 8.00004 0.666016C8.18414 0.666016 8.3508 0.740635 8.47145 0.861278L11.1381 3.52794C11.3985 3.78829 11.3985 4.2104 11.1381 4.47075C10.8778 4.7311 10.4557 4.7311 10.1953 4.47075L8.66671 2.94216V10.666C8.66671 11.0342 8.36823 11.3327 8.00004 11.3327C7.63185 11.3327 7.33337 11.0342 7.33337 10.666V2.94216L5.80478 4.47075C5.54443 4.7311 5.12232 4.7311 4.86197 4.47075C4.60162 4.2104 4.60162 3.78829 4.86197 3.52794Z"></path>
-                          <path d="M13.3334 14.666V7.33268H11.3334C10.9652 7.33268 10.6667 7.0342 10.6667 6.66602C10.6667 6.29783 10.9652 5.99935 11.3334 5.99935H14C14.3682 5.99935 14.6667 6.29783 14.6667 6.66602V15.3327C14.6667 15.7009 14.3682 15.9993 14 15.9993H2.00004C1.63185 15.9993 1.33337 15.7009 1.33337 15.3327V6.66602C1.33337 6.29783 1.63185 5.99935 2.00004 5.99935H4.66671C5.0349 5.99935 5.33337 6.29783 5.33337 6.66602C5.33337 7.0342 5.0349 7.33268 4.66671 7.33268H2.66671V14.666H13.3334Z"></path>
-                        </svg>
-                      </button>
                       <button onClick={handleAddToCart} disabled={isAddingToCart || isBuyingNow} className="flex-1 lg:w-full bg-[#E11D48] hover:bg-[#BE123C] text-white py-3.5 lg:py-4 px-6 rounded-xl font-bold shadow-lg shadow-[#E11D48]/30 hover:shadow-xl hover:shadow-[#E11D48]/40 transition-all duration-300 flex items-center justify-between lg:justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base relative overflow-hidden transform hover:-translate-y-0.5 active:translate-y-0">
                         {isAddingToCart ? (
                           <div className="flex items-center justify-center w-full">
