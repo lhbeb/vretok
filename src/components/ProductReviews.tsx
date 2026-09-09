@@ -231,7 +231,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                       <h3 className="font-medium text-[#262626] flex items-center gap-2 flex-wrap sm:flex-nowrap">
                         {review.author}
                         {review.verified && (
-                          <span className="flex items-center text-[#0F172A] text-sm">
+                          <span className="flex items-center text-gray-500 text-sm font-normal">
                             <CheckCircle2 className="h-4 w-4 mr-1" />
                             Verified Purchase
                           </span>

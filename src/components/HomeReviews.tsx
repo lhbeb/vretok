@@ -363,7 +363,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                           <h3 className="font-medium text-[#0F172A] flex items-center gap-2 flex-wrap">
                             {review.author}
                               {review.verified && (
-                              <span className="flex items-center text-[#E11D48] text-xs whitespace-nowrap font-medium">
+                              <span className="flex items-center text-gray-500 text-xs whitespace-nowrap font-normal">
                                 <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
                                 Verified Owner
                               </span>
