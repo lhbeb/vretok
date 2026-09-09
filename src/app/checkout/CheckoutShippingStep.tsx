@@ -9,7 +9,7 @@ import CheckoutNotifier from '@/components/CheckoutNotifier';
 import CountrySelect from '@/components/CountrySelect';
 import type { CartItem } from '@/utils/cart';
 import type { CheckoutFormController } from './useCheckoutForm';
-import { removeFromCart } from '@/utils/cart';
+import { getCartLineId, removeFromCart } from '@/utils/cart';
 
 interface CheckoutShippingStepProps {
   cartItems: CartItem[];
@@ -426,6 +426,10 @@ function formatPriceString(amount: number, currency: string = 'GBP') {
   return `${symbol}${amount.toFixed(2)}`;
 }
 
+function formatSelectedSize(size?: string) {
+  return size?.replace(/\s*\((?:Men's|Women's)\)/i, '') || '';
+}
+
 export default function CheckoutShippingStep({
   cartItems,
   form,
@@ -488,12 +492,12 @@ export default function CheckoutShippingStep({
                       />
                     </div>
                     <div className="absolute -top-1 -right-1 w-5 h-5 bg-gray-600 rounded-full flex items-center justify-center shadow-sm">
-                      <span className="text-white text-xs font-bold">{cartItems.length}</span>
+                      <span className="text-white text-xs font-bold">{totalQuantity}</span>
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-[#262626] text-base line-clamp-1 mb-1">
-                      {cartItems.length === 1 ? cartItems[0].product.title : `${cartItems.length} items`}
+                      {totalQuantity === 1 ? cartItems[0].product.title : `${totalQuantity} items`}
                     </h3>
                     <p className="text-[#0F172A] font-bold text-xl mb-1">{finalPriceString}</p>
                     <p className="text-gray-400 text-xs leading-tight">Tap To View/Hide Summary</p>
@@ -507,13 +511,16 @@ export default function CheckoutShippingStep({
                 <div className="px-4 pb-4 border-t border-gray-100 mt-4 pt-4 space-y-4">
                   <div className="flex flex-col gap-4 mb-4 border-b border-gray-100 pb-4">
                     {cartItems.map((item) => (
-                      <div key={item.product.slug} className="flex gap-4">
+                      <div key={getCartLineId(item)} className="flex gap-4">
                         <Image src={item.product.images?.[0] || '/placeholder.svg'} width={48} height={48} className="w-12 h-12 object-cover rounded" alt={item.product.title} />
                         <div className="flex-1 text-sm">
                           <p className="font-medium text-[#262626] line-clamp-1">{item.product.title}</p>
-                          <p className="text-gray-500">Qty: {item.quantity}</p>
+                          <p className="text-gray-500">
+                            {formatSelectedSize(item.product.selectedSize) && `Size: ${formatSelectedSize(item.product.selectedSize)} · `}
+                            Qty: {item.quantity}
+                          </p>
                         </div>
-                        <div className="text-sm font-medium">{formatPriceString(item.product.price, item.product.currency)}</div>
+                        <div className="text-sm font-medium">{formatPriceString(item.product.price * item.quantity, item.product.currency)}</div>
                       </div>
                     ))}
                   </div>
@@ -565,13 +572,15 @@ export default function CheckoutShippingStep({
                   {/* Header */}
                   <div className="px-6 pt-6 pb-5 border-b border-gray-100 flex justify-between items-center">
                     <h2 className="text-base font-semibold text-gray-400 uppercase tracking-widest">Order Summary</h2>
-                    <span className="text-sm text-gray-500">{cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}</span>
+                    <span className="text-sm text-gray-500">{totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}</span>
                   </div>
 
                   {/* Product rows */}
                   <div className="max-h-[300px] overflow-y-auto">
-                    {cartItems.map((item) => (
-                      <div key={item.product.slug} className="px-6 py-5 flex items-start gap-4 border-b border-gray-50 last:border-0">
+                    {cartItems.map((item) => {
+                      const lineId = getCartLineId(item);
+                      return (
+                      <div key={lineId} className="px-6 py-5 flex items-start gap-4 border-b border-gray-50 last:border-0">
                         {/* Image */}
                         <div className="w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
                           <Image
@@ -589,11 +598,16 @@ export default function CheckoutShippingStep({
 
                           {/* Chips row */}
                           <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
+                            {formatSelectedSize(item.product.selectedSize) && (
+                              <span className="bg-[#E11D48]/10 text-[#BE123C] text-xs font-semibold px-2 py-0.5 rounded-full">
+                                Size {formatSelectedSize(item.product.selectedSize)}
+                              </span>
+                            )}
                             <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">
                               Qty {item.quantity}
                             </span>
                             <span className="text-sm font-semibold ml-auto">
-                              {formatPriceString(item.product.price, item.product.currency)}
+                              {formatPriceString(item.product.price * item.quantity, item.product.currency)}
                             </span>
                           </div>
                         </div>
@@ -601,7 +615,7 @@ export default function CheckoutShippingStep({
                         <button
                           type="button"
                           onClick={() => {
-                            removeFromCart(item.product.slug);
+                            removeFromCart(lineId);
                             window.dispatchEvent(new CustomEvent('cartUpdated'));
                           }}
                           className="text-gray-400 hover:text-red-500 transition-colors p-1"
@@ -610,7 +624,8 @@ export default function CheckoutShippingStep({
                           <Trash className="h-4 w-4" />
                         </button>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   {/* Totals */}

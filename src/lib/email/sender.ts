@@ -74,6 +74,9 @@ export async function sendOrderEmail(order: any): Promise<{ success: boolean; er
     const parsedFullOrderData = parseFullOrderData(full_order_data);
     const extendedShipping = getExtendedShippingDetails(order, parsedFullOrderData);
     const selectedSize = parsedFullOrderData?.product?.selectedSize || null;
+    const cartItems = Array.isArray(parsedFullOrderData?.cartItems)
+      ? parsedFullOrderData.cartItems
+      : [];
     const baseUrl = resolveBaseUrl([
       parsedFullOrderData?.siteUrl,
       parsedFullOrderData?.siteOrigin,
@@ -123,19 +126,40 @@ export async function sendOrderEmail(order: any): Promise<{ success: boolean; er
 
     const transporter = createTransporter();
     const emailUser = process.env.EMAIL_USER || 'contacthappydeel@gmail.com';
+    const productDetailsHtml = cartItems.length > 0
+      ? `
+        <h3>Order Items:</h3>
+        <ul>
+          ${cartItems.map((item: any) => {
+            const product = item?.product || {};
+            const quantity = Number(item?.quantity) || 1;
+            const itemSize = String(product.selectedSize || '').trim();
+            return `
+              <li>
+                <strong>${product.title || 'Product'}</strong>
+                ${itemSize ? ` — Size: ${itemSize}` : ''}
+                — Qty: ${quantity}
+              </li>
+            `;
+          }).join('')}
+        </ul>
+      `
+      : `
+        <h3>Product Details:</h3>
+        <ul>
+          <li><strong>Product:</strong> ${product_title}</li>
+          ${selectedSize ? `<li><strong>Selected Size:</strong> ${selectedSize}</li>` : ''}
+          <li><strong>Price:</strong> $${product_price}</li>
+          <li><strong>Listed By:</strong> ${listedBy || 'Not specified'}</li>
+          <li><strong>Checkout Flow:</strong> ${formatCheckoutFlow(checkoutFlow)}</li>
+          <li><strong>Product URL:</strong> ${productUrl}</li>
+        </ul>
+      `;
 
     const emailContent = `
       <h2>New Order Shipping Information</h2>
 
-      <h3>Product Details:</h3>
-      <ul>
-        <li><strong>Product:</strong> ${product_title}</li>
-        ${selectedSize ? `<li><strong>Selected Size:</strong> ${selectedSize}</li>` : ''}
-        <li><strong>Price:</strong> $${product_price}</li>
-        <li><strong>Listed By:</strong> ${listedBy || 'Not specified'}</li>
-        <li><strong>Checkout Flow:</strong> ${formatCheckoutFlow(checkoutFlow)}</li>
-        <li><strong>Product URL:</strong> ${productUrl}</li>
-      </ul>
+      ${productDetailsHtml}
 
       <h3>Shipping Address:</h3>
       <ul>

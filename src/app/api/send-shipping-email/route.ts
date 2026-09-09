@@ -67,14 +67,24 @@ export async function POST(request: NextRequest) {
       refererHeader,
     ]);
 
+    const hasInvalidQuantity = cartItems.some(
+      (item: any) => !Number.isInteger(item?.quantity) || item.quantity < 1 || item.quantity > 6
+    );
+    if (hasInvalidQuantity) {
+      return NextResponse.json({ error: 'Each cart quantity must be between 1 and 6.' }, { status: 400 });
+    }
+
     // Calculate totals for DB
     const totalPrice = cartItems.reduce((acc: number, item: any) => acc + (item.product.price * item.quantity), 0);
     const totalQuantity = cartItems.reduce((acc: number, item: any) => acc + item.quantity, 0);
+    if (totalQuantity > 6) {
+      return NextResponse.json({ error: 'You can only have up to 6 items per checkout.' }, { status: 400 });
+    }
     
     const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 6;
     const finalPrice = isFreeOrder ? 29.99 : totalPrice;
 
-    const title = cartItems.length === 1 ? cartItems[0].product.title : `${cartItems.length} Items (Multi-Cart)`;
+    const title = cartItems.length === 1 ? cartItems[0].product.title : `${totalQuantity} Items (${cartItems.length} variants)`;
     const slug = cartItems.length === 1 ? cartItems[0].product.slug : 'multiple';
 
     // STEP 1: Save order to database FIRST (so we never lose the order)

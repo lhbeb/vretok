@@ -114,6 +114,7 @@ const CheckoutPage: React.FC = () => {
             images: item.product.images,
             checkoutFlow: 'stripe' as any,
             currency: item.product.currency,
+            selectedSize: item.product.selectedSize,
           }
         }))
       };

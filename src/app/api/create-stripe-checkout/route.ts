@@ -5,6 +5,15 @@ import { getProductBySlug } from '@/lib/supabase/products';
 import { getStripeConfig } from '@/lib/supabase/payment-settings';
 import type { CartItem } from '@/utils/cart';
 
+function getAvailableSizes(product: any): string[] {
+    const meta = product?.meta || {};
+    const rawSizes = [meta.sizes_mens, meta.sizes_womens, meta.sizes]
+        .filter((value): value is string => typeof value === 'string')
+        .flatMap(value => value.split(','));
+
+    return Array.from(new Set(rawSizes.map(size => size.trim()).filter(Boolean)));
+}
+
 // Helper function to sanitize Stripe errors for user-facing responses
 function getSafeStripeError(error: any): string {
     console.error('🚨 [Stripe Error Details]:', {
@@ -55,7 +64,17 @@ export async function POST(request: NextRequest) {
         }
         shippingData.fullName = shippingData.fullName.trim();
 
+        const hasInvalidQuantity = cartItems.some(
+            (item: any) => !Number.isInteger(item?.quantity) || item.quantity < 1 || item.quantity > 6
+        );
+        if (hasInvalidQuantity) {
+            return NextResponse.json({ error: 'Each cart quantity must be between 1 and 6.' }, { status: 400 });
+        }
+
         const totalQuantity = cartItems.reduce((acc: number, item: any) => acc + item.quantity, 0);
+        if (totalQuantity > 6) {
+            return NextResponse.json({ error: 'You can only have up to 6 items per checkout.' }, { status: 400 });
+        }
         const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 6;
 
         // Verify the order exists
@@ -92,6 +111,21 @@ export async function POST(request: NextRequest) {
                 return NextResponse.json(
                     { error: `Sorry, "${item.product.title}" is currently sold out.` },
                     { status: 409 }
+                );
+            }
+
+            const productRequiresSize = Boolean(
+                dbProduct.meta?.has_mens_sizes || dbProduct.meta?.has_womens_sizes || dbProduct.meta?.hasSizes
+            );
+            const selectedSize = String(item.product.selectedSize || '').trim();
+            const availableSizes = getAvailableSizes(dbProduct);
+            if (
+                productRequiresSize &&
+                (!selectedSize || !availableSizes.some(size => size.toLowerCase() === selectedSize.toLowerCase()))
+            ) {
+                return NextResponse.json(
+                    { error: `Please select an available size for "${dbProduct.title}".` },
+                    { status: 400 }
                 );
             }
 

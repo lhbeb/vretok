@@ -4,8 +4,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { X, ShoppingBag, Trash2, ArrowRight, ShoppingCart, ChevronDown, Check, CircleAlert } from 'lucide-react';
-import { getCartItems, removeFromCart, clearCart, updateCartSize } from '@/utils/cart';
+import { X, ShoppingBag, Trash2, ArrowRight, ShoppingCart, ChevronDown, Check, CircleAlert, Minus, Plus } from 'lucide-react';
+import { getCartItems, getCartLineId, removeFromCart, clearCart, updateCartQty, updateCartSize } from '@/utils/cart';
 import type { CartItem } from '@/utils/cart';
 
 interface CartDrawerProps {
@@ -57,9 +57,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const router = useRouter();
   const [items, setItems] = useState<CartItem[]>([]);
   const [mounted, setMounted] = useState(false);
-  const [removingSlug, setRemovingSlug] = useState<string | null>(null);
+  const [removingLineId, setRemovingLineId] = useState<string | null>(null);
   const [promoCode, setPromoCode] = useState<string>('');
-  const [editingSizeSlug, setEditingSizeSlug] = useState<string | null>(null);
+  const [editingSizeLineId, setEditingSizeLineId] = useState<string | null>(null);
 
   const refreshItems = useCallback(() => {
     setItems(getCartItems());
@@ -87,7 +87,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       if (chatContainer) chatContainer.style.display = 'none';
     } else {
       document.body.style.overflow = '';
-      setEditingSizeSlug(null);
+      setEditingSizeLineId(null);
       if (chatContainer) chatContainer.style.display = '';
     }
     return () => {
@@ -103,11 +103,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  const handleRemove = (slug: string) => {
-    setRemovingSlug(slug);
+  const handleRemove = (lineId: string) => {
+    setRemovingLineId(lineId);
     setTimeout(() => {
-      removeFromCart(slug);
-      setRemovingSlug(null);
+      removeFromCart(lineId);
+      setRemovingLineId(null);
     }, 300);
   };
 
@@ -116,9 +116,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     router.push('/checkout');
   };
 
-  const handleSizeChange = (slug: string, selectedSize: string) => {
-    updateCartSize(slug, selectedSize);
-    setEditingSizeSlug(null);
+  const handleSizeChange = (lineId: string, selectedSize: string) => {
+    updateCartSize(lineId, selectedSize);
+    setEditingSizeLineId(null);
   };
 
   const rawSubtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
@@ -199,14 +199,15 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             <div className="flex-1 overflow-y-auto px-5 py-3">
               <ul className="space-y-4">
                 {items.map((item) => {
+                  const lineId = getCartLineId(item);
                   const sizeOptions = getSizeOptions(item);
-                  const isEditingSize = editingSizeSlug === item.product.slug;
+                  const isEditingSize = editingSizeLineId === lineId;
 
                   return (
                   <li
-                    key={item.product.slug}
+                    key={lineId}
                     className={`flex gap-4 rounded-xl border border-gray-100 bg-gray-50/50 p-3 transition-all duration-300 ${
-                      removingSlug === item.product.slug ? 'scale-95 opacity-0' : 'opacity-100'
+                      removingLineId === lineId ? 'scale-95 opacity-0' : 'opacity-100'
                     }`}
                   >
                     <Link
@@ -243,7 +244,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             <div>
                               <button
                                 type="button"
-                                onClick={() => setEditingSizeSlug(isEditingSize ? null : item.product.slug)}
+                                onClick={() => setEditingSizeLineId(isEditingSize ? null : lineId)}
                                 className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-semibold text-[#0F172A] transition-colors hover:border-[#E11D48] hover:text-[#E11D48]"
                                 aria-expanded={isEditingSize}
                                 aria-label={`Change size for ${item.product.title}. Current size: ${formatSizeDisplay(item.product.selectedSize) || 'not selected'}`}
@@ -260,7 +261,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                                       <button
                                         key={option.value}
                                         type="button"
-                                        onClick={() => handleSizeChange(item.product.slug, option.value)}
+                                        onClick={() => handleSizeChange(lineId, option.value)}
                                         className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] font-semibold transition-colors ${
                                           isSelected
                                             ? 'border-[#E11D48] bg-[#E11D48] text-white'
@@ -280,7 +281,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                           ) : null}
                         </div>
                         <button
-                          onClick={() => handleRemove(item.product.slug)}
+                          onClick={() => handleRemove(lineId)}
                           className="flex-shrink-0 rounded-full p-1 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
                           aria-label={`Remove ${item.product.title}`}
                         >
@@ -289,9 +290,27 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       </div>
 
                       <div className="mt-2 flex items-center justify-between">
-                        <span className="rounded-full bg-white border border-gray-200 px-2.5 py-0.5 text-xs font-semibold text-[#0F172A]">
-                          Qty: {item.quantity}
-                        </span>
+                        <div className="inline-flex items-center rounded-full border border-gray-200 bg-white" aria-label={`Quantity for ${item.product.title}, size ${formatSizeDisplay(item.product.selectedSize) || 'standard'}`}>
+                          <button
+                            type="button"
+                            onClick={() => updateCartQty(lineId, item.quantity - 1)}
+                            className="rounded-l-full p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-[#0F172A]"
+                            aria-label={`Decrease quantity for ${item.product.title}`}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </button>
+                          <span className="min-w-8 px-1 text-center text-xs font-semibold text-[#0F172A]">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateCartQty(lineId, item.quantity + 1)}
+                            className="rounded-r-full p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-[#0F172A]"
+                            aria-label={`Increase quantity for ${item.product.title}`}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </button>
+                        </div>
                         <span className="text-sm font-bold text-[#0F172A]">
                           {fmt(item.product.price * item.quantity)}
                         </span>

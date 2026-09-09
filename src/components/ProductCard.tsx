@@ -18,6 +18,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { slug, title, price, images, inStock } = product;
   const isSoldOut = inStock === false;
+  const requiresSize = Boolean(
+    product.meta?.has_mens_sizes || product.meta?.has_womens_sizes || product.meta?.hasSizes
+  );
 
   const primarySrc  = images?.[0] || '/placeholder.svg';
   const secondarySrc = images?.[1] || null;
@@ -32,6 +35,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
     e.preventDefault();
     e.stopPropagation();
     if (isSoldOut) return;
+
+    if (requiresSize) {
+      window.location.assign(`/products/${slug}`);
+      return;
+    }
 
     addToCart(product);
     setAdded(true);
@@ -108,7 +116,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               ) : (
                 <>
                   <ShoppingBag className="h-4 w-4" />
-                  Quick Add
+                  {requiresSize ? 'Choose Options' : 'Quick Add'}
                 </>
               )}
             </button>
