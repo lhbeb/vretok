@@ -70,8 +70,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     refreshItems();
     window.addEventListener('cartUpdated', refreshItems);
     if (typeof window !== 'undefined') {
-      const savedPromo = localStorage.getItem('vretok_promo_code');
-      if (savedPromo) setPromoCode(savedPromo.toUpperCase());
+      let savedPromo = localStorage.getItem('vretok_promo_code');
+      if (!savedPromo || savedPromo !== 'FREE100') {
+        savedPromo = 'FREE100';
+        localStorage.setItem('vretok_promo_code', savedPromo);
+      }
+      setPromoCode(savedPromo.toUpperCase());
     }
     return () => window.removeEventListener('cartUpdated', refreshItems);
   }, [refreshItems]);
