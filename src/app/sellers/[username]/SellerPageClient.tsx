@@ -296,7 +296,8 @@ export default function SellerPageClient({ seller }: Props) {
                       author: 'Sarah M.',
                       rating: 5,
                       date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-                      text: 'Absolutely love my new activewear! The quality is amazing and it arrived much faster than expected. Vretok always delivers on their promise.',
+                      title: 'Absolutely love it!',
+                      content: 'Absolutely love my new activewear! The quality is amazing and it arrived much faster than expected. Vretok always delivers on their promise.',
                       helpful: 124,
                     },
                     {
@@ -304,7 +305,8 @@ export default function SellerPageClient({ seller }: Props) {
                       author: 'Jessica T.',
                       rating: 5,
                       date: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
-                      text: 'Super comfortable and completely squat proof. I have ordered from them three times now and every single time the experience has been flawless.',
+                      title: 'Flawless experience',
+                      content: 'Super comfortable and completely squat proof. I have ordered from them three times now and every single time the experience has been flawless.',
                       helpful: 89,
                     },
                     {
@@ -312,7 +314,8 @@ export default function SellerPageClient({ seller }: Props) {
                       author: 'Emily R.',
                       rating: 5,
                       date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
-                      text: 'Great fit! True to size and feels very premium. Customer service was also very helpful when I had a question about sizing.',
+                      title: 'Great fit',
+                      content: 'Great fit! True to size and feels very premium. Customer service was also very helpful when I had a question about sizing.',
                       helpful: 56,
                     },
                     {
@@ -320,7 +323,8 @@ export default function SellerPageClient({ seller }: Props) {
                       author: 'Amanda K.',
                       rating: 4,
                       date: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000).toISOString(),
-                      text: 'Really nice leggings. They hold up well in the wash. Only took off one star because I wish there were more color options for my favorite style!',
+                      title: 'Really nice',
+                      content: 'Really nice leggings. They hold up well in the wash. Only took off one star because I wish there were more color options for my favorite style!',
                       helpful: 34,
                     },
                   ] : [])}
