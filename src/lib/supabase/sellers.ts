@@ -80,7 +80,7 @@ function transformSeller(row: any): Seller {
  * Fetch all reviews from a seller's products and compute aggregate stats.
  * Returns reviews array, averageRating, and totalReviews.
  */
-async function getSellerReviews(sellerId: string): Promise<{
+export async function getSellerReviews(sellerId: string): Promise<{
   reviews: Review[];
   averageRating: number;
   totalReviews: number;
