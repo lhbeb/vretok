@@ -578,10 +578,10 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     <span className="text-lg text-gray-400 line-through font-medium">
                       {formatMarketPrice(original_price, getMarket(product?.meta?.targetMarket))}
                     </span>
-                    <span className="text-sm font-bold text-[#E11D48]">
+                    <span className="text-sm font-bold text-[#0F172A]">
                       Save {formatMarketPrice(original_price - price, getMarket(product?.meta?.targetMarket))}
                     </span>
-                    <span className="inline-flex items-center rounded border border-[#E11D48]/20 bg-[#FFE4EC] px-1.5 py-0.5 text-[10px] font-bold text-[#BE123C]">
+                    <span className="inline-flex items-center rounded-md bg-gray-100/80 px-1.5 py-0.5 text-[10px] font-bold text-gray-600 tracking-wide uppercase">
                       {Math.round((1 - price / original_price) * 100)}% OFF
                     </span>
                   </div>
