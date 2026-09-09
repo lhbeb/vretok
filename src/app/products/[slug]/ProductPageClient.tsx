@@ -902,6 +902,8 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
             </section>
           </div>
 
+          <RecommendedProducts currentProductSlug={slug} />
+
           <div className="mt-8">
             <SameDayShipping fullWidth={true} contained={true} />
           </div>
@@ -916,7 +918,6 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
               />
             </div>
           )}
-          <RecommendedProducts currentProductSlug={slug} />
         </div>
       </main>
 
