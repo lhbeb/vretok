@@ -380,8 +380,13 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </div>
               {isFreeOrder && (
                 <div className="mt-2 rounded-lg bg-gray-50 border border-gray-200 p-3">
-                  <div className="flex items-center gap-1.5 text-[#0F172A] font-bold text-sm mb-1">
-                    <Check className="h-4 w-4 text-[#E11D48]" /> Discount applied
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-1.5 text-[#0F172A] font-bold text-sm">
+                      <Check className="h-4 w-4 text-[#E11D48]" /> Discount applied
+                    </div>
+                    <span className="inline-flex items-center rounded-md bg-gray-200/60 px-2.5 py-0.5 text-xs font-bold text-gray-700 tracking-wide uppercase">
+                      FREE100
+                    </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-500 font-medium">You saved</span>
