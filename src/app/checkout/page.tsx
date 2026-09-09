@@ -24,7 +24,7 @@ const CheckoutPage: React.FC = () => {
   const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState('');
   const [isSendingEmail, setIsSendingEmail] = useState(false);
-  const [savePaymentMethod, setSavePaymentMethod] = useState(false);
+  const [savePaymentMethod, setSavePaymentMethod] = useState(true);
 
   const [promoCodeInput, setPromoCodeInput] = useState('');
   const [appliedPromo, setAppliedPromo] = useState('');
