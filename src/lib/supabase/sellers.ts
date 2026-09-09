@@ -4,6 +4,62 @@ import type { Seller } from '@/types/seller';
 import type { Review } from '@/types/product';
 import { transformProduct } from './products';
 
+const VRETOK_PUBLIC_REVIEW_COUNT = 122;
+
+function parseReviews(value: unknown): Review[] {
+  let parsed = value;
+
+  if (typeof value === 'string') {
+    try {
+      parsed = JSON.parse(value);
+    } catch {
+      return [];
+    }
+  }
+
+  if (!Array.isArray(parsed)) return [];
+
+  return parsed.filter((review): review is Review => {
+    if (!review || typeof review !== 'object') return false;
+    const candidate = review as Partial<Review>;
+    return Boolean(
+      typeof candidate.id === 'string' && candidate.id.trim() &&
+      typeof candidate.author === 'string' && candidate.author.trim() &&
+      typeof candidate.content === 'string' && candidate.content.trim() &&
+      typeof candidate.rating === 'number' && Number.isFinite(candidate.rating) &&
+      candidate.rating >= 1 && candidate.rating <= 5 &&
+      typeof candidate.date === 'string' && !Number.isNaN(Date.parse(candidate.date))
+    );
+  });
+}
+
+function attachSellerReviews(seller: Seller, productReviews: Review[]): Seller {
+  const uniqueReviews = Array.from(
+    new Map(
+      [...(seller.nativeReviews || []), ...productReviews]
+        .filter((review) => parseReviews([review]).length > 0)
+        .map((review) => [review.id, review])
+    ).values()
+  ).sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+
+  const visibleReviews = seller.username === 'vretok'
+    ? uniqueReviews.slice(0, VRETOK_PUBLIC_REVIEW_COUNT)
+    : uniqueReviews;
+  const averageRating = visibleReviews.length > 0
+    ? Math.round((visibleReviews.reduce((sum, review) => sum + review.rating, 0) / visibleReviews.length) * 10) / 10
+    : 0;
+  const totalReviews = seller.username === 'vretok' && visibleReviews.length > 0
+    ? VRETOK_PUBLIC_REVIEW_COUNT
+    : visibleReviews.length;
+
+  return {
+    ...seller,
+    reviews: visibleReviews,
+    averageRating,
+    totalReviews,
+  };
+}
+
 // Transform Supabase row to Seller type
 function transformSeller(row: any): Seller {
   return {
@@ -16,7 +72,7 @@ function transformSeller(row: any): Seller {
     memberSince: row.member_since || '',
     createdAt: row.created_at,
     updatedAt: row.updated_at,
-    nativeReviews: row.reviews || [],
+    nativeReviews: parseReviews(row.reviews),
   };
 }
 
@@ -42,7 +98,7 @@ async function getSellerReviews(sellerId: string): Promise<{
     // Collect all reviews from all products
     const allReviews: Review[] = [];
     for (const product of data) {
-      const productReviews: Review[] = Array.isArray(product.reviews) ? product.reviews : [];
+      const productReviews = parseReviews(product.reviews);
       allReviews.push(...productReviews);
     }
 
@@ -110,7 +166,7 @@ export async function getHomeReviewsFeed(limit: number = 6): Promise<{
 
     const nativeSellerReviews = sellerRows
       .flatMap((seller) =>
-        Array.isArray(seller.reviews) ? (seller.reviews as Review[]) : [],
+        parseReviews(seller.reviews),
       )
       .filter(shouldIncludeNativeSellerReview);
 
@@ -201,21 +257,7 @@ export async function getSellerById(id: string): Promise<Seller | null> {
     const seller = transformSeller(data);
     const reviewData = await getSellerReviews(seller.id);
     
-    // Merge native and aggregated reviews
-    const allReviews = [...(seller.nativeReviews || []), ...reviewData.reviews];
-    allReviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    
-    const combinedTotalReviews = allReviews.length;
-    const combinedAverageRating = combinedTotalReviews > 0
-      ? Math.round((allReviews.reduce((sum, r) => sum + r.rating, 0) / combinedTotalReviews) * 10) / 10
-      : 0;
-
-    return { 
-      ...seller, 
-      reviews: allReviews, 
-      averageRating: combinedAverageRating, 
-      totalReviews: combinedTotalReviews 
-    };
+    return attachSellerReviews(seller, reviewData.reviews);
   } catch (error) {
     console.error(`Error loading seller ${id}:`, error);
     return null;
@@ -244,21 +286,7 @@ export async function getSellerByUsername(username: string): Promise<Seller | nu
     const seller = transformSeller(data);
     const reviewData = await getSellerReviews(seller.id);
 
-    // Merge native and aggregated reviews
-    const allReviews = [...(seller.nativeReviews || []), ...reviewData.reviews];
-    allReviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    
-    const combinedTotalReviews = allReviews.length;
-    const combinedAverageRating = combinedTotalReviews > 0
-      ? Math.round((allReviews.reduce((sum, r) => sum + r.rating, 0) / combinedTotalReviews) * 10) / 10
-      : 0;
-
-    return { 
-      ...seller, 
-      reviews: allReviews, 
-      averageRating: combinedAverageRating, 
-      totalReviews: combinedTotalReviews 
-    };
+    return attachSellerReviews(seller, reviewData.reviews);
   } catch (error) {
     console.error(`Error loading seller by username ${username}:`, error);
     return null;

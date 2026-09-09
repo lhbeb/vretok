@@ -123,7 +123,7 @@ export default function SellerReviews({
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-5 w-5 ${i < Math.floor(averageRating) ? 'text-[#0F172A] fill-[#0F172A]' : 'text-gray-300'}`}
+                        className={`h-5 w-5 ${i < Math.floor(averageRating) ? 'text-[#F59E0B] fill-[#F59E0B]' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
@@ -233,13 +233,13 @@ export default function SellerReviews({
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-4 w-4 ${i < review.rating ? 'text-[#0F172A] fill-[#0F172A]' : 'text-gray-300'}`}
+                        className={`h-4 w-4 ${i < review.rating ? 'text-[#F59E0B] fill-[#F59E0B]' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
 
                   <h4 className="font-medium text-[#262626] mb-2">{review.title}</h4>
-                  <p className="text-gray-600 mb-4">{review.content}</p>
+                  <p className="mb-4 line-clamp-2 text-gray-600">{review.content}</p>
 
                   {/* Images */}
                   {review.images && review.images.filter(img => typeof img === 'string' && img.length > 0).length > 0 && (

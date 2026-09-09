@@ -143,7 +143,7 @@ export default function SellerPageClient({ seller }: Props) {
                         key={i}
                         className={`h-4 w-4 ${
                           i < Math.floor(seller.averageRating ?? 0)
-                            ? 'text-[#E11D48] fill-[#E11D48]'
+                            ? 'text-[#F59E0B] fill-[#F59E0B]'
                             : 'text-white/30'
                         }`}
                       />

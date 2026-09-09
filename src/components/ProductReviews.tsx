@@ -154,7 +154,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-5 w-5 ${i < Math.floor(averageRating) ? 'text-[#0F172A] fill-[#0F172A]' : 'text-gray-300'}`}
+                        className={`h-5 w-5 ${i < Math.floor(averageRating) ? 'text-[#F59E0B] fill-[#F59E0B]' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
@@ -259,7 +259,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-4 w-4 ${i < review.rating ? 'text-[#0F172A] fill-[#0F172A]' : 'text-gray-300'}`}
+                        className={`h-4 w-4 ${i < review.rating ? 'text-[#F59E0B] fill-[#F59E0B]' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
