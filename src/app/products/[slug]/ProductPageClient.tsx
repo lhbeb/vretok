@@ -674,16 +674,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 </div>
               )}
 
-              {/* Urgency / Scarcity Banner */}
-              {product && product.inStock !== false && (
-                <div className="mt-5 flex items-center justify-center gap-2.5 bg-red-50 border border-red-100 text-red-600 py-2.5 px-4 rounded-xl font-medium text-sm animate-pulse shadow-sm">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
-                  </span>
-                  <span className="font-bold">High Demand:</span> Selling fast!
-                </div>
-              )}
+
 
               {/* Mobile Sticky Buttons */}
               <div className="lg:mt-6 lg:space-y-3 fixed bottom-0 left-0 right-0 z-50 lg:relative lg:z-auto bg-white border-t border-gray-200 lg:border-0 lg:bg-transparent px-4 py-3 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:space-y-3 space-y-2">
@@ -768,34 +759,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                   </>
                 )}
 
-                {/* Trust Badges & Micro-copy */}
-                {product && product.inStock !== false && (
-                  <div className="mt-5 flex flex-col items-center gap-3.5 px-2 lg:px-0 pb-2">
-                    <div className="flex items-center justify-center gap-2 text-xs font-bold text-[#0F172A] uppercase tracking-wider">
-                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                      Secured Payment Options
-                    </div>
-                    <div className="flex flex-wrap items-center justify-center gap-2 opacity-80 grayscale hover:grayscale-0 transition-all duration-300">
-                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/visa-319d545c6fd255c9aad5eeaad21fd6f7f7b4f5976d92386451a61dcce11c28f2.svg" alt="Visa" width={38} height={24} className="h-6 w-auto" />
-                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/master-173035bc8124581983d4efa50cf8626e8553c2b311353fbf67485f9c1a2b88d1.svg" alt="Mastercard" width={38} height={24} className="h-6 w-auto" />
-                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/american_express-2264c9b8b57b23b0b083182844cb09a341a978ca073ce54b51512dc04b5f4c8f.svg" alt="Amex" width={38} height={24} className="h-6 w-auto" />
-                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/paypal-49e4c1e03244b6d2de0d270ca0d22dd15da6e92cc7266e93eb43762df5aa355d.svg" alt="PayPal" width={38} height={24} className="h-6 w-auto" />
-                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/apple_pay-f6db0077dc7c325b436fcbc102862cf140e673f848bb2560f78ccab7f1ef2e86.svg" alt="Apple Pay" width={38} height={24} className="h-6 w-auto" />
-                      <Image src="https://cdn.shopify.com/s/assets/payment_icons/google_pay-c66a29c63facf2053bf6935298a7122cf2fe2b7c413b59df5aeb00109b0b4a44.svg" alt="Google Pay" width={38} height={24} className="h-6 w-auto" />
-                    </div>
-                    <div className="mt-1 flex flex-col items-center gap-1.5 text-xs text-gray-500 font-medium w-full max-w-sm mx-auto">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-green-500 font-bold">✓</span> Safe & Secure Checkout
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-green-500 font-bold">✓</span> Free Shipping
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-green-500 font-bold">✓</span> 30-Day Money-Back Guarantee
-                      </div>
-                    </div>
-                  </div>
-                )}
+
               </div>
 
               <div className="mt-8">
