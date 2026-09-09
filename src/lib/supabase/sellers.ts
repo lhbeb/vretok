@@ -132,79 +132,22 @@ function shuffleReviews(reviews: Review[]): Review[] {
   return shuffled;
 }
 
-function isLeggingText(value: unknown): boolean {
-  return typeof value === 'string' && /\b(leggings?|activewear|sports? bras?|gym tops?|training tops?|workout sets?|yoga pants?|compression tights?)\b/i.test(value);
-}
-
-function isLeggingReview(review: Review): boolean {
-  return isLeggingText(review.productTitle) || isLeggingText(review.productSlug);
-}
-
-function shouldIncludeNativeSellerReview(review: Review): boolean {
-  // Only show reviews explicitly associated with Vretok activewear products.
-  return isLeggingReview(review);
-}
-
 export async function getHomeReviewsFeed(limit: number = 6): Promise<{
   reviews: Review[];
   averageRating: number;
   totalReviews: number;
 }> {
   try {
-    const [sellersResult, productsResult] = await Promise.all([
-      supabaseAdmin
-        .from('sellers')
-        .select('reviews'),
-      supabaseAdmin
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false }),
-    ]);
+    const seller = await getSellerByUsername('vretok');
 
-    const sellerRows = sellersResult.data || [];
-    const productRows = productsResult.data || [];
-
-    const nativeSellerReviews = sellerRows
-      .flatMap((seller) =>
-        parseReviews(seller.reviews),
-      )
-      .filter(shouldIncludeNativeSellerReview);
-
-    const publishedProductReviews = productRows
-      .map((row) => transformProduct(row))
-      .filter(
-        (product) =>
-          product.published !== false &&
-          [product.title, product.slug, product.category].some(isLeggingText),
-      )
-      .flatMap((product) =>
-        (Array.isArray(product.reviews) ? product.reviews : []).map((review) => ({
-          ...review,
-          productTitle: review.productTitle || product.title,
-          productSlug: review.productSlug || product.slug,
-        })),
-      );
-
-    const allReviews = [...nativeSellerReviews, ...publishedProductReviews].filter(
-      (review): review is Review =>
-        Boolean(
-          review &&
-          review.id &&
-          review.author &&
-          review.content &&
-          typeof review.rating === 'number',
-        ),
-    );
-
-    const totalReviews = allReviews.length;
-    const averageRating = totalReviews > 0
-      ? Math.round((allReviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews) * 10) / 10
-      : 0;
+    if (!seller) {
+      return { reviews: [], averageRating: 0, totalReviews: 0 };
+    }
 
     return {
-      reviews: shuffleReviews(allReviews).slice(0, limit),
-      averageRating,
-      totalReviews,
+      reviews: shuffleReviews(seller.reviews || []).slice(0, limit),
+      averageRating: seller.averageRating || 0,
+      totalReviews: seller.totalReviews || 0,
     };
   } catch (error) {
     console.error('Error loading home reviews feed:', error);
