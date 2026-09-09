@@ -35,19 +35,6 @@ interface MobileCheckoutCTAProps {
   label: string;
 }
 
-function FixedCheckoutBar({ children }: { children: ReactNode }) {
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-[100] border-t border-gray-200 bg-white/95 shadow-[0_-6px_24px_rgba(0,0,0,0.10)] backdrop-blur-lg lg:hidden">
-      <div
-        className="mx-auto w-full max-w-3xl px-4 pt-3"
-        style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
 function MobileCheckoutCTA({
   onClick,
   disabled,
@@ -56,7 +43,7 @@ function MobileCheckoutCTA({
   label,
 }: MobileCheckoutCTAProps) {
   return (
-    <FixedCheckoutBar>
+    <div className="mt-6">
       <button
         type={onClick ? 'button' : 'submit'}
         onClick={onClick}
@@ -76,7 +63,7 @@ function MobileCheckoutCTA({
           <span className="text-white text-lg sm:text-xl font-bold">{label}</span>
         )}
       </button>
-    </FixedCheckoutBar>
+    </div>
   );
 }
 
@@ -700,14 +687,14 @@ export default function CheckoutShippingStep({
                   </div>
                 )}
 
+                <SecureCheckoutInfo mobile />
+                
                 <MobileCheckoutCTA
                   disabled={isSendingEmail || isRedirecting}
                   isLoading={isSendingEmail || isRedirecting}
                   loadingLabel={isSendingEmail ? 'Confirming Address...' : 'Redirecting...'}
                   label="Continue to Payment"
                 />
-
-                <SecureCheckoutInfo mobile />
               </form>
             </div>
           </div>
