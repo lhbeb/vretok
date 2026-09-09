@@ -100,7 +100,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         
         // Also ensure seller details are in meta so ProductReviews can show them
         if (!p.meta) p.meta = {};
-        if (!p.meta._sellerName) p.meta._sellerName = 'Seller';
+        const metaAny = p.meta as any;
+        if (!metaAny._sellerName) metaAny._sellerName = 'Seller';
       }
     }
 
