@@ -80,9 +80,9 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
     <section className="mt-8 border-t pt-8">
       <div className="container mx-auto px-4">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-[#262626] mb-4">Recommended Products</h2>
+          <h2 className="text-3xl font-bold text-[#262626] mb-4">Pair It With</h2>
           <p className="text-lg text-gray-600 max-w-2xl">
-            Discover more amazing products you might love
+            Complete your look with these picks.
           </p>
         </div>
 
