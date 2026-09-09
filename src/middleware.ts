@@ -79,7 +79,8 @@ export async function middleware(request: NextRequest) {
           pathname === '/admin/products' ||
           pathname === '/admin/orders' ||
           pathname.startsWith('/admin/orders/') ||
-          pathname === '/admin/payment-settings';
+          pathname === '/admin/payment-settings' ||
+          pathname === '/admin/subscription-manager';
 
         if (!isAllowedPath) {
           console.log(`🚫 [MIDDLEWARE] Restricted admin ${decoded.email} blocked from ${pathname} -> redirecting to /admin/products`);

@@ -237,7 +237,9 @@ export default function AdminSidebar() {
   // Filter items for special admin (yassir)
   const filteredMainNavItems = getMainNavItems(ordersCount).filter(item => {
     if (isSpecialAdmin) {
-      return item.path === '/admin/products' || item.path === '/admin/orders';
+      return item.path === '/admin/products'
+        || item.path === '/admin/orders'
+        || item.path === '/admin/subscription-manager';
     }
     return true;
   });
