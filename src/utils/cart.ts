@@ -52,6 +52,12 @@ function writeCart(items: CartItem[]): void {
   window.dispatchEvent(new CustomEvent('cartUpdated'));
 }
 
+function showCartError(message: string): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent('cartError', { detail: { message } }));
+  window.dispatchEvent(new Event('openCart'));
+}
+
 function buildCleanProduct(product: Product): Product {
   return {
     id: product.id || '',
@@ -116,7 +122,7 @@ export function addToCart(product: Product, qty: number = 1): 'added' | 'updated
     const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
 
     if (totalQuantity + normalizedQty > 6) {
-      alert(`You can only have up to 6 items per checkout. You currently have ${totalQuantity} items in your cart.`);
+      showCartError(`You can add up to 6 items per checkout. Your cart already has ${totalQuantity}.`);
       return 'already_in_cart';
     }
 
@@ -172,7 +178,7 @@ export function updateCartQty(lineId: string, qty: number): void {
   const currentQty = items[lineIndex].quantity;
   
   if (normalizedQty > currentQty && (currentTotal + (normalizedQty - currentQty)) > 6) {
-    alert('You can only have up to 6 items per checkout.');
+    showCartError(`You can add up to 6 items per checkout. Your cart already has ${currentTotal}.`);
     return;
   }
 

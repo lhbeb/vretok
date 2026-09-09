@@ -60,6 +60,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const [removingLineId, setRemovingLineId] = useState<string | null>(null);
   const [promoCode, setPromoCode] = useState<string>('');
   const [editingSizeLineId, setEditingSizeLineId] = useState<string | null>(null);
+  const [cartError, setCartError] = useState<string | null>(null);
 
   const refreshItems = useCallback(() => {
     setItems(getCartItems());
@@ -68,7 +69,17 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   useEffect(() => {
     setMounted(true);
     refreshItems();
-    window.addEventListener('cartUpdated', refreshItems);
+    const handleCartUpdated = () => {
+      refreshItems();
+      setCartError(null);
+    };
+    const handleCartError = (event: Event) => {
+      const message = (event as CustomEvent<{ message?: string }>).detail?.message;
+      setCartError(message || 'That cart update could not be completed.');
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdated);
+    window.addEventListener('cartError', handleCartError);
     if (typeof window !== 'undefined') {
       let savedPromo = localStorage.getItem('vretok_promo_code');
       if (!savedPromo || savedPromo !== 'FREE100') {
@@ -77,7 +88,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       }
       setPromoCode(savedPromo.toUpperCase());
     }
-    return () => window.removeEventListener('cartUpdated', refreshItems);
+    return () => {
+      window.removeEventListener('cartUpdated', handleCartUpdated);
+      window.removeEventListener('cartError', handleCartError);
+    };
   }, [refreshItems]);
 
   useEffect(() => {
@@ -88,6 +102,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     } else {
       document.body.style.overflow = '';
       setEditingSizeLineId(null);
+      setCartError(null);
       if (chatContainer) chatContainer.style.display = '';
     }
     return () => {
@@ -196,6 +211,26 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           </div>
         ) : (
           <>
+            {cartError && (
+              <div
+                role="alert"
+                aria-live="assertive"
+                className="mx-5 mt-4 flex items-start gap-2.5 rounded-xl border border-[#E11D48]/20 bg-[#FFF1F2] px-3.5 py-3 text-sm text-[#9F1239]"
+              >
+                <CircleAlert className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                <p className="flex-1 leading-relaxed">
+                  <span className="font-semibold">Cart limit:</span> {cartError}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setCartError(null)}
+                  className="rounded-full p-0.5 text-[#9F1239]/70 transition-colors hover:bg-white hover:text-[#9F1239]"
+                  aria-label="Dismiss cart message"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            )}
             <div className="flex-1 overflow-y-auto px-5 py-3">
               <ul className="space-y-4">
                 {items.map((item) => {
