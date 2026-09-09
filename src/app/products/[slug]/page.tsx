@@ -88,6 +88,22 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
     const p = product!;
     const inStock = p.inStock !== false;
+
+    // Fallback to seller reviews if the product doesn't have individual reviews
+    if ((!p.reviews || p.reviews.length === 0) && p.sellerId) {
+      const { getSellerReviews } = await import('@/lib/supabase/sellers');
+      const sellerReviewsData = await getSellerReviews(p.sellerId);
+      if (sellerReviewsData && sellerReviewsData.reviews && sellerReviewsData.reviews.length > 0) {
+        p.reviews = sellerReviewsData.reviews;
+        p.rating = sellerReviewsData.averageRating;
+        p.reviewCount = sellerReviewsData.totalReviews;
+        
+        // Also ensure seller details are in meta so ProductReviews can show them
+        if (!p.meta) p.meta = {};
+        if (!p.meta._sellerName) p.meta._sellerName = 'Seller';
+      }
+    }
+
     const hasReviews = (p.reviewCount || 0) > 0 && (p.rating || 0) > 0;
 
     // priceValidUntil: 1 year from today — expected by Google Merchant Center
