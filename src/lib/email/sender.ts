@@ -143,6 +143,7 @@ export async function sendOrderEmail(order: any): Promise<{ success: boolean; er
             `;
           }).join('')}
         </ul>
+        <p><strong>Total Price:</strong> $${product_price}</p>
       `
       : `
         <h3>Product Details:</h3>
