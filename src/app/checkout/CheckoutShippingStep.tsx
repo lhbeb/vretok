@@ -463,7 +463,7 @@ export default function CheckoutShippingStep({
   const displayCurrency = isFreeOrder ? 'GBP' : baseCurrency;
   const priceString = formatPriceString(totalPrice, baseCurrency);
   const finalPriceString = formatPriceString(finalPrice, displayCurrency);
-  const shippingString = 'Calculated at checkout';
+  const shippingCostString = isFreeOrder ? 'FREE' : formatPriceString(shippingCost, baseCurrency);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">
@@ -536,7 +536,7 @@ export default function CheckoutShippingStep({
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600">Shipping</span>
-                    <span className="font-medium text-[#0F172A]">{shippingString}</span>
+                    <span className="font-medium text-[#0F172A]">{shippingCostString}</span>
                   </div>
                   {isFreeOrder && (
                     <div className="flex justify-between items-center text-sm">
@@ -664,7 +664,7 @@ export default function CheckoutShippingStep({
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-500">Shipping</span>
-                      <span className={`font-semibold ${isFreeOrder ? 'text-[#0F172A]' : 'text-gray-500'}`}>{shippingString}</span>
+                      <span className={`font-semibold ${isFreeOrder ? 'text-[#0F172A]' : 'text-gray-500'}`}>{shippingCostString}</span>
                     </div>
                     {isFreeOrder && (
                       <div className="flex justify-between text-sm">

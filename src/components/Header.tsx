@@ -140,7 +140,7 @@ const Header = () => {
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
       {/* 1. Announcement Bar */}
-      <div suppressHydrationWarning={true} className="bg-[#F8FAFC] text-[#0F172A] py-2 relative overflow-hidden h-[40px] flex items-center border-b border-[#0F172A]/10">
+      <div suppressHydrationWarning={true} className="bg-[#F8FAFC] text-[#0F172A] py-2 relative overflow-hidden min-h-[40px] sm:h-[40px] flex items-center border-b border-[#0F172A]/10">
         <div suppressHydrationWarning={true} className="container mx-auto px-4 flex items-center justify-center relative w-full h-full text-xs sm:text-sm">
           <div suppressHydrationWarning={true} className="text-center font-medium px-4 sm:px-16 transition-all duration-500 ease-in-out h-full flex items-center justify-center min-h-[24px]">
             {announcements[currentAnnouncement] === "whatsapp-contact" ? (
@@ -152,13 +152,13 @@ const Header = () => {
                   className="flex items-center gap-1.5 hover:opacity-80 transition-opacity flex-wrap justify-center text-[#0F172A]"
                   aria-label="Contact Vretok"
                 >
-                  <Info className="h-4 w-4" />
-                  <span className="whitespace-nowrap">Need help finding your fit? <span className="font-bold">Chat with Vretok</span></span>
-                  <span className="underline whitespace-nowrap font-bold">Contact us</span>
+                  <Info className="h-4 w-4 flex-shrink-0" />
+                  <span className="sm:whitespace-nowrap">Need help finding your fit? <span className="font-bold">Chat with Vretok</span></span>
+                  <span className="underline sm:whitespace-nowrap font-bold">Contact us</span>
                 </a>
               </div>
             ) : (
-              <span key={currentAnnouncement} className="inline-block animate-fade-in whitespace-nowrap text-xs sm:text-sm h-full flex items-center text-[#0F172A]">
+              <span key={currentAnnouncement} className="inline-block animate-fade-in sm:whitespace-nowrap text-xs sm:text-sm h-full flex items-center text-[#0F172A]">
                 {announcements[currentAnnouncement]}
               </span>
             )}

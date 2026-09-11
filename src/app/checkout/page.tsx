@@ -297,6 +297,8 @@ const CheckoutPage: React.FC = () => {
         showPaypalDirect={false}
         paypalDirectEmail=""
         paypalDirectOrderId={null}
+        shippingCost={29.99}
+        isFreeOrder={isFreeOrder}
         onStripeBack={() => {
           setStripeClientSecret(null);
           setCheckoutError('');

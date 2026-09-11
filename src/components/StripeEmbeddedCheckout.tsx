@@ -16,6 +16,8 @@ interface StripeEmbeddedCheckoutProps {
     currency?: string;
   };
   onBack?: () => void;
+  shippingCost?: number;
+  isFreeOrder?: boolean;
 }
 
 // Matches CSS ease-in-out so counter-scroll stays in sync with the grid animation
@@ -28,6 +30,8 @@ export default function StripeEmbeddedCheckout({
   shippingData,
   product,
   onBack,
+  shippingCost = 29.99,
+  isFreeOrder = false,
 }: StripeEmbeddedCheckoutProps) {
   const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null);
   const [configError, setConfigError] = useState('');
@@ -282,7 +286,9 @@ export default function StripeEmbeddedCheckout({
             {/* Shipping badge */}
             <div className="flex justify-between items-center text-[13px] md:text-sm">
               <span className="text-gray-600">Shipping</span>
-              <span className="text-gray-500">Calculated at checkout</span>
+              <span className={`font-semibold ${isFreeOrder ? 'text-[#0F172A]' : 'text-gray-500'}`}>
+                {isFreeOrder ? 'FREE' : `£${shippingCost.toFixed(2)}`}
+              </span>
             </div>
           </div>
 

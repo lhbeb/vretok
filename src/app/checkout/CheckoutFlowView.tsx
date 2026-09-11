@@ -23,6 +23,8 @@ interface CheckoutFlowViewProps {
   showPaypalDirect: boolean;
   paypalDirectEmail: string;
   paypalDirectOrderId: string | null;
+  shippingCost?: number;
+  isFreeOrder?: boolean;
   onStripeBack: () => void;
   onKofiClose: () => void;
   onPaypalConfirmationClose: () => void;
@@ -111,6 +113,8 @@ export default function CheckoutFlowView({
   showPaypalDirect,
   paypalDirectEmail,
   paypalDirectOrderId,
+  shippingCost = 29.99,
+  isFreeOrder = false,
   onStripeBack,
   onKofiClose,
   onPaypalConfirmationClose,
@@ -127,6 +131,8 @@ export default function CheckoutFlowView({
           currency: product.currency,
           images: product.images,
         }}
+        shippingCost={shippingCost}
+        isFreeOrder={isFreeOrder}
         onBack={onStripeBack}
       />
     );
