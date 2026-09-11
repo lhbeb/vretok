@@ -2,12 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { headers } from 'next/headers';
 import { updateOrderStripeStatus, getOrderById } from '@/lib/supabase/orders';
-import { getStripeConfig } from '@/lib/supabase/payment-settings';
+import { getStripeConfig, getStripeWebhookSecret } from '@/lib/supabase/payment-settings';
 
 // Stripe initialization deferred to handler to avoid build-time crashes
-
-// Webhook secret from Stripe Dashboard
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 export async function POST(request: NextRequest) {
     try {
@@ -16,6 +13,7 @@ export async function POST(request: NextRequest) {
         const stripe = new Stripe(stripeConfig.secretKey || 'sk_test_placeholder', {
             apiVersion: '2026-01-28.clover' as any,
         });
+        const webhookSecret = await getStripeWebhookSecret();
 
         const body = await request.text();
         const headersList = await headers();

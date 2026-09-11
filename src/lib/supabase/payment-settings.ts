@@ -8,6 +8,31 @@ export interface StripeConfig {
 }
 
 /**
+ * Fetch the Stripe webhook signing secret from the protected payment settings
+ * table. Keeping it here avoids exposing a live credential in source control or
+ * requiring a separate hosting-provider environment variable.
+ */
+export async function getStripeWebhookSecret(): Promise<string> {
+    const { data, error } = await supabaseAdmin
+        .from('payment_settings')
+        .select('secret_key')
+        .eq('provider', 'stripe-webhook')
+        .eq('is_active', true)
+        .maybeSingle();
+
+    if (error) {
+        console.error('[Payment Settings] Error fetching Stripe webhook secret:', error);
+        throw new Error('Stripe webhook configuration is unavailable');
+    }
+
+    if (!data?.secret_key) {
+        throw new Error('Stripe webhook signing secret is not configured');
+    }
+
+    return data.secret_key;
+}
+
+/**
  * Fetches the active Stripe configuration from the database.
  * If not configured in the DB, it falls back to environment variables.
  * Caches the result in memory for 1 minute to prevent hammering the DB.
