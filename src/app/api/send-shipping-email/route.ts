@@ -8,6 +8,8 @@ import {
   usesCountryFirstAddress,
 } from '@/lib/shipping';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { isFreeOrderPromo } from '@/lib/discounts';
+import { getDiscountConfig } from '@/lib/supabase/payment-settings';
 import { resolveBaseUrl } from '@/lib/url';
 import type { CartItem } from '@/utils/cart';
 
@@ -81,7 +83,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'You can only have up to 6 items per checkout.' }, { status: 400 });
     }
     
-    const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 6;
+    const discountConfig = await getDiscountConfig();
+    const isFreeOrder = isFreeOrderPromo(promoCode, totalQuantity, discountConfig);
     const finalPrice = isFreeOrder ? 29.99 : totalPrice;
 
     const title = cartItems.length === 1 ? cartItems[0].product.title : `${totalQuantity} Items (${cartItems.length} variants)`;
@@ -108,7 +111,7 @@ export async function POST(request: NextRequest) {
         shippingData,
         cartItems,
         siteUrl,
-        promoCode: isFreeOrder ? 'FREE100' : undefined,
+        promoCode: isFreeOrder ? discountConfig.code : undefined,
         originalPrice: totalPrice,
       },
     });

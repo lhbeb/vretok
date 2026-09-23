@@ -30,7 +30,7 @@ export default function StripeEmbeddedCheckout({
   shippingData,
   product,
   onBack,
-  shippingCost = 29.99,
+  shippingCost = 0,
   isFreeOrder = false,
 }: StripeEmbeddedCheckoutProps) {
   const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null);
@@ -286,8 +286,8 @@ export default function StripeEmbeddedCheckout({
             {/* Shipping badge */}
             <div className="flex justify-between items-center text-[13px] md:text-sm">
               <span className="text-gray-600">Shipping</span>
-              <span className={`font-semibold ${isFreeOrder ? 'text-[#0F172A]' : 'text-gray-500'}`}>
-                {isFreeOrder ? 'FREE' : `£${shippingCost.toFixed(2)}`}
+              <span className="font-semibold text-[#0F172A]">
+                {shippingCost <= 0 || isFreeOrder ? 'FREE' : `£${shippingCost.toFixed(2)}`}
               </span>
             </div>
           </div>

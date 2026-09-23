@@ -31,7 +31,7 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     freeShippingText: 'Worldwide shipping',
     returnsText: 'Eligible returns within 30 days',
     faqShippingAnswer: 'Orders normally require 1–2 business days for handling. Standard transit is estimated at 5–9 business days after dispatch.',
-    faqFreeShippingAnswer: 'Shipping fees apply to all orders based on promotional terms. Any charge is shown before payment.',
+    faqFreeShippingAnswer: 'Free standard shipping is included and shown before payment.',
   },
 };
 

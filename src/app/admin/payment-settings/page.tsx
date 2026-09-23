@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import AdminLayout from '@/components/AdminLayout';
-import { CreditCard, Save, ShieldOff, Eye, EyeOff, AlertCircle, RefreshCw, CheckCircle2, XCircle, KeyRound } from 'lucide-react';
+import { CreditCard, Save, ShieldOff, Eye, EyeOff, AlertCircle, RefreshCw, CheckCircle2, XCircle, KeyRound, Percent } from 'lucide-react';
 
 export default function PaymentSettingsPage() {
     const [adminRole, setAdminRole] = useState<string | null>(null);
@@ -20,6 +20,10 @@ export default function PaymentSettingsPage() {
     const [paypalEmail, setPaypalEmail] = useState('');
     const [isPaypalConfigured, setIsPaypalConfigured] = useState(false);
     const [isPaypalSaving, setIsPaypalSaving] = useState(false);
+
+    // Discount settings
+    const [free100Enabled, setFree100Enabled] = useState(false);
+    const [isDiscountSaving, setIsDiscountSaving] = useState(false);
 
     // PayPal Orders API state
     const [paypalApiMerchantEmail, setPaypalApiMerchantEmail] = useState('');
@@ -80,6 +84,8 @@ export default function PaymentSettingsPage() {
                     setPaypalApiClientSecret(data.paypalApi.clientSecret || '');
                     setPaypalApiMode(data.paypalApi.mode === 'live' ? 'live' : 'sandbox');
                 }
+
+                setFree100Enabled(data.discounts?.free100Enabled === true);
             } else if (res.status === 401) {
                 console.log("Unauthorized to fetch settings");
             }
@@ -237,6 +243,39 @@ export default function PaymentSettingsPage() {
             setStatusMessage({ type: 'error', text: 'Could not verify PayPal credentials. Please try again.' });
         } finally {
             setIsPaypalApiSaving(false);
+        }
+    };
+
+    const handleSaveDiscounts = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsDiscountSaving(true);
+        setStatusMessage(null);
+
+        try {
+            const token = localStorage.getItem('admin_token');
+            const res = await fetch('/api/admin/payment-settings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token && { Authorization: `Bearer ${token}` }),
+                },
+                body: JSON.stringify({
+                    provider: 'discounts',
+                    free100Enabled,
+                }),
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                setStatusMessage({ type: 'success', text: data.message || 'Discount settings saved.' });
+                await fetchSettings();
+            } else {
+                setStatusMessage({ type: 'error', text: data.error || 'Failed to save discount settings.' });
+            }
+        } catch {
+            setStatusMessage({ type: 'error', text: 'An unexpected error occurred.' });
+        } finally {
+            setIsDiscountSaving(false);
         }
     };
 
@@ -420,6 +459,75 @@ export default function PaymentSettingsPage() {
                                         <>
                                             <Save className="h-4 w-4" />
                                             Save PayPal Redirect Email
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden xl:col-span-2">
+                        <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-11 h-11 rounded-xl bg-rose-50 text-[#E11D48] flex items-center justify-center flex-shrink-0">
+                                    <Percent className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-[#262626] text-base">FREE100 Discount</h3>
+                                    <div className="flex items-center gap-2 mt-1">
+                                        <div className={`w-2 h-2 rounded-full ${free100Enabled ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                                        <p className="text-sm text-gray-500">
+                                            {free100Enabled ? 'Enabled for checkout' : 'Disabled - product price with free shipping'}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form onSubmit={handleSaveDiscounts} className="p-6 space-y-6">
+                            <div className="flex flex-col gap-4 rounded-xl border border-gray-100 bg-gray-50 p-5 sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    <p className="text-sm font-semibold text-[#262626]">Allow FREE100 promo links and checkout coupon field</p>
+                                    <p className="mt-1 text-sm text-gray-500">
+                                        Off means customers pay the product price only, with free shipping and no coupon code requirement.
+                                    </p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setFree100Enabled(prev => !prev)}
+                                    className={`relative inline-flex h-8 w-14 flex-shrink-0 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:ring-offset-2 ${
+                                        free100Enabled ? 'bg-[#E11D48]' : 'bg-gray-300'
+                                    }`}
+                                    aria-pressed={free100Enabled}
+                                    aria-label="Toggle FREE100 discount"
+                                >
+                                    <span
+                                        className={`inline-block h-6 w-6 translate-y-1 rounded-full bg-white shadow transition-transform ${
+                                            free100Enabled ? 'translate-x-7' : 'translate-x-1'
+                                        }`}
+                                    />
+                                </button>
+                            </div>
+
+                            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                                Keep this off when selling at normal product price. Turn it on only when you intentionally want FREE100 to make products free for up to 6 items.
+                            </div>
+
+                            <div className="pt-6 border-t border-gray-100 flex justify-end">
+                                <button
+                                    type="submit"
+                                    disabled={isDiscountSaving}
+                                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0F172A] text-white rounded-xl hover:bg-[#020617] transition-colors text-sm font-medium shadow-lg shadow-[#0F172A]/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {isDiscountSaving ? (
+                                        <>
+                                            <RefreshCw className="h-4 w-4 animate-spin" />
+                                            Saving...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Save className="h-4 w-4" />
+                                            Save Discount Setting
                                         </>
                                     )}
                                 </button>

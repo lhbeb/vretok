@@ -52,7 +52,7 @@ const getMainNavItems = (ordersCount: number): NavItem[] => [
 
 // Items bundled under the "More" dropdown
 const moreNavItems: NavItem[] = [
-  { name: 'Payment Settings', path: '/admin/payment-settings', icon: CreditCard, description: 'Manage Stripe keys' },
+  { name: 'Payment Settings', path: '/admin/payment-settings', icon: CreditCard, description: 'Manage payment options' },
   { name: 'Scripts', path: '/admin/scripts', icon: Terminal, description: 'Run DB scripts' },
   { name: 'Error Log', path: '/admin/errors', icon: AlertTriangle, description: 'View client crashes' },
 ];

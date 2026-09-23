@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import {
+    getDiscountConfig,
+    invalidateDiscountConfigCache,
     invalidatePaypalApiConfigCache,
     invalidatePaypalConfigCache,
     invalidateStripeConfigCache,
 } from '@/lib/supabase/payment-settings';
+import { DEFAULT_FREE_ORDER_DISCOUNT_CONFIG } from '@/lib/discounts';
 import {
     invalidatePaypalAccessTokenCache,
     PaypalApiError,
@@ -93,6 +96,8 @@ export async function GET(request: NextRequest) {
             .eq('provider', 'paypal-api')
             .maybeSingle();
 
+        const discountConfig = await getDiscountConfig();
+
         if (stripeError && stripeError.code !== 'PGRST116') {
             console.error('Error fetching Stripe settings:', stripeError);
         }
@@ -109,6 +114,11 @@ export async function GET(request: NextRequest) {
             stripe: null,
             paypal: null,
             paypalApi: null,
+            discounts: {
+                free100Enabled: discountConfig.enabled,
+                code: discountConfig.code,
+                maxQuantity: discountConfig.maxQuantity,
+            },
         };
 
         if (stripeData) {
@@ -170,7 +180,53 @@ export async function POST(request: NextRequest) {
             clientId,
             clientSecret,
             merchantEmail,
+            free100Enabled,
         } = body;
+
+        if (provider === 'discounts') {
+            const enabled = free100Enabled === true;
+
+            const { data: existingDiscount, error: existingError } = await supabaseAdmin
+                .from('payment_settings')
+                .select('id')
+                .eq('provider', 'discount-free100')
+                .maybeSingle();
+
+            if (existingError) {
+                console.error('Error checking existing discount settings:', existingError);
+                return NextResponse.json({ error: 'Failed to read current discount configuration.' }, { status: 500 });
+            }
+
+            const settingsPayload = {
+                publishable_key: DEFAULT_FREE_ORDER_DISCOUNT_CONFIG.code,
+                secret_key: 'discount-not-applicable',
+                mode: 'live',
+                is_active: enabled,
+                updated_by: auth.email,
+            };
+
+            const { error: saveError } = existingDiscount
+                ? await supabaseAdmin
+                    .from('payment_settings')
+                    .update(settingsPayload)
+                    .eq('provider', 'discount-free100')
+                : await supabaseAdmin
+                    .from('payment_settings')
+                    .insert({ provider: 'discount-free100', ...settingsPayload });
+
+            if (saveError) {
+                console.error('Error saving discount settings:', saveError);
+                return NextResponse.json({ error: 'Failed to save discount configuration.' }, { status: 500 });
+            }
+
+            invalidateDiscountConfigCache();
+            return NextResponse.json({
+                success: true,
+                message: enabled
+                    ? 'FREE100 discount is enabled.'
+                    : 'FREE100 discount is disabled. Checkout uses product price with free shipping.',
+            });
+        }
 
         if (provider === 'paypal-direct') {
             if (!payeeEmail) {

@@ -8,16 +8,30 @@ export default function DiscountPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    const applyDiscount = async () => {
+      if (typeof window === 'undefined') return;
+
       const code = params?.code as string;
-      if (code) {
-        // Save the code to localStorage so it's picked up by checkout
-        localStorage.setItem('vretok_promo_code', code.toUpperCase());
+      const normalizedCode = code?.toUpperCase();
+
+      try {
+        const response = await fetch(`/api/discount-settings?t=${Date.now()}`, { cache: 'no-store' });
+        const settings = response.ok ? await response.json() : null;
+
+        if (settings?.enabled === true && normalizedCode === settings.code) {
+          localStorage.setItem('vretok_promo_code', normalizedCode);
+        } else {
+          localStorage.removeItem('vretok_promo_code');
+        }
+      } catch {
+        localStorage.removeItem('vretok_promo_code');
       }
       
       // Redirect to homepage after setting the discount
       router.replace('/');
-    }
+    };
+
+    void applyDiscount();
   }, [params, router]);
 
   return (

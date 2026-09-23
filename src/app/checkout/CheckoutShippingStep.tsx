@@ -10,6 +10,7 @@ import CountrySelect from '@/components/CountrySelect';
 import type { CartItem } from '@/utils/cart';
 import type { CheckoutFormController } from './useCheckoutForm';
 import { getCartLineId, removeFromCart } from '@/utils/cart';
+import { FREE_ORDER_PROMO_CODE, FREE_ORDER_PROMO_MAX_QUANTITY } from '@/lib/discounts';
 
 interface CheckoutShippingStepProps {
   cartItems: CartItem[];
@@ -25,6 +26,7 @@ interface CheckoutShippingStepProps {
   appliedPromo?: string;
   promoError?: string;
   onApplyPromo?: () => void;
+  discountsEnabled?: boolean;
   savePaymentMethod: boolean;
   onSavePaymentMethodChange: (value: boolean) => void;
 }
@@ -447,15 +449,14 @@ export default function CheckoutShippingStep({
   appliedPromo = '',
   promoError = '',
   onApplyPromo,
+  discountsEnabled = false,
   savePaymentMethod,
   onSavePaymentMethodChange,
 }: CheckoutShippingStepProps) {
   const [showMobileOrderSummary, setShowMobileOrderSummary] = useState(false);
   
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 6;
-  const excessItemCount = Math.max(totalQuantity - 6, 0);
-  const shippingCost = 29.99;
+  const isFreeOrder = discountsEnabled && appliedPromo === FREE_ORDER_PROMO_CODE && totalQuantity <= FREE_ORDER_PROMO_MAX_QUANTITY;
 
   const totalPrice = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
   const finalPrice = isFreeOrder ? 0 : totalPrice;
@@ -463,7 +464,7 @@ export default function CheckoutShippingStep({
   const displayCurrency = isFreeOrder ? 'GBP' : baseCurrency;
   const priceString = formatPriceString(totalPrice, baseCurrency);
   const finalPriceString = formatPriceString(finalPrice, displayCurrency);
-  const shippingCostString = isFreeOrder ? 'FREE' : formatPriceString(shippingCost, baseCurrency);
+  const shippingCostString = 'FREE';
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">
@@ -540,7 +541,7 @@ export default function CheckoutShippingStep({
                   </div>
                   {isFreeOrder && (
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-emerald-600 font-semibold">Promo (FREE100)</span>
+                      <span className="text-emerald-600 font-semibold">Promo ({FREE_ORDER_PROMO_CODE})</span>
                       <span className="font-semibold text-emerald-600">-{priceString}</span>
                     </div>
                   )}
@@ -636,26 +637,30 @@ export default function CheckoutShippingStep({
 
                   {/* Totals */}
                   <div className="border-t border-gray-100 px-6 py-5 space-y-3 bg-gray-50">
-                    {/* Promo Code Input */}
-                    <div className="flex gap-2 pb-2">
-                      <input
-                        type="text"
-                        value={promoCodeInput}
-                        onChange={(e) => setPromoCodeInput?.(e.target.value.toUpperCase())}
-                        placeholder="Gift card or discount code"
-                        className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] text-sm uppercase"
-                        disabled={appliedPromo === 'FREE100'}
-                      />
-                      <button
-                        type="button"
-                        onClick={onApplyPromo}
-                        disabled={!promoCodeInput || appliedPromo === 'FREE100'}
-                        className="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-300 disabled:opacity-50 transition-colors"
-                      >
-                        Apply
-                      </button>
-                    </div>
-                    {promoError && <p className="text-xs text-red-600">{promoError}</p>}
+                    {discountsEnabled && (
+                      <>
+                        {/* Promo Code Input */}
+                        <div className="flex gap-2 pb-2">
+                          <input
+                            type="text"
+                            value={promoCodeInput}
+                            onChange={(e) => setPromoCodeInput?.(e.target.value.toUpperCase())}
+                            placeholder="Gift card or discount code"
+                            className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0F172A] focus:border-[#0F172A] text-sm uppercase"
+                            disabled={appliedPromo === FREE_ORDER_PROMO_CODE}
+                          />
+                          <button
+                            type="button"
+                            onClick={onApplyPromo}
+                            disabled={!promoCodeInput || appliedPromo === FREE_ORDER_PROMO_CODE}
+                            className="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg text-sm hover:bg-gray-300 disabled:opacity-50 transition-colors"
+                          >
+                            Apply
+                          </button>
+                        </div>
+                        {promoError && <p className="text-xs text-red-600">{promoError}</p>}
+                      </>
+                    )}
 
                     
                     <div className="flex justify-between text-sm pt-2">
@@ -664,11 +669,11 @@ export default function CheckoutShippingStep({
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-500">Shipping</span>
-                      <span className={`font-semibold ${isFreeOrder ? 'text-[#0F172A]' : 'text-gray-500'}`}>{shippingCostString}</span>
+                      <span className="font-semibold text-[#0F172A]">{shippingCostString}</span>
                     </div>
                     {isFreeOrder && (
                       <div className="flex justify-between text-sm">
-                        <span className="font-semibold text-emerald-600">Promo (FREE100)</span>
+                        <span className="font-semibold text-emerald-600">Promo ({FREE_ORDER_PROMO_CODE})</span>
                         <span className="font-semibold text-emerald-600">-{priceString}</span>
                       </div>
                     )}

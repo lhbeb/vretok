@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { updateOrderStripeStatus, getOrderById } from '@/lib/supabase/orders';
 import { getProductBySlug } from '@/lib/supabase/products';
-import { getStripeConfig } from '@/lib/supabase/payment-settings';
+import { getDiscountConfig, getStripeConfig } from '@/lib/supabase/payment-settings';
+import { isFreeOrderPromo } from '@/lib/discounts';
 import type { CartItem } from '@/utils/cart';
 
 function getAvailableSizes(product: any): string[] {
@@ -75,7 +76,8 @@ export async function POST(request: NextRequest) {
         if (totalQuantity > 6) {
             return NextResponse.json({ error: 'You can only have up to 6 items per checkout.' }, { status: 400 });
         }
-        const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 6;
+        const discountConfig = await getDiscountConfig();
+        const isFreeOrder = isFreeOrderPromo(promoCode, totalQuantity, discountConfig);
 
         // Verify the order exists
         const order = await getOrderById(orderId);
@@ -152,18 +154,6 @@ export async function POST(request: NextRequest) {
                     product_data: {
                         name: 'Shipping & Handling',
                         description: 'Promo Code FREE100 Applied (Products Free)',
-                    },
-                    unit_amount: 2999, // 29.99
-                },
-                quantity: 1,
-            });
-        } else {
-            line_items.push({
-                price_data: {
-                    currency: 'gbp',
-                    product_data: {
-                        name: 'Shipping & Handling',
-                        description: 'Standard Delivery',
                     },
                     unit_amount: 2999, // 29.99
                 },

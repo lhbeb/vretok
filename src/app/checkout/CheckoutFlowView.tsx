@@ -113,7 +113,7 @@ export default function CheckoutFlowView({
   showPaypalDirect,
   paypalDirectEmail,
   paypalDirectOrderId,
-  shippingCost = 29.99,
+  shippingCost = 0,
   isFreeOrder = false,
   onStripeBack,
   onKofiClose,

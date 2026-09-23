@@ -15,6 +15,27 @@ import { debugError, debugLog } from '@/utils/debug';
 import { preventScrollOnClick } from '@/utils/scrollUtils';
 import { trackPixelEvent } from '@/lib/pixel';
 import { setPendingOrder } from '@/lib/pendingOrder';
+import {
+  DEFAULT_FREE_ORDER_DISCOUNT_CONFIG,
+  isFreeOrderPromo,
+  normalizePromoCode,
+  type FreeOrderDiscountConfig,
+} from '@/lib/discounts';
+
+async function fetchDiscountSettings(): Promise<FreeOrderDiscountConfig> {
+  try {
+    const response = await fetch(`/api/discount-settings?t=${Date.now()}`, { cache: 'no-store' });
+    if (!response.ok) return DEFAULT_FREE_ORDER_DISCOUNT_CONFIG;
+    const data = await response.json();
+
+    return {
+      ...DEFAULT_FREE_ORDER_DISCOUNT_CONFIG,
+      enabled: data.enabled === true,
+    };
+  } catch {
+    return DEFAULT_FREE_ORDER_DISCOUNT_CONFIG;
+  }
+}
 
 const CheckoutPage: React.FC = () => {
   const router = useRouter();
@@ -29,25 +50,18 @@ const CheckoutPage: React.FC = () => {
   const [promoCodeInput, setPromoCodeInput] = useState('');
   const [appliedPromo, setAppliedPromo] = useState('');
   const [promoError, setPromoError] = useState('');
+  const [discountConfig, setDiscountConfig] = useState<FreeOrderDiscountConfig>(DEFAULT_FREE_ORDER_DISCOUNT_CONFIG);
 
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const isFreeOrder = appliedPromo === 'FREE100' && totalQuantity <= 6;
+  const isFreeOrder = isFreeOrderPromo(appliedPromo, totalQuantity, discountConfig);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const loadCartAndPromo = () => {
-      try {
-        // Auto-apply promo code if not set
-        let savedPromo = localStorage.getItem('vretok_promo_code');
-        if (!savedPromo || savedPromo !== 'FREE100') {
-          savedPromo = 'FREE100';
-          localStorage.setItem('vretok_promo_code', savedPromo);
-        }
-        
-        setAppliedPromo(savedPromo);
-        setPromoCodeInput(savedPromo);
+    let cancelled = false;
 
+    const loadCartAndPromo = async () => {
+      try {
         const items = getCartItems();
         if (!items || items.length === 0) {
           router.push('/');
@@ -61,6 +75,22 @@ const CheckoutPage: React.FC = () => {
           return;
         }
 
+        const nextDiscountConfig = await fetchDiscountSettings();
+        if (cancelled) return;
+
+        setDiscountConfig(nextDiscountConfig);
+
+        const savedPromo = normalizePromoCode(localStorage.getItem('vretok_promo_code'));
+        if (nextDiscountConfig.enabled && savedPromo === nextDiscountConfig.code) {
+          setAppliedPromo(savedPromo);
+          setPromoCodeInput(savedPromo);
+        } else {
+          setAppliedPromo('');
+          setPromoCodeInput('');
+          setPromoError('');
+          localStorage.removeItem('vretok_promo_code');
+        }
+
         setCartItems(items);
       } catch (error) {
         debugError('CheckoutPage: Error loading cart', error);
@@ -68,7 +98,7 @@ const CheckoutPage: React.FC = () => {
       }
     };
 
-    loadCartAndPromo();
+    void loadCartAndPromo();
 
     // Pixel tracking is only needed once on initial load, not every cart update
     try {
@@ -85,8 +115,15 @@ const CheckoutPage: React.FC = () => {
       });
     } catch (e) {}
 
-    window.addEventListener('cartUpdated', loadCartAndPromo);
-    return () => window.removeEventListener('cartUpdated', loadCartAndPromo);
+    const handleCartUpdated = () => {
+      void loadCartAndPromo();
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdated);
+    return () => {
+      cancelled = true;
+      window.removeEventListener('cartUpdated', handleCartUpdated);
+    };
   }, [router]);
 
   useEffect(() => {
@@ -105,7 +142,7 @@ const CheckoutPage: React.FC = () => {
 
       const requestBody = {
         shippingData,
-        promoCode: isFreeOrder ? 'FREE100' : undefined,
+        promoCode: isFreeOrder ? discountConfig.code : undefined,
         cartItems: items.map(item => ({
           ...item,
           product: {
@@ -143,19 +180,27 @@ const CheckoutPage: React.FC = () => {
   };
 
   const handleApplyPromo = () => {
+    if (!discountConfig.enabled) {
+      setPromoError('Discount codes are not active right now.');
+      setAppliedPromo('');
+      localStorage.removeItem('vretok_promo_code');
+      return;
+    }
+
     if (!promoCodeInput.trim()) {
       setPromoError('Please enter a promo code.');
       return;
     }
-    if (promoCodeInput.trim().toUpperCase() === 'FREE100') {
-      if (totalQuantity > 6) {
-        setPromoError('This promo code is only valid for orders with 6 items or less.');
+
+    if (normalizePromoCode(promoCodeInput) === discountConfig.code) {
+      if (totalQuantity > discountConfig.maxQuantity) {
+        setPromoError(`This promo code is only valid for orders with ${discountConfig.maxQuantity} items or less.`);
         setAppliedPromo('');
         localStorage.removeItem('vretok_promo_code');
       } else {
-        setAppliedPromo('FREE100');
+        setAppliedPromo(discountConfig.code);
         setPromoError('');
-        localStorage.setItem('vretok_promo_code', 'FREE100');
+        localStorage.setItem('vretok_promo_code', discountConfig.code);
       }
     } else {
       setPromoError('Invalid promo code.');
@@ -174,11 +219,6 @@ const CheckoutPage: React.FC = () => {
 
     if (totalQuantity > 6) {
       alert('You can only have up to 6 items per checkout.');
-      return;
-    }
-
-    if (appliedPromo !== 'FREE100') {
-      alert('Please apply the FREE100 promo code to proceed.');
       return;
     }
 
@@ -238,7 +278,7 @@ const CheckoutPage: React.FC = () => {
             orderId, 
             cartItems, 
             shippingData: form.shippingData,
-            promoCode: isFreeOrder ? 'FREE100' : undefined,
+            promoCode: isFreeOrder ? discountConfig.code : undefined,
             savePaymentMethod,
           }),
         });
@@ -297,7 +337,7 @@ const CheckoutPage: React.FC = () => {
         showPaypalDirect={false}
         paypalDirectEmail=""
         paypalDirectOrderId={null}
-        shippingCost={29.99}
+        shippingCost={0}
         isFreeOrder={isFreeOrder}
         onStripeBack={() => {
           setStripeClientSecret(null);
@@ -325,6 +365,7 @@ const CheckoutPage: React.FC = () => {
       appliedPromo={appliedPromo}
       promoError={promoError}
       onApplyPromo={handleApplyPromo}
+      discountsEnabled={discountConfig.enabled}
       savePaymentMethod={savePaymentMethod}
       onSavePaymentMethodChange={setSavePaymentMethod}
     />

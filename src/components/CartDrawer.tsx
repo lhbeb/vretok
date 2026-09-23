@@ -7,6 +7,12 @@ import { useRouter } from 'next/navigation';
 import { X, ShoppingBag, Trash2, ArrowRight, ShoppingCart, ChevronDown, Check, CircleAlert, Minus, Plus } from 'lucide-react';
 import { getCartItems, getCartLineId, removeFromCart, clearCart, updateCartQty, updateCartSize } from '@/utils/cart';
 import type { CartItem } from '@/utils/cart';
+import {
+  DEFAULT_FREE_ORDER_DISCOUNT_CONFIG,
+  isFreeOrderPromo,
+  normalizePromoCode,
+  type FreeOrderDiscountConfig,
+} from '@/lib/discounts';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -59,6 +65,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const [mounted, setMounted] = useState(false);
   const [removingLineId, setRemovingLineId] = useState<string | null>(null);
   const [promoCode, setPromoCode] = useState<string>('');
+  const [discountConfig, setDiscountConfig] = useState<FreeOrderDiscountConfig>(DEFAULT_FREE_ORDER_DISCOUNT_CONFIG);
   const [editingSizeLineId, setEditingSizeLineId] = useState<string | null>(null);
   const [cartError, setCartError] = useState<string | null>(null);
 
@@ -66,11 +73,40 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     setItems(getCartItems());
   }, []);
 
+  const refreshDiscountConfig = useCallback(async () => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const response = await fetch(`/api/discount-settings?t=${Date.now()}`, { cache: 'no-store' });
+      const data = response.ok ? await response.json() : null;
+      const nextConfig: FreeOrderDiscountConfig = {
+        ...DEFAULT_FREE_ORDER_DISCOUNT_CONFIG,
+        enabled: data?.enabled === true,
+      };
+
+      setDiscountConfig(nextConfig);
+
+      const savedPromo = normalizePromoCode(localStorage.getItem('vretok_promo_code'));
+      if (nextConfig.enabled && savedPromo === nextConfig.code) {
+        setPromoCode(savedPromo);
+      } else {
+        setPromoCode('');
+        localStorage.removeItem('vretok_promo_code');
+      }
+    } catch {
+      setDiscountConfig(DEFAULT_FREE_ORDER_DISCOUNT_CONFIG);
+      setPromoCode('');
+      localStorage.removeItem('vretok_promo_code');
+    }
+  }, []);
+
   useEffect(() => {
     setMounted(true);
     refreshItems();
+    void refreshDiscountConfig();
     const handleCartUpdated = () => {
       refreshItems();
+      void refreshDiscountConfig();
       setCartError(null);
     };
     const handleCartError = (event: Event) => {
@@ -80,19 +116,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
     window.addEventListener('cartUpdated', handleCartUpdated);
     window.addEventListener('cartError', handleCartError);
-    if (typeof window !== 'undefined') {
-      let savedPromo = localStorage.getItem('vretok_promo_code');
-      if (!savedPromo || savedPromo !== 'FREE100') {
-        savedPromo = 'FREE100';
-        localStorage.setItem('vretok_promo_code', savedPromo);
-      }
-      setPromoCode(savedPromo.toUpperCase());
-    }
     return () => {
       window.removeEventListener('cartUpdated', handleCartUpdated);
       window.removeEventListener('cartError', handleCartError);
     };
-  }, [refreshItems]);
+  }, [refreshDiscountConfig, refreshItems]);
 
   useEffect(() => {
     const chatContainer = document.getElementById('lc-container');
@@ -138,8 +166,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
   const rawSubtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-  const isFreeOrder = promoCode === 'FREE100' && totalQuantity <= 6;
-  const shippingCost = 29.99;
+  const isFreeOrder = isFreeOrderPromo(promoCode, totalQuantity, discountConfig);
   
   const finalTotal = isFreeOrder ? 0 : rawSubtotal;
   
@@ -366,11 +393,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
             {/* Footer / Totals */}
             <div className="border-t border-gray-100 bg-white px-5 py-4 space-y-3">
-              {totalQuantity > 6 && (
+              {discountConfig.enabled && totalQuantity > discountConfig.maxQuantity && (
                 <div className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs leading-relaxed text-amber-900">
                   <CircleAlert className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
                   <p>
-                    <span className="font-semibold">Discount reminder:</span> FREE100 works with 6 items or fewer. Remove {totalQuantity - 6} {totalQuantity - 6 === 1 ? 'item' : 'items'} to use it.
+                    <span className="font-semibold">Discount reminder:</span> {discountConfig.code} works with {discountConfig.maxQuantity} items or fewer. Remove {totalQuantity - discountConfig.maxQuantity} {totalQuantity - discountConfig.maxQuantity === 1 ? 'item' : 'items'} to use it.
                   </p>
                 </div>
               )}
@@ -385,7 +412,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       <Check className="h-4 w-4 text-[#E11D48]" /> Discount applied
                     </div>
                     <span className="inline-flex items-center rounded-md bg-gray-200/60 px-2.5 py-0.5 text-xs font-bold text-gray-700 tracking-wide uppercase">
-                      FREE100
+                      {discountConfig.code}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
@@ -396,8 +423,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               )}
               <div className="flex items-center justify-between text-sm mt-3">
                 <span className="text-gray-600">Shipping</span>
-                <span className="text-gray-500">
-                  Calculated at checkout
+                <span className="font-semibold text-[#0F172A]">
+                  FREE
                 </span>
               </div>
               <div className="border-t border-gray-100 mt-3 pt-3" />

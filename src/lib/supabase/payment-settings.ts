@@ -1,4 +1,5 @@
 import { supabaseAdmin } from './server';
+import { DEFAULT_FREE_ORDER_DISCOUNT_CONFIG, type FreeOrderDiscountConfig } from '@/lib/discounts';
 
 export interface StripeConfig {
     publishableKey: string;
@@ -45,6 +46,9 @@ let lastPaypalFetchTime = 0;
 
 let cachedPaypalApiConfig: PaypalApiConfig | null = null;
 let lastPaypalApiFetchTime = 0;
+
+let cachedDiscountConfig: FreeOrderDiscountConfig | null = null;
+let lastDiscountFetchTime = 0;
 
 const CACHE_TTL = 0; // Temporarily 0 to flush cache
 
@@ -114,6 +118,39 @@ export interface PaypalApiConfig {
     merchantEmail: string;
     mode: 'sandbox' | 'live';
     isActive: boolean;
+}
+
+export async function getDiscountConfig(): Promise<FreeOrderDiscountConfig> {
+    const now = Date.now();
+
+    if (cachedDiscountConfig && (now - lastDiscountFetchTime) < CACHE_TTL) {
+        return cachedDiscountConfig;
+    }
+
+    try {
+        const { data, error } = await supabaseAdmin
+            .from('payment_settings')
+            .select('is_active')
+            .eq('provider', 'discount-free100')
+            .maybeSingle();
+
+        if (error) {
+            console.error('[Payment Settings] Error fetching discount config:', error);
+        } else if (data) {
+            cachedDiscountConfig = {
+                ...DEFAULT_FREE_ORDER_DISCOUNT_CONFIG,
+                enabled: Boolean(data.is_active),
+            };
+            lastDiscountFetchTime = now;
+            return cachedDiscountConfig;
+        }
+    } catch (error) {
+        console.error('[Payment Settings] Unexpected error fetching discount config:', error);
+    }
+
+    cachedDiscountConfig = DEFAULT_FREE_ORDER_DISCOUNT_CONFIG;
+    lastDiscountFetchTime = now;
+    return cachedDiscountConfig;
 }
 
 /**
@@ -231,4 +268,9 @@ export function invalidatePaypalConfigCache() {
 export function invalidatePaypalApiConfigCache() {
     cachedPaypalApiConfig = null;
     lastPaypalApiFetchTime = 0;
+}
+
+export function invalidateDiscountConfigCache() {
+    cachedDiscountConfig = null;
+    lastDiscountFetchTime = 0;
 }
