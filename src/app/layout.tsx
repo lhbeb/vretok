@@ -14,6 +14,7 @@ import OptionalAnalytics from "@/components/OptionalAnalytics";
 import { AdminRouteCheck, PublicRouteOnly, AdminRouteOnly, CheckoutRouteOnly } from "@/components/AdminRouteCheck";
 import GlobalErrorReporter from "@/components/GlobalErrorReporter";
 import LiveChatWidget from "@/components/LiveChatWidget";
+import { SITE } from "@/lib/siteFacts";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
         alt: "Vretok performance leggings and gym fashion",
       },
     ],
-    locale: "en_US",
+    locale: "en_GB",
     type: "website",
   },
   twitter: {
@@ -113,10 +114,22 @@ export default function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "Organization",
-                "name": "Vretok",
-                "url": "https://vretok.com",
-                "logo": "https://vretok.com/logosvg.svg",
-                "description": "Vretok performance leggings and gym fashion for confident movement."
+                "@id": `${SITE.domain}/#organization`,
+                "name": SITE.name,
+                "url": SITE.domain,
+                "logo": SITE.logo,
+                "email": SITE.email,
+                ...(SITE.phone ? { "telephone": SITE.phone } : {}),
+                "description": "Vretok performance leggings and gym fashion for confident movement.",
+                "areaServed": "GB",
+                "contactPoint": [{
+                  "@type": "ContactPoint",
+                  "contactType": "customer service",
+                  "email": SITE.email,
+                  ...(SITE.phone ? { "telephone": SITE.phone } : {}),
+                  "areaServed": "GB",
+                  "availableLanguage": ["en"]
+                }]
               })
             }}
           />
@@ -131,8 +144,8 @@ export default function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                "name": "Vretok",
-                "url": "https://vretok.com",
+                "name": SITE.name,
+                "url": SITE.domain,
                 "description": "Vretok - Leggings & Gym Fashion.",
                 "potentialAction": {
                   "@type": "SearchAction",

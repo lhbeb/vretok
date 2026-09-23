@@ -19,7 +19,7 @@ import type { ShippingData } from './types';
 
 /**
  * Infer the default shipping country from the product's admin-configured
- * target market and currency. Falls back to 'US' if nothing matches.
+ * target market and currency. Falls back to 'GB' if nothing matches.
  */
 function inferDefaultCountry(product?: Product | null): { code: string; name: string } {
   const market = product?.meta?.targetMarket as string | undefined;
@@ -27,6 +27,7 @@ function inferDefaultCountry(product?: Product | null): { code: string; name: st
 
   // Direct market → country code mapping
   const marketToCountry: Record<string, string> = {
+    uk: 'GB',
     us: 'US',
     ca: 'CA',
     au: 'AU',
@@ -35,6 +36,7 @@ function inferDefaultCountry(product?: Product | null): { code: string; name: st
 
   // Currency fallback → country code mapping
   const currencyToCountry: Record<string, string> = {
+    GBP: 'GB',
     USD: 'US',
     CAD: 'CA',
     AUD: 'AU',
@@ -44,15 +46,15 @@ function inferDefaultCountry(product?: Product | null): { code: string; name: st
 
   const code = (market && marketToCountry[market])
     || (currency && currencyToCountry[currency])
-    || 'US';
+    || 'GB';
 
   return { code, name: getCountryName(code) };
 }
 
 const FALLBACK_SHIPPING_DATA: ShippingData = {
   fullName: '',
-  countryCode: 'US',
-  country: 'United States',
+  countryCode: 'GB',
+  country: 'United Kingdom',
   streetAddress: '',
   addressLine2: '',
   city: '',

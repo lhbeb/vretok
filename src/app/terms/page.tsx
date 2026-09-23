@@ -1,26 +1,123 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import BrandContactDetails from '@/components/BrandContactDetails';
+import LegalContactCard from '@/components/LegalContactCard';
+import { SITE, policyGraph } from '@/lib/siteFacts';
+
+export const metadata: Metadata = {
+  title: 'Terms of Service | Vretok',
+  description:
+    'Vretok Terms of Service covering orders, activewear products, payments, UK shipping, returns, fraud prevention, and customer support.',
+  alternates: {
+    canonical: `${SITE.domain}/terms`,
+  },
+};
 
 export default function TermsPage() {
+  const currentDate = new Date().toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  const schemaMarkup = policyGraph(
+    'WebPage',
+    '/terms',
+    'Terms of Service',
+    'Vretok Terms of Service covering orders, activewear products, payments, UK shipping, returns, fraud prevention, and customer support.',
+  );
+
   return (
     <main className="min-h-screen bg-gray-50 py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
       <div className="container mx-auto max-w-4xl px-4">
-        <header className="rounded-3xl bg-[#0F172A] p-8 text-white sm:p-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9BD4D3]">Vretok</p>
-          <h1 className="mt-3 text-4xl font-bold">Terms of Service</h1>
-          <p className="mt-4 text-white/75">Last updated: September 8, 2026</p>
-        </header>
+        <h1 className="text-4xl font-bold text-[#0F172A]">Vretok Terms of Service</h1>
+        <p className="mt-2 text-gray-600">Last Updated: {currentDate}</p>
 
         <section className="mt-8 space-y-8 rounded-3xl border bg-white p-7 text-gray-700 sm:p-10">
-          <div><h2 className="text-2xl font-bold text-[#0F172A]">1. Store and product information</h2><p className="mt-3 leading-7">Vretok sells the leggings, activewear, and gym-fashion products displayed on this website. We aim to show accurate titles, descriptions, fit and sizing details, materials, condition, images, prices, currency, and availability. Please review the complete product page before ordering.</p></div>
-          <div><h2 className="text-2xl font-bold text-[#0F172A]">2. Orders and availability</h2><p className="mt-3 leading-7">Submitting an order does not guarantee acceptance. We may cancel and refund an order if a product is unavailable, its price or description contains a material error, the delivery address cannot be served, or payment cannot be authorized. We will use the contact information supplied at checkout if action is required.</p></div>
-          <div><h2 className="text-2xl font-bold text-[#0F172A]">3. Prices and payment</h2><p className="mt-3 leading-7">Prices are displayed in British pounds (GBP). The order summary shows the product total, free standard shipping, and the complete amount before payment. Payment is processed through the secure payment option presented during checkout. Do not send payment outside the checkout instructions shown for your order.</p></div>
-          <div><h2 className="text-2xl font-bold text-[#0F172A]">4. Shipping</h2><p className="mt-3 leading-7">We offer free standard worldwide shipping. Handling time, transit estimates, address requirements, and tracking information are stated in our <Link href="/shipping-policy" className="font-semibold text-[#0F172A] underline">Shipping Policy</Link>. Delivery dates are estimates unless expressly stated otherwise.</p></div>
-          <div><h2 className="text-2xl font-bold text-[#0F172A]">5. Returns and refunds</h2><p className="mt-3 leading-7">Return eligibility, the return window, return shipping responsibility, item condition requirements, and refund timing are stated in our <Link href="/return-policy" className="font-semibold text-[#0F172A] underline">Return & Refund Policy</Link>.</p></div>
-          <div><h2 className="text-2xl font-bold text-[#0F172A]">6. Customer information</h2><p className="mt-3 leading-7">You must provide complete and accurate contact, billing, and delivery information. Our collection and use of personal information is described in the <Link href="/privacy-policy" className="font-semibold text-[#0F172A] underline">Privacy Policy</Link>.</p></div>
-          <div><h2 className="text-2xl font-bold text-[#0F172A]">7. Acceptable use</h2><p className="mt-3 leading-7">You may not misuse the website, attempt unauthorized access, interfere with its operation, submit fraudulent orders, or use another person&apos;s payment details without permission.</p></div>
-          <div><h2 className="text-2xl font-bold text-[#0F172A]">8. Liability</h2><p className="mt-3 leading-7">Nothing in these terms limits rights that cannot lawfully be limited. To the extent permitted by law, Vretok is not responsible for indirect or consequential loss arising from use of the website or products.</p></div>
-          <div><h2 className="text-2xl font-bold text-[#0F172A]">9. Contact</h2><div className="mt-3 rounded-2xl bg-[#F8FAFC] p-6"><BrandContactDetails /></div></div>
+          <p className="text-lg leading-relaxed">
+            Welcome to Vretok. By accessing our website or placing an order, you agree to these Terms of Service. Please read them carefully before purchasing.
+          </p>
+
+          <div>
+            <h2 className="text-3xl font-bold text-[#0F172A]">1. Overview</h2>
+            <ul className="mt-4 list-disc space-y-2 pl-6 leading-7">
+              <li>Vretok operates as an online retail store for leggings, activewear, and gym-fashion products.</li>
+              <li>Vretok is the customer-facing merchant for orders placed through this website.</li>
+              <li>All purchases made through Vretok are processed under these Terms.</li>
+              <li>Product availability, delivery options, and payment methods can vary by product and checkout route.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-bold text-[#0F172A]">2. Order Review and Fulfillment</h2>
+            <p className="mt-4 leading-7">
+              Vretok reviews orders before fulfillment to protect customers, confirm availability, and verify delivery details. We may cancel and refund an order if a product is unavailable, payment cannot be verified, listing information contains a material error, or the delivery address cannot be served.
+            </p>
+            <p className="mt-3 leading-7">
+              Tracking information is sent after dispatch when available. Delivery estimates are not guaranteed arrival dates.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-bold text-[#0F172A]">3. Product Terms</h2>
+            <ul className="mt-4 list-disc space-y-2 pl-6 leading-7">
+              <li>We aim to show accurate titles, descriptions, images, condition, materials, sizes, prices, currency, and availability.</li>
+              <li>Colours, fabric appearance, and fit can vary by device display, lighting, body shape, and product batch.</li>
+              <li>Product availability is not guaranteed until an order is processed.</li>
+              <li>Prices may change at any time due to sourcing costs, promotions, or market conditions.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-bold text-[#0F172A]">4. Shipping Policy</h2>
+            <p className="mt-4 leading-7">
+              Free standard shipping applies to Vretok orders submitted for the United Kingdom through our checkout.
+            </p>
+            <ul className="mt-4 list-disc space-y-2 pl-6 leading-7">
+              <li>Handling time is normally {SITE.shipping.handlingMin}-{SITE.shipping.handlingMax} business days after payment confirmation.</li>
+              <li>Transit time is estimated at {SITE.shipping.transitMin}-{SITE.shipping.transitMax} business days after dispatch.</li>
+              <li>Total estimated delivery time is {SITE.shipping.totalMin}-{SITE.shipping.totalMax} business days.</li>
+              <li>All eligible UK orders qualify for free standard shipping with no minimum spend required.</li>
+            </ul>
+            <p className="mt-4 leading-7">
+              Vretok is not responsible for delays caused by carriers, customs checks, severe weather, public holidays, address corrections, or incorrect delivery information provided by the customer.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-bold text-[#0F172A]">5. Payment Terms</h2>
+            <p className="mt-4 leading-7">
+              Prices are displayed and charged in {SITE.currency}. Payment options may include credit and debit cards, Stripe-supported wallet payments, PayPal-based checkout, or other options shown at checkout. All payments must be authorised before an order is processed.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-bold text-[#0F172A]">6. Returns and Exchanges</h2>
+            <p className="mt-4 leading-7">
+              Eligible items may be returned within {SITE.returns.windowDays} calendar days after delivery. Items must be unused, in the condition received, and returned with included parts, tags, and packaging where reasonably possible. See the <Link href="/return-policy" className="font-semibold text-[#0F172A] underline">Return & Exchange Policy</Link> for details.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-bold text-[#0F172A]">7. Fraud Prevention and Acceptable Use</h2>
+            <p className="mt-4 leading-7">
+              Vretok monitors orders for unusual activity. We may cancel or delay orders suspected of fraud, unauthorised payment use, false account information, abusive behaviour, or misuse of the website.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-bold text-[#0F172A]">8. Limitation of Liability</h2>
+            <p className="mt-4 leading-7">
+              Nothing in these Terms limits rights that cannot lawfully be limited. To the extent permitted by law, Vretok is not responsible for indirect, incidental, punitive, or consequential loss arising from use of the website or products.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-bold text-[#0F172A]">9. Contact Information</h2>
+            <p className="mt-4 leading-7">If you have questions about these Terms, please contact us.</p>
+            <div className="mt-4">
+              <LegalContactCard />
+            </div>
+          </div>
         </section>
       </div>
     </main>

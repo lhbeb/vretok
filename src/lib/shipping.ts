@@ -40,7 +40,7 @@ export interface AddressConfig {
 }
 
 const PAYPAL_ELIGIBLE_COUNTRY_CODES = [
-  'US', 'CA', 'FR', 'DE', 'AU', 'NZ', 'IT', 'NL', 'PT', 'ES', 'PL', 'AT',
+  'GB', 'US', 'CA', 'FR', 'DE', 'AU', 'NZ', 'IT', 'NL', 'PT', 'ES', 'PL', 'AT',
 ];
 const FEATURED_COUNTRY_CODES = PAYPAL_ELIGIBLE_COUNTRY_CODES;
 
@@ -61,6 +61,7 @@ const countryDisplayNames = typeof Intl !== 'undefined' && 'DisplayNames' in Int
 function countryName(code: string): string {
   const featuredNames: Record<string, string> = {
     US: 'United States',
+    GB: 'United Kingdom',
     CA: 'Canada',
     FR: 'France',
     DE: 'Germany',
@@ -104,6 +105,10 @@ const US_REGIONS: RegionOption[] = [
   ['SD', 'South Dakota'], ['TN', 'Tennessee'], ['TX', 'Texas'], ['UT', 'Utah'], ['VT', 'Vermont'],
   ['VA', 'Virginia'], ['WA', 'Washington'], ['WV', 'West Virginia'], ['WI', 'Wisconsin'], ['WY', 'Wyoming'],
 ].map(([code, name]) => ({ code, name }));
+
+const UK_REGIONS: RegionOption[] = [
+  'England', 'Scotland', 'Wales', 'Northern Ireland',
+].map(name => ({ code: name, name }));
 
 const CANADIAN_REGIONS: RegionOption[] = [
   ['AB', 'Alberta'], ['BC', 'British Columbia'], ['MB', 'Manitoba'], ['NB', 'New Brunswick'],
@@ -192,6 +197,23 @@ const GENERIC_CONFIG: AddressConfig = {
 };
 
 const ADDRESS_CONFIGS: Record<string, AddressConfig> = {
+  GB: {
+    ...GENERIC_CONFIG,
+    streetLabel: 'Street address *',
+    streetPlaceholder: 'House number and street name',
+    line2Label: 'Flat, suite, or unit',
+    cityLabel: 'Town / City *',
+    cityPlaceholder: 'Enter your town or city',
+    stateLabel: 'County / Region *',
+    statePlaceholder: 'Select or enter a county or region',
+    zipLabel: 'Postcode *',
+    zipPlaceholder: 'e.g. SW1A 1AA',
+    zipPattern: '([A-Z]{1,2}\\d[A-Z\\d]?\\s?\\d[A-Z]{2})',
+    zipTitle: 'Enter a valid UK postcode',
+    zipMaxLength: 8,
+    regions: UK_REGIONS,
+    postalBeforeCity: true,
+  },
   US: {
     ...GENERIC_CONFIG,
     cityLabel: 'City *',
@@ -445,7 +467,7 @@ export function getRegionCode(countryCode: string, regionName: string): string {
 
 export function normalizePostalCode(value: string, countryCode: string): string {
   const cleaned = value.replace(/[^a-zA-Z0-9\s-]/g, '');
-  return countryCode === 'CA' ? cleaned.toUpperCase() : cleaned;
+  return countryCode === 'CA' || countryCode === 'GB' ? cleaned.toUpperCase() : cleaned;
 }
 
 export function isPostalCodeValid(value: string, countryCode: string): boolean {

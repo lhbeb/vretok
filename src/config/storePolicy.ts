@@ -1,5 +1,5 @@
 export const storePolicy = {
-  sellingCountries: ['US'] as const,
+  sellingCountries: ['GB'] as const,
   currency: 'GBP',
   shippingService: 'Free Standard Shipping',
   shippingPrice: 0,

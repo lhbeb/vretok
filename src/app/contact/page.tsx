@@ -2,7 +2,7 @@
 
 import BrandContactDetails from '@/components/BrandContactDetails';
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Building2 } from 'lucide-react';
+import { SITE, breadcrumbJsonLd } from '@/lib/siteFacts';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -17,9 +17,50 @@ export default function ContactPage() {
   const [error, setError] = useState('');
 
   const schemaMarkup = {
-    '@context': 'https://schema.org', '@type': 'ContactPage',
-    name: 'Contact Vretok', url: 'https://vretok.com/contact',
-    description: 'Contact Vretok for fit, activewear, delivery, and order support.',
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'ContactPage',
+        '@id': `${SITE.domain}/contact#webpage`,
+        url: `${SITE.domain}/contact`,
+        name: 'Contact Us | Vretok',
+        description: 'Contact Vretok customer support for fit, activewear, delivery, returns, and order questions.',
+        mainEntity: {
+          '@id': `${SITE.domain}/#organization`,
+        },
+      },
+      {
+        '@type': 'Organization',
+        '@id': `${SITE.domain}/#organization`,
+        name: SITE.name,
+        url: SITE.domain,
+        email: SITE.email,
+        ...(SITE.phone ? { telephone: SITE.phone } : {}),
+        contactPoint: [
+          {
+            '@type': 'ContactPoint',
+            email: SITE.email,
+            ...(SITE.phone ? { telephone: SITE.phone } : {}),
+            contactType: 'customer service',
+            areaServed: ['GB'],
+            availableLanguage: ['en'],
+          },
+        ],
+        ...(SITE.address.formatted
+          ? {
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: SITE.address.formatted,
+                addressCountry: SITE.address.addressCountry,
+              },
+            }
+          : {}),
+      },
+      breadcrumbJsonLd([
+        { name: 'Home', path: '/' },
+        { name: 'Contact Us', path: '/contact' },
+      ]),
+    ],
   };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

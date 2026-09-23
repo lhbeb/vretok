@@ -6,7 +6,7 @@ import { storePolicy } from '@/config/storePolicy';
 import type { Product } from '@/types/product';
 
 const BASE_URL = 'https://vretok.com';
-const SUPPORTED_COUNTRIES = ['US'] as const;
+const SUPPORTED_COUNTRIES = ['GB'] as const;
 const SUPPORTED_CURRENCIES = ['GBP'] as const;
 
 type FeedCountry = (typeof SUPPORTED_COUNTRIES)[number];
@@ -16,7 +16,7 @@ const SHIPPING_BY_COUNTRY: Record<FeedCountry, {
   service: string;
   currency: FeedCurrency;
 }> = {
-  US: { service: 'Free Standard Shipping', currency: 'GBP' },
+  GB: { service: 'Free Standard Shipping', currency: 'GBP' },
 };
 
 function escapeXml(value: unknown): string {
@@ -86,10 +86,10 @@ export async function GET(request: NextRequest) {
   );
 
   if (country === null) {
-    return new NextResponse('Unsupported country. Use US.', { status: 400 });
+    return new NextResponse('Unsupported country. Use GB.', { status: 400 });
   }
   if (currency === null) {
-    return new NextResponse('Unsupported currency. Use USD.', { status: 400 });
+    return new NextResponse('Unsupported currency. Use GBP.', { status: 400 });
   }
 
   try {
@@ -140,14 +140,14 @@ export async function GET(request: NextRequest) {
       })
       .join('');
 
-    const targetLabel = country ? ` (${country})` : ' (US)';
+    const targetLabel = country ? ` (${country})` : ' (GB)';
     const currencyLabel = currency ? ` in ${currency}` : '';
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
     <title>Vretok Google Merchant Center Feed${targetLabel}${currencyLabel}</title>
     <link>${BASE_URL}</link>
-    <description>Selected Vretok products for ${country || 'United States'}${currencyLabel}</description>
+    <description>Selected Vretok products for ${country || 'United Kingdom'}${currencyLabel}</description>
     ${itemsXml}
   </channel>
 </rss>`;

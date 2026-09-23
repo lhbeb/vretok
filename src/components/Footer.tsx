@@ -43,13 +43,17 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li><Link href="/privacy-policy" className="hover:text-white hover:underline transition-colors duration-200">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-white hover:underline transition-colors duration-200">Terms of Service</Link></li>
+              <li><Link href="/billing-policy" className="hover:text-white hover:underline transition-colors duration-200">Billing Policy</Link></li>
+              <li><Link href="/billing-term-and-condition" className="hover:text-white hover:underline transition-colors duration-200">Billing Terms</Link></li>
               <li><Link href="/about" className="hover:text-white hover:underline transition-colors duration-200">About Vretok</Link></li>
               <li><Link href="/frequently-asked-questions" className="hover:text-white hover:underline transition-colors duration-200">FAQs</Link></li>
               <li><Link href="/return-policy" className="hover:text-white hover:underline transition-colors duration-200">Refund & Return Policy</Link></li>
               <li><Link href="/shipping-policy" className="hover:text-white hover:underline transition-colors duration-200">Shipping & Delivery Policy</Link></li>
+              <li><Link href="/warranty-replacement" className="hover:text-white hover:underline transition-colors duration-200">Warranty & Replacement</Link></li>
               <li><Link href="/local-pickup" className="hover:text-white hover:underline transition-colors duration-200">Local Pickup Guide</Link></li>
               <li><Link href="/contact" className="hover:text-white hover:underline transition-colors duration-200">Customer Support</Link></li>
               <li><Link href="/cookies" className="hover:text-white hover:underline transition-colors duration-200">Cookies Policy</Link></li>
+              <li><Link href="/report-security-issues" className="hover:text-white hover:underline transition-colors duration-200">Report Security Issues</Link></li>
             </ul>
           </div>
         </div>

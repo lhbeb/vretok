@@ -112,10 +112,10 @@ export default function SellerPageClient({ seller }: Props) {
               </p>
               
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-y-2 gap-x-6 text-sm text-[#F8FAFC]/80 mb-6">
-                {(seller.location || 'United States') && (
+                {(seller.location || 'United Kingdom') && (
                   <div className="flex items-center gap-1.5">
                     <MapPin className="w-4 h-4 text-[#E11D48]" />
-                    <span>{seller.location || 'United States'}</span>
+                    <span>{seller.location || 'United Kingdom'}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-1.5">
@@ -177,7 +177,7 @@ export default function SellerPageClient({ seller }: Props) {
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-sm font-semibold text-[#262626] mb-1">Shipping</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">Free standard shipping is available for eligible U.S. orders. See the <Link href="/shipping-policy" className="font-semibold underline">Shipping Policy</Link> for handling and delivery estimates.</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">Free standard shipping is available for eligible UK orders. See the <Link href="/shipping-policy" className="font-semibold underline">Shipping Policy</Link> for handling and delivery estimates.</p>
                   </div>
                   <div className="h-px bg-gray-100 w-full" />
                   <div>

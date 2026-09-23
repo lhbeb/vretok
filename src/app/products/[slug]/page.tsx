@@ -159,7 +159,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         },
         "hasMerchantReturnPolicy": {
           "@type": "MerchantReturnPolicy",
-          "applicableCountry": ["US"],
+          "applicableCountry": storePolicy.sellingCountries,
           "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
           "merchantReturnDays": storePolicy.returnWindowDays,
           "returnMethod": "https://schema.org/ReturnByMail",
@@ -177,7 +177,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             },
             "shippingDestination": {
               "@type": "DefinedRegion",
-              "addressCountry": "US"
+              "addressCountry": storePolicy.sellingCountries[0]
             },
             "deliveryTime": {
               "@type": "ShippingDeliveryTime",

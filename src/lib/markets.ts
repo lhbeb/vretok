@@ -1,5 +1,5 @@
-/** Public storefront market configuration. Vretok currently sells in the U.S. only. */
-export type MarketKey = 'us';
+/** Public storefront market configuration. Vretok currently sells in the United Kingdom. */
+export type MarketKey = 'uk';
 
 export interface MarketConfig {
   label: string;
@@ -18,24 +18,24 @@ export interface MarketConfig {
 }
 
 export const MARKETS: Record<MarketKey, MarketConfig> = {
-  us: {
-    label: 'United States',
-    flag: '🇺🇸',
+  uk: {
+    label: 'United Kingdom',
+    flag: '🇬🇧',
     currencyCode: 'GBP',
     currencySymbol: '£',
-    locale: 'en-US',
+    locale: 'en-GB',
     shipsFrom: 'United Kingdom',
     shipsFromFlag: '🇬🇧',
     deliveryDaysMin: 6,
     deliveryDaysMax: 11,
-    freeShippingText: 'Worldwide shipping',
+    freeShippingText: 'Free standard UK shipping',
     returnsText: 'Eligible returns within 30 days',
     faqShippingAnswer: 'Orders normally require 1–2 business days for handling. Standard transit is estimated at 5–9 business days after dispatch.',
     faqFreeShippingAnswer: 'Free standard shipping is included and shown before payment.',
   },
 };
 
-export const DEFAULT_MARKET = MARKETS.us;
+export const DEFAULT_MARKET = MARKETS.uk;
 
 export function getMarket(_key?: string | null): MarketConfig {
   return DEFAULT_MARKET;
@@ -54,7 +54,7 @@ export function getDeliveryRange(market: MarketConfig): string {
 }
 
 export const MARKET_OPTIONS = [
-  { value: 'us', label: '🇺🇸 United States (GBP)' },
+  { value: 'uk', label: '🇬🇧 United Kingdom (GBP)' },
 ] as const;
 
-export const MARKET_CURRENCY_MAP: Record<string, string> = { us: 'GBP' };
+export const MARKET_CURRENCY_MAP: Record<string, string> = { uk: 'GBP' };
