@@ -2,7 +2,8 @@ import BrandContactDetails from '@/components/BrandContactDetails';
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, MessageSquare, MapPin, Instagram } from 'lucide-react';
+import { Instagram } from 'lucide-react';
+import { brand } from '@/config/brand';
 
 const socialIconClass =
   'inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#E11D48]/60 text-[#F8FAFC] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#E11D48] hover:bg-[#E11D48] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]';
@@ -26,6 +27,16 @@ const Footer = () => {
               Vretok creates performance leggings and gym fashion for confident training, recovery, and everyday movement.
             </p>
             <BrandContactDetails />
+            <a
+              href={brand.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Vretok on Instagram"
+              title="Follow Vretok on Instagram"
+              className={`${socialIconClass} mt-4`}
+            >
+              <Instagram className="h-4 w-4" aria-hidden="true" />
+            </a>
           </div>
           <div>
             <h3 className="text-base font-semibold text-white mb-4 tracking-wide uppercase">Navigation</h3>
