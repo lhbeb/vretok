@@ -79,6 +79,16 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
     }
   }, [product, parsedMensSizes, parsedWomensSizes]);
 
+  useEffect(() => {
+    const requestedSize = new URLSearchParams(window.location.search).get('size');
+    if (!requestedSize) return;
+    const normalized = requestedSize.trim().toLowerCase();
+    const matchingSize = [...parsedMensSizes, ...parsedWomensSizes].find(
+      (size) => size.toLowerCase() === normalized,
+    );
+    if (matchingSize) setSelectedSize(matchingSize);
+  }, [parsedMensSizes, parsedWomensSizes]);
+
   const faqItems = STORE_FAQS;
   const visibleFaqItems = showAllFaqs ? faqItems : faqItems.slice(0, COLLAPSED_FAQ_COUNT);
   const descriptionText = product?.description ?? "";

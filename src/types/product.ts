@@ -58,6 +58,14 @@ export interface Product {
     mpn?: string;
     item_group_id?: string;
     identifier_exists?: boolean;
+    gmc_sizes?: string[];
+    variants?: Array<{
+      id?: string | number;
+      title?: string;
+      size?: string;
+      price?: string | number;
+      available?: boolean;
+    }>;
     rotate_links?: boolean;
     checkout_links?: string[];
     gmc_enabled?: boolean;

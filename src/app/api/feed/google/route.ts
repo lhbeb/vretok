@@ -45,7 +45,8 @@ function isFeedEligible(product: Product): boolean {
     product.meta?.color?.trim() &&
     product.meta?.gender?.trim() &&
     product.meta?.age_group?.trim() &&
-    product.meta?.size?.trim(),
+    product.meta?.item_group_id?.trim() &&
+    product.meta?.variants?.some((variant) => variant.size?.trim()),
   );
 
   return (
@@ -123,34 +124,38 @@ export async function GET(request: NextRequest) {
         return (product.currency || 'GBP').toUpperCase() === currency;
       })
       .map((product) => {
-        const sku = escapeXml(formatValidSku(product));
-        const title = escapeXml(product.title || 'Product');
-        const description = escapeXml(product.description || product.title || '');
-        const link = escapeXml(`${BASE_URL}/products/${encodeURIComponent(product.slug)}`);
+        const baseId = formatValidSku(product);
+        const description = escapeXml(product.description);
         const productCurrency = (product.currency || 'GBP').toUpperCase();
-        const price = `${Number(product.price).toFixed(2)} ${productCurrency}`;
-        const availability = product.inStock === false ? 'out_of_stock' : 'in_stock';
         const condition = mapConditionToGmc(product.condition);
         const brand = escapeXml(product.brand);
         const category = escapeXml(product.category);
         const imageLink = escapeXml(new URL(product.images[0], BASE_URL).toString());
-        const optionalAttributes = [
-          ['gtin', product.meta?.gtin],
-          ['mpn', product.meta?.mpn],
+        const fixedAttributes = [
           ['color', product.meta?.color],
           ['gender', product.meta?.gender],
           ['age_group', product.meta?.age_group],
-          ['size', product.meta?.size],
           ['item_group_id', product.meta?.item_group_id],
         ]
-          .filter(([, value]) => typeof value === 'string' && value.trim())
           .map(([name, value]) => `<g:${name}>${escapeXml(value)}</g:${name}>`)
           .join('');
         const identifierExists = product.meta?.identifier_exists === false
           ? '<g:identifier_exists>no</g:identifier_exists>'
           : '';
+        const variants = product.meta?.variants?.filter((variant) => variant.size?.trim()) || [];
 
-        return `
+        return variants.map((variant) => {
+          const size = variant.size!.trim();
+          const sizeId = size.toUpperCase().replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '');
+          const sku = escapeXml(`${baseId.slice(0, 45)}-${sizeId}`.slice(0, 50));
+          const title = escapeXml(`${product.title} - ${size}`);
+          const link = escapeXml(`${BASE_URL}/products/${encodeURIComponent(product.slug)}?size=${encodeURIComponent(size)}`);
+          const variantPrice = Number(variant.price);
+          const priceValue = Number.isFinite(variantPrice) && variantPrice > 0 ? variantPrice : Number(product.price);
+          const price = `${priceValue.toFixed(2)} ${productCurrency}`;
+          const availability = product.inStock === false || variant.available === false ? 'out_of_stock' : 'in_stock';
+
+          return `
     <item>
       <g:id>${sku}</g:id>
       <title>${title}</title>
@@ -162,8 +167,9 @@ export async function GET(request: NextRequest) {
       <g:condition>${condition}</g:condition>
       <g:brand>${brand}</g:brand>
       <g:product_type>${category}</g:product_type>
-      ${optionalAttributes}${identifierExists}${buildShippingXml(targetCountries, productCurrency)}
+      ${fixedAttributes}<g:size>${escapeXml(size)}</g:size>${identifierExists}${buildShippingXml(targetCountries, productCurrency)}
     </item>`;
+        }).join('');
       })
       .join('');
 
