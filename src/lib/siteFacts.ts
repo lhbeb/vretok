@@ -33,8 +33,7 @@ export const SITE = {
   },
   returns: {
     windowDays: storePolicy.returnWindowDays,
-    refundTiming: `within ${storePolicy.refundProcessingDays} business days of approval`,
-    inspectionTiming: '1-2 business days after we receive your return',
+    refundTiming: `within ${storePolicy.refundProcessingDays} business days of receiving your return or proof of dispatch`,
   },
 } as const;
 

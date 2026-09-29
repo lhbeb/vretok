@@ -7,7 +7,7 @@ import { Banknote, Clock, CreditCard, Inbox, PackageCheck, RefreshCw, RotateCcw 
 export const metadata: Metadata = {
   title: 'Return & Exchange Policy | Vretok',
   description:
-    `Vretok Return & Exchange Policy. Eligible activewear may be returned within ${SITE.returns.windowDays} days. Return by mail, no restocking fee, and refund processing within 5 business days after approval.`,
+    `Vretok Return & Exchange Policy. Eligible items may be returned within ${SITE.returns.windowDays} days with free return postage. Approved refunds are issued ${SITE.returns.refundTiming}.`,
   alternates: {
     canonical: `${SITE.domain}/return-policy`,
   },
@@ -139,10 +139,9 @@ export default function ReturnPolicyPage() {
           <div className="space-y-4 border-t border-gray-100 pt-4">
             <h2 className="flex items-center gap-3 text-2xl font-bold text-[#0F172A]"><CreditCard className="h-6 w-6 text-[#E11D48]" />6. Refund Processing</h2>
             <ul className="list-disc space-y-2 pl-6 leading-7">
-              <li><strong>Inspection:</strong> {SITE.returns.inspectionTiming}.</li>
-              <li><strong>Statutory cancellations:</strong> refunded within 14 calendar days after we receive the goods or proof they were sent, whichever is earlier.</li>
+              <li><strong>All approved refunds:</strong> issued {SITE.returns.refundTiming}, to your original payment method.</li>
+              <li>For statutory cancellations, the five-business-day period starts when we receive the returned goods or proof they were sent, whichever comes first. This faster timeframe does not limit your statutory rights.</li>
               <li>For statutory cancellations, the refund includes the cost of our least expensive standard delivery option. Any upgrade to express delivery is not refunded.</li>
-              <li><strong>Other approved returns:</strong> {SITE.returns.refundTiming}.</li>
               <li>Your bank or payment provider may need additional time to post the credit.</li>
             </ul>
           </div>
