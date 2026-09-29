@@ -3,12 +3,12 @@ import { getReviewProduct, isReviewProduct } from '@/lib/reviewProducts';
 import { formatValidSku, mapConditionToSchema } from '@/lib/conditions';
 import { isPublicStoreProduct } from '@/lib/leggingCatalog';
 import { storePolicy } from '@/config/storePolicy';
+import { SITE } from '@/lib/siteFacts';
 import { notFound } from 'next/navigation';
 import ProductPageClient from './ProductPageClient';
 import type { Metadata, ResolvingMetadata } from 'next';
 
-// Hardcoded base URL (no environment variable needed)
-const BASE_URL = 'https://vretok.com';
+const BASE_URL = SITE.domain;
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },

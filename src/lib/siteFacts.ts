@@ -3,8 +3,8 @@ import { storePolicy } from '@/config/storePolicy';
 
 export const SITE = {
   name: 'Vretok',
-  domain: 'https://vretok.com',
-  logo: 'https://vretok.com/logosvg.svg',
+  domain: 'https://vretok.shop',
+  logo: 'https://vretok.shop/logosvg.svg',
   email: brand.email || 'contact@vretok.shop',
   phone: brand.phone,
   address: {

@@ -3,9 +3,10 @@ import { getAllProducts } from '@/lib/data';
 import { formatValidSku, mapConditionToGmc } from '@/lib/conditions';
 import { isPublicStoreProduct } from '@/lib/leggingCatalog';
 import { storePolicy } from '@/config/storePolicy';
+import { SITE } from '@/lib/siteFacts';
 import type { Product } from '@/types/product';
 
-const BASE_URL = 'https://vretok.com';
+const BASE_URL = SITE.domain;
 const SUPPORTED_COUNTRIES = ['GB'] as const;
 const SUPPORTED_CURRENCIES = ['GBP'] as const;
 

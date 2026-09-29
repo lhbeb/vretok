@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next';
 import { getAllProducts } from '@/lib/data';
 import { isPublicStoreProduct } from '@/lib/leggingCatalog';
+import { SITE } from '@/lib/siteFacts';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://vretok.com';
+  const baseUrl = SITE.domain;
   const now = new Date();
 
   let products: Awaited<ReturnType<typeof getAllProducts>> = [];

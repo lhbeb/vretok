@@ -69,7 +69,7 @@ const Footer = () => {
                 className="h-16 w-auto max-w-full object-contain brightness-110 contrast-110"
               />
             </div>
-            <p className="text-center text-xs sm:text-sm text-[#F8FAFC]/70">© {new Date().getFullYear()} Vretok. All rights reserved. vretok.com</p>
+            <p className="text-center text-xs sm:text-sm text-[#F8FAFC]/70">© {new Date().getFullYear()} Vretok. All rights reserved. vretok.shop</p>
           </div>
         </div>
       </div>

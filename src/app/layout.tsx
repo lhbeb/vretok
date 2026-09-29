@@ -14,6 +14,7 @@ import OptionalAnalytics from "@/components/OptionalAnalytics";
 import { AdminRouteCheck, PublicRouteOnly, AdminRouteOnly, CheckoutRouteOnly } from "@/components/AdminRouteCheck";
 import GlobalErrorReporter from "@/components/GlobalErrorReporter";
 import LiveChatWidget from "@/components/LiveChatWidget";
+import FixedSocialRail from "@/components/FixedSocialRail";
 import { SITE } from "@/lib/siteFacts";
 
 const dmSans = DM_Sans({
@@ -36,11 +37,11 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://vretok.com"),
+  metadataBase: new URL(SITE.domain),
   openGraph: {
     title: "Vretok - Leggings & Gym Fashion",
     description: "Explore Vretok leggings and activewear essentials.",
-    url: "https://vretok.com",
+    url: SITE.domain,
     siteName: "Vretok",
     images: [
       {
@@ -151,7 +152,7 @@ export default function RootLayout({
                   "@type": "SearchAction",
                   "target": {
                     "@type": "EntryPoint",
-                    "urlTemplate": "https://vretok.com/api/products/search?q={search_term_string}"
+                    "urlTemplate": `${SITE.domain}/api/products/search?q={search_term_string}`
                   },
                   "query-input": "required name=search_term_string"
                 }
@@ -207,6 +208,7 @@ export default function RootLayout({
         </ErrorBoundaryWrapper>
 
         <AdminRouteCheck><OptionalAnalytics /></AdminRouteCheck>
+        <FixedSocialRail />
         <LiveChatWidget />
       </body>
     </html>

@@ -5,4 +5,6 @@ export const brand = {
   phone: '+447984147072',
   address: '14 Back Marlborough St, Bolton, Greater Manchester BL1 4BB, United Kingdom',
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || '',
+  pinterest: process.env.NEXT_PUBLIC_PINTEREST_URL || '',
+  tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || '',
 };

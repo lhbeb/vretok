@@ -632,7 +632,7 @@ export default function AdminProductsPage() {
         return;
       }
 
-      const domain = 'https://vretok.com';
+      const domain = 'https://vretok.shop';
 
       // 1:1 Match with Google Merchant Center official CSV template headers
       const columns = [

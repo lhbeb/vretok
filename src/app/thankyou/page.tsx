@@ -201,7 +201,7 @@ function ThankYouContent() {
                 </div>
                 <div className="text-left">
                   <h3 className="font-medium text-[#262626]">Shipping</h3>
-                  <p className="text-sm text-gray-600">Estimated delivery in 5–10 business days</p>
+                  <p className="text-sm text-gray-600">Estimated delivery in 3–5 business days</p>
                 </div>
               </div>
             </div>

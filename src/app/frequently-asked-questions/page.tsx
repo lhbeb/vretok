@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     'Find answers about Vretok leggings, activewear, delivery, returns, and support.',
   alternates: {
-    canonical: 'https://vretok.com/frequently-asked-questions',
+    canonical: 'https://vretok.shop/frequently-asked-questions',
   },
 };
 

@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
     const { name, email, contactReason, subject, message } = await request.json();
 
     // Get domain name from request headers
-    const domain = request.headers.get('origin') || request.headers.get('referer') || 'https://vretok.com';
+    const domain = request.headers.get('origin') || request.headers.get('referer') || 'https://vretok.shop';
 
     // Get email credentials from environment variables
     const emailUser = process.env.EMAIL_USER;
@@ -82,4 +82,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-} 
+}
