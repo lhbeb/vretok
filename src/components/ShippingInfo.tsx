@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Truck, RefreshCw } from 'lucide-react';
 import { getMarket } from '@/lib/markets';
+import { storePolicy } from '@/config/storePolicy';
 
 interface ShippingInfoProps {
   className?: string;
@@ -34,7 +35,7 @@ const ShippingInfo: React.FC<ShippingInfoProps> = ({ className = '', targetMarke
             </div>
             <div className="min-w-0">
               <p className="text-sm font-medium text-gray-500">Estimated delivery</p>
-              <p className="mt-1 text-sm font-semibold text-[#0F172A]">Estimated 6–11 business days</p>
+              <p className="mt-1 text-sm font-semibold text-[#0F172A]">Estimated {storePolicy.handlingDays.min + storePolicy.transitDays.min}–{storePolicy.handlingDays.max + storePolicy.transitDays.max} business days</p>
               <p className="mt-1 text-sm text-[#0F172A] font-medium">{market.freeShippingText}</p>
             </div>
           </div>

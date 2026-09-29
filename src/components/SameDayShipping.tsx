@@ -60,7 +60,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
                 Order Processing
               </h3>
               <p className="text-gray-600 text-sm">
-                Orders normally leave our fulfillment process within 1–2 business days after payment is confirmed.
+                Orders placed before 2:00 PM UK time, Monday to Friday, begin processing the same business day. Dispatch takes 0–1 business day; weekend orders begin processing on Monday.
               </p>
             </div>
           </div>
@@ -77,7 +77,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
                 30-Day Returns
               </h3>
               <p className="text-gray-600 text-sm">
-                Eligible items may be returned by mail within 30 days. Conditions and shipping responsibility are explained in our return policy.
+                Eligible items may be returned within 30 days with free return postage. See our return policy for full details.
               </p>
             </div>
           </div>

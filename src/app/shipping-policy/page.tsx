@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const timeline = [
-  ['Order cutoff', `Orders received before ${SITE.shipping.cutoffTime} begin processing the same business day when possible`],
+  ['Order cutoff', `Orders received before ${SITE.shipping.cutoffTime}, Monday to Friday, begin processing the same business day`],
   ['Standard processing', `${SITE.shipping.handlingMin}-${SITE.shipping.handlingMax} business days`],
   ['Transit time', `${SITE.shipping.transitMin}-${SITE.shipping.transitMax} business days after dispatch`],
   ['Total estimated delivery', `${SITE.shipping.totalMin}-${SITE.shipping.totalMax} business days with Free Standard Shipping`],
@@ -92,7 +92,6 @@ export default function ShippingPolicyPage() {
             maxValue: SITE.shipping.transitMax,
             unitCode: 'DAY',
           },
-          cutoffTime: '14:00:00+00:00',
         },
       },
     ],
@@ -118,7 +117,7 @@ export default function ShippingPolicyPage() {
             <Clock className="mb-4 h-6 w-6 text-[#E11D48]" />
             <h2 className="text-lg font-bold text-[#0F172A]">Order by {SITE.shipping.cutoffTime}</h2>
             <p className="mt-2 text-sm leading-6 text-gray-600">
-              Orders received before the cutoff begin processing the same business day when possible.
+              Weekday orders received before the cutoff begin processing the same business day. Orders placed after the cutoff or on weekends begin processing the next business day.
             </p>
           </div>
           <div className="rounded-2xl border border-[#0F172A]/10 bg-white p-5 shadow-sm">

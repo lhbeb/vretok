@@ -28,7 +28,7 @@ export default function ReturnPolicyPage() {
           returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
           merchantReturnDays: SITE.returns.windowDays,
           returnMethod: 'https://schema.org/ReturnByMail',
-          returnFees: 'https://schema.org/ReturnShippingFees',
+          returnFees: 'https://schema.org/FreeReturn',
           restockingFee: 0,
           refundType: 'https://schema.org/FullRefund',
         },
@@ -123,7 +123,7 @@ export default function ReturnPolicyPage() {
             <h2 className="flex items-center gap-3 text-2xl font-bold text-[#0F172A]"><PackageCheck className="h-6 w-6 text-[#E11D48]" />4. How to Return by Mail</h2>
             <ol className="list-decimal space-y-3 pl-6 leading-7">
               <li>Contact us at <a href={`mailto:${SITE.email}`} className="font-semibold text-[#0F172A] underline">{SITE.email}</a> with your order number.</li>
-              <li>Wait for return instructions before sending the item back. For change-of-mind returns, you pay the return postage; for faulty, damaged, or incorrect items, Vretok will arrange or cover reasonable return postage.</li>
+              <li>Wait for return instructions and a free prepaid return label before sending the item back. Vretok covers return postage for eligible change-of-mind, faulty, damaged, and incorrect-item returns.</li>
               <li>Pack the item securely and use a trackable postal or courier service.</li>
               <li>After inspection, approved refunds are processed to the original payment method.</li>
             </ol>
