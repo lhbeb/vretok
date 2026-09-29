@@ -54,7 +54,7 @@ export default function ReturnPolicyPage() {
         <div className="mb-10">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Return & Exchange Policy</h1>
           <p className="mt-3 max-w-2xl text-base text-gray-600 sm:text-lg">
-            We want you to be happy with your Vretok purchase. If something is not right, our return and exchange process is clear and support-led.
+            Eligible items can be returned by mail within 30 days of delivery. This store policy does not limit your statutory consumer rights.
           </p>
         </div>
 
@@ -90,7 +90,7 @@ export default function ReturnPolicyPage() {
 
           <div className="space-y-4 border-t border-gray-100 pt-4">
             <h2 className="flex items-center gap-3 text-2xl font-bold text-[#0F172A]"><RotateCcw className="h-6 w-6 text-[#E11D48]" />1. Returns</h2>
-            <p>We accept eligible returns for both defective and non-defective products within {SITE.returns.windowDays} days after delivery.</p>
+            <p>We accept eligible change-of-mind and faulty-item returns within {SITE.returns.windowDays} days after delivery. For most online purchases, UK law also gives you 14 days from delivery to notify us that you are cancelling, followed by 14 days to send the goods back. This policy does not limit those rights.</p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-4">
                 <h3 className="mb-1 text-base font-bold text-emerald-900">Defective, Damaged, or Incorrect Items</h3>
@@ -98,7 +98,7 @@ export default function ReturnPolicyPage() {
               </div>
               <div className="rounded-xl border border-blue-200 bg-blue-50/60 p-4">
                 <h3 className="mb-1 text-base font-bold text-blue-900">Change of Mind</h3>
-                <p className="text-sm text-blue-800">If the size, colour, or style is not right, you can request a return within the return window. Items must be unused and in the condition received.</p>
+                <p className="text-sm text-blue-800">If the fit, colour, or style is not right, contact us within 30 days of delivery. You may inspect an item as you would in a shop; handling beyond what is needed to establish its nature and characteristics may reduce the refund where the law allows.</p>
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function ReturnPolicyPage() {
             <h2 className="flex items-center gap-3 text-2xl font-bold text-[#0F172A]"><Clock className="h-6 w-6 text-[#E11D48]" />3. Return Window & Conditions</h2>
             <p>Your item should be:</p>
             <ul className="list-disc space-y-2 pl-6 leading-7">
-              <li>Unused, unworn, unwashed, and in the condition received.</li>
+              <li>In the condition received, with no damage or wear beyond reasonable inspection.</li>
               <li>Returned with original tags, hygiene liners, packaging, and included parts where reasonably possible.</li>
               <li>Accompanied by proof of purchase, such as an order number or confirmation email.</li>
               <li>Free from post-delivery damage caused after receipt.</li>
@@ -123,7 +123,7 @@ export default function ReturnPolicyPage() {
             <h2 className="flex items-center gap-3 text-2xl font-bold text-[#0F172A]"><PackageCheck className="h-6 w-6 text-[#E11D48]" />4. How to Return by Mail</h2>
             <ol className="list-decimal space-y-3 pl-6 leading-7">
               <li>Contact us at <a href={`mailto:${SITE.email}`} className="font-semibold text-[#0F172A] underline">{SITE.email}</a> with your order number.</li>
-              <li>Wait for approval and return instructions before sending the item back.</li>
+              <li>Wait for return instructions before sending the item back. For change-of-mind returns, you pay the return postage; for faulty, damaged, or incorrect items, Vretok will arrange or cover reasonable return postage.</li>
               <li>Pack the item securely and use a trackable postal or courier service.</li>
               <li>After inspection, approved refunds are processed to the original payment method.</li>
             </ol>
@@ -140,7 +140,9 @@ export default function ReturnPolicyPage() {
             <h2 className="flex items-center gap-3 text-2xl font-bold text-[#0F172A]"><CreditCard className="h-6 w-6 text-[#E11D48]" />6. Refund Processing</h2>
             <ul className="list-disc space-y-2 pl-6 leading-7">
               <li><strong>Inspection:</strong> {SITE.returns.inspectionTiming}.</li>
-              <li><strong>Refund issued:</strong> {SITE.returns.refundTiming}.</li>
+              <li><strong>Statutory cancellations:</strong> refunded within 14 calendar days after we receive the goods or proof they were sent, whichever is earlier.</li>
+              <li>For statutory cancellations, the refund includes the cost of our least expensive standard delivery option. Any upgrade to express delivery is not refunded.</li>
+              <li><strong>Other approved returns:</strong> {SITE.returns.refundTiming}.</li>
               <li>Your bank or payment provider may need additional time to post the credit.</li>
             </ul>
           </div>

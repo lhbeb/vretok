@@ -5,21 +5,25 @@ export const SITE = {
   name: 'Vretok',
   domain: 'https://vretok.com',
   logo: 'https://vretok.com/logosvg.svg',
-  email: brand.email || 'contact@vretok.com',
+  email: brand.email || 'contact@vretok.shop',
   phone: brand.phone,
   address: {
     formatted: brand.address,
+    streetAddress: '14 Back Marlborough St',
+    addressLocality: 'Bolton',
+    addressRegion: 'Greater Manchester',
+    postalCode: 'BL1 4BB',
     addressCountry: 'GB',
   },
   hoursText: [
-    'Monday to Friday, 9:00 AM to 5:00 PM GMT',
+    'Monday to Friday, 9:00 AM to 5:00 PM UK time',
     'Saturday and Sunday, Closed',
   ],
   currency: storePolicy.currency,
   shipping: {
     country: 'GB',
     cost: storePolicy.shippingPrice,
-    cutoffTime: '2:00 PM GMT',
+    cutoffTime: '2:00 PM UK time',
     handlingMin: storePolicy.handlingDays.min,
     handlingMax: storePolicy.handlingDays.max,
     transitMin: storePolicy.transitDays.min,
@@ -48,7 +52,10 @@ export function organizationJsonLd() {
       ? {
           address: {
             '@type': 'PostalAddress',
-            streetAddress: SITE.address.formatted,
+            streetAddress: SITE.address.streetAddress,
+            addressLocality: SITE.address.addressLocality,
+            addressRegion: SITE.address.addressRegion,
+            postalCode: SITE.address.postalCode,
             addressCountry: SITE.address.addressCountry,
           },
         }

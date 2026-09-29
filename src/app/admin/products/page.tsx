@@ -681,7 +681,8 @@ export default function AdminProductsPage() {
 
         const condition = (p.condition || 'new').toLowerCase().includes('refurbished') ? 'refurbished'
           : (p.condition || 'new').toLowerCase().includes('used') ? 'used' : 'new';
-        const brand = p.brand || 'Vretok';
+        const brand = p.brand || '';
+        const meta = p.meta || {};
 
         return [
           escapeCSV(pSlug),                                // id
@@ -696,23 +697,23 @@ export default function AdminProductsPage() {
           escapeCSV(finalPriceStr),                       // price
           escapeCSV(salePriceStr),                        // sale_price
           '',                                             // sale_price_effective_date
-          escapeCSV('no'),                                // identifier_exists
-          '',                                             // gtin
-          '',                                             // mpn
+          meta.identifier_exists === false ? 'no' : '',  // identifier_exists; blank means Google assumes yes
+          escapeCSV(meta.gtin || ''),                     // gtin
+          escapeCSV(meta.mpn || ''),                      // mpn
           escapeCSV(brand),                               // brand
           '',                                             // product_highlight
           '',                                             // product_detail
           escapeCSV(additionalImages),                    // additional_image_link
           escapeCSV(condition),                           // condition
           'no',                                           // adult
-          '',                                             // color
-          '',                                             // size
+          escapeCSV(meta.color || ''),                    // color
+          escapeCSV(meta.size || ''),                     // size
           '',                                             // size_type
           '',                                             // size_system
-          '',                                             // gender
+          escapeCSV(meta.gender || ''),                   // gender
           '',                                             // material
           '',                                             // pattern
-          '',                                             // age_group
+          escapeCSV(meta.age_group || ''),                // age_group
           '',                                             // multipack
           'no',                                           // is bundle
           '',                                             // unit_pricing_measure
@@ -720,7 +721,7 @@ export default function AdminProductsPage() {
           '',                                             // energy_efficiency_class
           '',                                             // min_energy_efficiency_class
           '',                                             // max_energy_efficiency
-          '',                                             // item_group_id
+          escapeCSV(meta.item_group_id || ''),            // item_group_id
           '',                                             // video_link
           '',                                             // virtual_model_link
           ''                                              // cost_of_goods_sold

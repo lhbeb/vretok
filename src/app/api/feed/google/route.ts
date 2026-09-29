@@ -38,11 +38,23 @@ function parseEnum<T extends string>(
 }
 
 function isFeedEligible(product: Product): boolean {
+  const isApparel = /leggings?|sports? bras?|tops?|t-shirts?|shorts?|activewear|clothing|apparel/i.test(
+    `${product.title} ${product.category}`,
+  );
+  const hasApparelAttributes = !isApparel || Boolean(
+    product.meta?.color?.trim() &&
+    product.meta?.gender?.trim() &&
+    product.meta?.age_group?.trim() &&
+    product.meta?.size?.trim(),
+  );
+
   return (
     product.meta?.gmc_enabled !== false &&
     product.meta?.published !== false &&
     product.published !== false &&
     Boolean(product.slug && product.title && product.images?.[0]) &&
+    Boolean(product.description?.trim() && product.category?.trim() && product.brand?.trim()) &&
+    hasApparelAttributes &&
     Number.isFinite(Number(product.price)) &&
     Number(product.price) > 0 &&
     (product.currency || 'GBP').toUpperCase() === storePolicy.currency &&
@@ -119,9 +131,24 @@ export async function GET(request: NextRequest) {
         const price = `${Number(product.price).toFixed(2)} ${productCurrency}`;
         const availability = product.inStock === false ? 'out_of_stock' : 'in_stock';
         const condition = mapConditionToGmc(product.condition);
-        const brand = escapeXml(product.brand || 'Vretok');
-        const category = escapeXml(product.category || 'Home & Garden');
+        const brand = escapeXml(product.brand);
+        const category = escapeXml(product.category);
         const imageLink = escapeXml(new URL(product.images[0], BASE_URL).toString());
+        const optionalAttributes = [
+          ['gtin', product.meta?.gtin],
+          ['mpn', product.meta?.mpn],
+          ['color', product.meta?.color],
+          ['gender', product.meta?.gender],
+          ['age_group', product.meta?.age_group],
+          ['size', product.meta?.size],
+          ['item_group_id', product.meta?.item_group_id],
+        ]
+          .filter(([, value]) => typeof value === 'string' && value.trim())
+          .map(([name, value]) => `<g:${name}>${escapeXml(value)}</g:${name}>`)
+          .join('');
+        const identifierExists = product.meta?.identifier_exists === false
+          ? '<g:identifier_exists>no</g:identifier_exists>'
+          : '';
 
         return `
     <item>
@@ -135,7 +162,7 @@ export async function GET(request: NextRequest) {
       <g:condition>${condition}</g:condition>
       <g:brand>${brand}</g:brand>
       <g:product_type>${category}</g:product_type>
-      <g:identifier_exists>no</g:identifier_exists>${buildShippingXml(targetCountries, productCurrency)}
+      ${optionalAttributes}${identifierExists}${buildShippingXml(targetCountries, productCurrency)}
     </item>`;
       })
       .join('');

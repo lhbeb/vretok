@@ -50,6 +50,14 @@ export interface Product {
     sizes_mens?: string;
     has_womens_sizes?: boolean;
     sizes_womens?: string;
+    color?: string;
+    gender?: 'male' | 'female' | 'unisex' | string;
+    age_group?: 'newborn' | 'infant' | 'toddler' | 'kids' | 'adult' | string;
+    size?: string;
+    gtin?: string;
+    mpn?: string;
+    item_group_id?: string;
+    identifier_exists?: boolean;
     rotate_links?: boolean;
     checkout_links?: string[];
     gmc_enabled?: boolean;

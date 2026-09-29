@@ -50,7 +50,10 @@ export default function ContactPage() {
           ? {
               address: {
                 '@type': 'PostalAddress',
-                streetAddress: SITE.address.formatted,
+                streetAddress: SITE.address.streetAddress,
+                addressLocality: SITE.address.addressLocality,
+                addressRegion: SITE.address.addressRegion,
+                postalCode: SITE.address.postalCode,
                 addressCountry: SITE.address.addressCountry,
               },
             }

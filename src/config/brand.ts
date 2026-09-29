@@ -1,9 +1,8 @@
-// Add the remaining confirmed contact channels when Vretok is ready to launch.
 export const brand = {
   name: 'Vretok',
   description: 'Performance leggings and gym fashion for confident movement.',
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || '',
-  phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || '',
-  address: process.env.NEXT_PUBLIC_BUSINESS_ADDRESS || '',
+  email: 'contact@vretok.shop',
+  phone: '+447984147072',
+  address: '14 Back Marlborough St, Bolton, Greater Manchester BL1 4BB, United Kingdom',
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || '',
 };

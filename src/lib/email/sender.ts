@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import { updateOrderEmailStatus, getOrderById } from '@/lib/supabase/orders';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { resolveBaseUrl } from '@/lib/url';
+import { SITE } from '@/lib/siteFacts';
 
 // Create transporter (in serverless, each invocation is isolated)
 const createTransporter = (): nodemailer.Transporter => {
@@ -618,7 +619,7 @@ export async function sendStripePaymentSuccessEmail(
           <!-- Help -->
           <div style="background:#f9fafb;border-radius:8px;padding:16px 20px;text-align:center;">
             <p style="margin:0 0 6px;font-size:13px;color:#6b7280;">Questions about your order?</p>
-            <a href="mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || emailUser}" style="color:#0F172A;font-weight:700;font-size:14px;text-decoration:none;">${process.env.NEXT_PUBLIC_CONTACT_EMAIL || emailUser}</a>
+            <a href="mailto:${SITE.email}" style="color:#0F172A;font-weight:700;font-size:14px;text-decoration:none;">${SITE.email}</a>
 
           </div>
 

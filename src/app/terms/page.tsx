@@ -93,7 +93,7 @@ export default function TermsPage() {
           <div>
             <h2 className="text-3xl font-bold text-[#0F172A]">6. Returns and Exchanges</h2>
             <p className="mt-4 leading-7">
-              Eligible items may be returned within {SITE.returns.windowDays} calendar days after delivery. Items must be unused, in the condition received, and returned with included parts, tags, and packaging where reasonably possible. See the <Link href="/return-policy" className="font-semibold text-[#0F172A] underline">Return & Exchange Policy</Link> for details.
+              Eligible items may be returned within {SITE.returns.windowDays} calendar days after delivery. Statutory cancellation rights are unaffected. For change-of-mind returns, customers pay return postage; Vretok arranges or covers reasonable postage for faulty, damaged, or incorrect items. See the <Link href="/return-policy" className="font-semibold text-[#0F172A] underline">Return & Exchange Policy</Link> for details.
             </p>
           </div>
 

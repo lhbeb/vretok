@@ -132,6 +132,8 @@ export default function EditProductPage() {
     sizes_mens: '',
     has_womens_sizes: false,
     sizes_womens: '',
+    gmc_color: '', gmc_gender: '', gmc_age_group: '',
+    gmc_size: '', gmc_gtin: '', gmc_mpn: '', gmc_item_group_id: '',
     rotate_links: false,
     checkout_links: [] as string[],
     metaTitle: '', metaDescription: '', metaKeywords: '',
@@ -191,6 +193,13 @@ export default function EditProductPage() {
         sizes_mens: data.meta?.sizes_mens || data.meta?.sizes || '',
         has_womens_sizes: data.meta?.has_womens_sizes ?? false,
         sizes_womens: data.meta?.sizes_womens || '',
+        gmc_color: data.meta?.color || '',
+        gmc_gender: data.meta?.gender || '',
+        gmc_age_group: data.meta?.age_group || '',
+        gmc_size: data.meta?.size || '',
+        gmc_gtin: data.meta?.gtin || '',
+        gmc_mpn: data.meta?.mpn || '',
+        gmc_item_group_id: data.meta?.item_group_id || '',
         rotate_links: data.meta?.rotate_links ?? false,
         checkout_links: data.meta?.checkout_links || (data.checkoutLink && data.checkoutLink !== '#' ? [data.checkoutLink] : ['']),
         metaTitle: data.meta?.title || '',
@@ -326,6 +335,13 @@ export default function EditProductPage() {
       meta.sizes_mens = formData.sizes_mens || null;
       meta.has_womens_sizes = formData.has_womens_sizes;
       meta.sizes_womens = formData.sizes_womens || null;
+      meta.color = formData.gmc_color.trim() || null;
+      meta.gender = formData.gmc_gender || null;
+      meta.age_group = formData.gmc_age_group || null;
+      meta.size = formData.gmc_size.trim() || null;
+      meta.gtin = formData.gmc_gtin.trim() || null;
+      meta.mpn = formData.gmc_mpn.trim() || null;
+      meta.item_group_id = formData.gmc_item_group_id.trim() || null;
       // Include Link Rotation
       meta.rotate_links = rotationEnabled;
       meta.checkout_links = rotationEnabled ? sanitizedLinks : [];
@@ -904,7 +920,7 @@ export default function EditProductPage() {
             </Field>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              <Field label="Brand">
+              <Field label="Brand" hint="Enter the actual product brand. Use Vretok only if it is the product brand.">
                 <input
                   type="text"
                   value={formData.brand}
@@ -1025,6 +1041,18 @@ export default function EditProductPage() {
         {/* ═══════════════════════════════════════════════════════════════
             SECTION 4: SEO (collapsed by default)
         ═══════════════════════════════════════════════════════════════ */}
+        <Section id="gmc" icon={Globe} title="Google Merchant Center" description="Add verified product attributes required by Google" defaultOpen={false}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Color"><input value={formData.gmc_color} onChange={(e) => updateField('gmc_color', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl" /></Field>
+            <Field label="Gender"><select value={formData.gmc_gender} onChange={(e) => updateField('gmc_gender', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl"><option value="">Select</option><option value="male">Male</option><option value="female">Female</option><option value="unisex">Unisex</option></select></Field>
+            <Field label="Age group"><select value={formData.gmc_age_group} onChange={(e) => updateField('gmc_age_group', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl"><option value="">Select</option><option value="adult">Adult</option><option value="kids">Kids</option><option value="toddler">Toddler</option><option value="infant">Infant</option><option value="newborn">Newborn</option></select></Field>
+            <Field label="Size" hint="For size variants, submit each size as a separate offer."><input value={formData.gmc_size} onChange={(e) => updateField('gmc_size', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl" /></Field>
+            <Field label="GTIN"><input value={formData.gmc_gtin} onChange={(e) => updateField('gmc_gtin', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl" /></Field>
+            <Field label="MPN"><input value={formData.gmc_mpn} onChange={(e) => updateField('gmc_mpn', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl" /></Field>
+            <Field label="Item group ID" hint="Use the same value for genuine variants of one product."><input value={formData.gmc_item_group_id} onChange={(e) => updateField('gmc_item_group_id', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-xl" /></Field>
+          </div>
+        </Section>
+
         <Section id="seo" icon={Search} title="SEO Settings" description="Search engine & social sharing" defaultOpen={false}>
           <div className="space-y-6">
             {/* Basic SEO */}
